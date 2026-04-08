@@ -33,7 +33,7 @@ export default async function HomePage() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.15}>
-            <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.15] tracking-tight text-ekkyo-black sm:text-6xl lg:text-7xl">
+            <h1 className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.2] tracking-tight text-ekkyo-black sm:text-4xl md:text-5xl lg:text-6xl">
               <span className="text-ekkyo-accent">面白そう</span>を開拓せよ、
               <br />
               <span className="text-ekkyo-accent">面白そう</span>では終わらせない。
@@ -42,9 +42,7 @@ export default async function HomePage() {
 
           <AnimatedSection delay={0.3}>
             <p className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base">
-              好奇心と創造性で境界を越えていく。
-              <br className="hidden sm:inline" />
-              学問、社会、国境——あらゆる境界を実験の場に。
+              好奇心と創造性で領域を越えていくクリエイティブユニット。
             </p>
           </AnimatedSection>
 
