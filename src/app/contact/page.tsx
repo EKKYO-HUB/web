@@ -44,7 +44,7 @@ export default function ContactPage() {
       .join("\n");
 
     const mailtoUrl = `mailto:info@ekkyo.jp?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`;
-    window.open(mailtoUrl, "_self");
+    window.open(mailtoUrl, "_blank");
   };
 
   return (
