@@ -10,9 +10,14 @@ type Props = {
   params: { slug: string };
 };
 
+// Slugs with custom pages in app/portfolio/ are excluded
+const customPages = ["summit-2025-ueda"];
+
 export async function generateStaticParams() {
   const projects = getPortfolioProjects();
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects
+    .filter((p) => !customPages.includes(p.slug))
+    .map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
