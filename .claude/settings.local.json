@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ekkyo.jp)",
+      "WebFetch(domain:note.com)",
+      "WebFetch(domain:recruit.kokuyo.co.jp)",
+      "WebFetch(domain:www.media.mit.edu)",
+      "WebFetch(domain:kohkoku.jp)",
+      "Bash(yarn create:*)",
+      "Bash(npm --version)",
+      "Bash(cmd /c \"where node 2>&1\")",
+      "Bash(cmd /c \"node --version 2>&1 || echo node not found\")",
+      "Read(//c/Users/hirot/AppData/Roaming/**)",
+      "Read(//c//**)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "WebFetch(domain:www.ekkyo.jp)",
+      "Bash(ls /c/Users/hirot/Downloads/*.jpg /c/Users/hirot/Downloads/*.jpeg /c/Users/hirot/Downloads/*.png)",
+      "WebFetch(domain:goinc.co.jp)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(yarn add:*)",
+      "WebFetch(domain:emubyekkyohub.studio.site)",
+      "Bash(grep \"^category:\" /c/Users/hirot/Documents/COMM_EKKYO/web/src/content/portfolio/*.mdx)"
+    ]
+  }
+}

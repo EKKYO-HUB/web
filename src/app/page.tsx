@@ -42,7 +42,7 @@ export default async function HomePage() {
 
           <AnimatedSection delay={0.3}>
             <p className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base">
-              好奇心と創造性で領域を越えていくクリエイティブユニット。
+              好奇心と創造性で領域を越えていくクリエイティブユニット
             </p>
           </AnimatedSection>
 
