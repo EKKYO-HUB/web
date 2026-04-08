@@ -248,7 +248,7 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="bg-ekkyo-accent px-6 py-24 text-center sm:px-12 lg:py-32">
         <AnimatedSection>
-          <h2 className="whitespace-nowrap font-serif text-3xl font-light italic tracking-wide text-white sm:text-4xl lg:text-5xl">
+          <h2 className="whitespace-nowrap font-montserrat text-2xl font-extralight italic tracking-[0.15em] text-white sm:text-3xl lg:text-4xl">
             unusual and therefore worth noticing
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/70">
