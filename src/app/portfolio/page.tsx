@@ -22,7 +22,7 @@ export default function PortfolioPage() {
           PORTFOLIO
         </h1>
         <p className="mt-4 text-ekkyo-gray">
-          EKKYOのプロジェクトと活動の記録。
+          活動の記録
         </p>
       </div>
 
@@ -34,7 +34,7 @@ export default function PortfolioPage() {
               PROJECT
             </p>
             <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              スピンアウトプロジェクト
+              EKKYO.PROJECTS
             </h2>
           </div>
 
@@ -81,7 +81,7 @@ export default function PortfolioPage() {
               ACTIVITY
             </p>
             <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-              活動実績
+              ARCHIVES
             </h2>
           </div>
 
