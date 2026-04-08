@@ -123,7 +123,7 @@ export default function Summit2025Page() {
                   2025年11月1日〜3日
                 </span>
               </div>
-              <h1 className="text-[clamp(1.5rem,4vw,3.75rem)] font-bold leading-[1.1] tracking-tight text-white">
+              <h1 className="text-[clamp(1.3rem,4.5vw,4.5rem)] font-bold leading-[1.1] tracking-tight text-white">
                 EKKYO.SUMMIT 2025 in 信州上田
               </h1>
               <div className="mt-4 flex flex-wrap gap-2">
