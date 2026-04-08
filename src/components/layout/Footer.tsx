@@ -105,7 +105,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-white/10 pt-6">
+        <div className="mt-16 border-t border-white/10 pt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs leading-relaxed text-white/30">
+            〒150-0044 東京都渋谷区円山町5番3号 MIEUX渋谷ビル8階
+          </p>
           <p className="text-xs text-white/30">
             &copy; {new Date().getFullYear()} 一般社団法人EKKYO.HUB. All rights
             reserved.
