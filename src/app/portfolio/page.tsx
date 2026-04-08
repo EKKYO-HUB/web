@@ -12,11 +12,6 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   const projects = getPortfolioProjects();
 
-  const statusLabel: Record<string, string> = {
-    completed: "完了",
-    ongoing: "進行中",
-    draft: "下書き",
-  };
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-20 sm:px-12">
@@ -53,14 +48,9 @@ export default function PortfolioPage() {
 
               <div className="flex flex-1 flex-col p-6">
                 <div className="mb-auto">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs tracking-wider text-ekkyo-gray">
-                      {project.category}
-                    </p>
-                    <span className="rounded-full bg-ekkyo-black/5 px-2 py-0.5 text-xs text-ekkyo-gray">
-                      {statusLabel[project.status] ?? project.status}
-                    </span>
-                  </div>
+                  <p className="text-xs tracking-wider text-ekkyo-gray">
+                    {project.category}
+                  </p>
 
                   <h2 className="mt-3 text-lg font-bold leading-snug tracking-tight transition-colors group-hover:opacity-70">
                     {project.title}
