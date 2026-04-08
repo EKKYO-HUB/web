@@ -34,6 +34,10 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  icons: {
+    icon: "/images/logo/logo_丸_青背景.svg",
+    apple: "/images/logo/logo_丸_青背景.svg",
+  },
   openGraph: {
     title: "EKKYO.HUB | 越境",
     description:
