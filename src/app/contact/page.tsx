@@ -186,9 +186,19 @@ export default function ContactPage() {
         {/* 注意書き + 送信ボタン */}
         <AnimatedSection delay={0.3}>
           <div className="border-t border-black/10 pt-8">
-            <p className="mb-8 text-xs leading-relaxed text-ekkyo-gray">
+            <p className="mb-2 text-xs leading-relaxed text-ekkyo-gray">
               <span className="text-red-500">*</span>{" "}
               は必須項目です。送信ボタンを押すとメールアプリが起動します。
+            </p>
+            <p className="mb-8 text-xs leading-relaxed text-ekkyo-gray">
+              メールアプリが開かない場合は、お手数ですが{" "}
+              <a
+                href="mailto:info@ekkyo.jp"
+                className="text-ekkyo-accent underline underline-offset-2"
+              >
+                info@ekkyo.jp
+              </a>{" "}
+              へ直接ご連絡ください。
             </p>
             <button
               type="submit"
