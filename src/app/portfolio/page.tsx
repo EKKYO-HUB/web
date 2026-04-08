@@ -22,7 +22,7 @@ export default function PortfolioPage() {
           PORTFOLIO
         </h1>
         <p className="mt-4 text-ekkyo-gray">
-          活動の記録
+          プロジェクトとイベントの記録。
         </p>
       </div>
 

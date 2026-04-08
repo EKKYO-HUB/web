@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   description:
     "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   icons: {
     icon: "/images/logo/logo_丸_青背景.svg",
