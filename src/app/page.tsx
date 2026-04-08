@@ -81,7 +81,7 @@ export default async function HomePage() {
       {/* About teaser */}
       <section className="relative overflow-hidden bg-ekkyo-black px-6 py-24 sm:px-12 lg:py-32">
         {/* Logo mark — large background accent */}
-        <div className="pointer-events-none absolute -right-[5%] top-1/2 -translate-y-1/2">
+        <div className="pointer-events-none absolute right-[10%] top-1/2 -translate-y-1/2">
           <Image
             src="/images/logo/logo_mark_white.svg"
             alt=""
