@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -90,7 +91,16 @@ export default function Summit2025Page() {
     <>
       <article>
         {/* Hero */}
-        <section className="relative flex min-h-[70vh] flex-col items-center justify-center bg-ekkyo-black px-6 text-center">
+        <section className="relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden bg-ekkyo-black px-6 text-center">
+          <Image
+            src="/images/portfolio/summit-2025-ueda.jpg"
+            alt="EKKYO.SUMMIT 2025 in 信州上田"
+            fill
+            className="object-cover opacity-40"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50" />
           <div className="relative z-10">
             <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               EKKYO.SUMMIT 2025
