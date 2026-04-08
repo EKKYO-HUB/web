@@ -142,7 +142,7 @@ export default async function HomePage() {
                 <AnimatedSection key={project.slug} delay={i * 0.1}>
                   <Link
                     href={`/portfolio/${project.slug}`}
-                    className="group relative block overflow-hidden bg-gray-50 transition-all hover:bg-ekkyo-accent/5"
+                    className="group relative flex h-full flex-col overflow-hidden bg-gray-50 transition-all hover:bg-ekkyo-accent/5"
                   >
                     {project.coverImage && (
                       <div className="relative aspect-[16/9] w-full overflow-hidden">
@@ -155,7 +155,7 @@ export default async function HomePage() {
                         />
                       </div>
                     )}
-                    <div className="relative p-8 sm:p-10">
+                    <div className="relative flex flex-1 flex-col p-8 sm:p-10">
                       <span className="absolute right-6 top-6 text-[10px] font-medium tracking-[0.15em] text-ekkyo-accent">
                         {project.category}
                       </span>
@@ -165,10 +165,10 @@ export default async function HomePage() {
                       <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent sm:text-2xl">
                         {project.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-relaxed text-ekkyo-gray">
+                      <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-ekkyo-gray">
                         {project.summary}
                       </p>
-                      <span className="mt-6 inline-block text-[11px] font-medium tracking-[0.15em] text-ekkyo-accent opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="mt-auto inline-block pt-6 text-[11px] font-medium tracking-[0.15em] text-ekkyo-accent opacity-0 transition-opacity group-hover:opacity-100">
                         READ MORE &rarr;
                       </span>
                     </div>
