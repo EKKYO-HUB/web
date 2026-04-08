@@ -44,7 +44,7 @@ export default function MembersPage() {
   return (
     <>
       {/* Hero slideshow */}
-      <div className="relative h-[40vh] min-h-[280px] w-full overflow-hidden sm:h-[50vh]">
+      <div className="relative h-[50vh] min-h-[320px] w-full overflow-hidden sm:h-[55vh] lg:h-[60vh]">
         {heroImages.map((src, i) => (
           <Image
             key={src}
@@ -52,7 +52,7 @@ export default function MembersPage() {
             alt="EKKYO.HUB メンバー"
             fill
             className={cn(
-              "object-cover transition-opacity duration-1000",
+              "object-cover object-[center_30%] transition-opacity duration-1000",
               i === currentSlide ? "opacity-100" : "opacity-0"
             )}
             sizes="100vw"
