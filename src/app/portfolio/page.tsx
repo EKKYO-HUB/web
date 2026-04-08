@@ -73,7 +73,7 @@ export default function PortfolioPage() {
                 </div>
 
                 <p className="mt-4 text-xs text-ekkyo-gray">
-                  {formatDate(project.date)}
+                  {project.dateLabel || formatDate(project.date)}
                 </p>
               </div>
             </Link>

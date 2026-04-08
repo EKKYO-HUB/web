@@ -160,7 +160,7 @@ export default async function HomePage() {
                         {project.category}
                       </span>
                       <p className="text-xs text-ekkyo-gray">
-                        {formatDate(project.date)}
+                        {project.dateLabel || formatDate(project.date)}
                       </p>
                       <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent sm:text-2xl">
                         {project.title}
