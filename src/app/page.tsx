@@ -248,8 +248,8 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="bg-ekkyo-accent px-6 py-24 text-center sm:px-12 lg:py-32">
         <AnimatedSection>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            境界を越えよう。
+          <h2 className="whitespace-nowrap font-display text-2xl font-light italic tracking-wide text-white sm:text-3xl lg:text-4xl">
+            unusual and therefore worth noticing
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/70">
             EKKYO.HUBの活動に興味がある方、一緒に何かやりたい方、
