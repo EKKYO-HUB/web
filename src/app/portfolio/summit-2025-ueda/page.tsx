@@ -91,12 +91,12 @@ export default function Summit2025Page() {
     <>
       <article className="overflow-x-hidden">
         {/* Hero — matches [slug] template */}
-        <div className="relative h-[55vh] min-h-[400px] w-full overflow-hidden sm:h-[65vh]">
+        <div className="relative aspect-[16/9] max-h-[75vh] min-h-[400px] w-full overflow-hidden sm:aspect-[2/1]">
           <Image
             src="/images/portfolio/summit-2025-ueda.jpg"
             alt="EKKYO.SUMMIT 2025 in 信州上田"
             fill
-            className="object-cover"
+            className="object-cover object-[center_70%]"
             sizes="100vw"
             priority
           />
@@ -123,7 +123,7 @@ export default function Summit2025Page() {
                   2025年11月1日〜3日
                 </span>
               </div>
-              <h1 className="text-[clamp(1.3rem,4.5vw,4.5rem)] font-bold leading-[1.1] tracking-tight text-white">
+              <h1 className="whitespace-nowrap text-2xl font-bold leading-[1.1] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 EKKYO.SUMMIT 2025 in 信州上田
               </h1>
               <div className="mt-4 flex flex-wrap gap-2">
