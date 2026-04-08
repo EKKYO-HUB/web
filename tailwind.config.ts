@@ -20,6 +20,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "var(--font-noto-sans-jp)", "sans-serif"],
         display: ["var(--font-inter)", "sans-serif"],
+        serif: ["var(--font-cormorant)", "Georgia", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
