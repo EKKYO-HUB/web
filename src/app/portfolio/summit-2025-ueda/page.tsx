@@ -90,32 +90,67 @@ export default function Summit2025Page() {
   return (
     <>
       <article>
-        {/* Hero */}
-        <section className="relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden bg-ekkyo-black px-6 text-center">
+        {/* Hero — matches [slug] template */}
+        <div className="relative h-[55vh] min-h-[400px] w-full sm:h-[65vh]">
           <Image
             src="/images/portfolio/summit-2025-ueda.jpg"
             alt="EKKYO.SUMMIT 2025 in 信州上田"
             fill
-            className="object-cover opacity-40"
+            className="object-cover"
             sizes="100vw"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50" />
-          <div className="relative z-10">
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              EKKYO.SUMMIT 2025
-            </p>
-            <h1 className="mt-4 font-montserrat text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl">
-              耕せ
-            </h1>
-            <p className="mt-6 text-sm text-white/50">
-              2025年11月1日（土）〜 3日（月・祝）
-            </p>
-            <p className="mt-1 text-sm text-white/50">
-              長野県上田市 海野町商店街
-            </p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+
+          {/* Back link */}
+          <div className="absolute left-0 top-0 z-10 px-6 pt-24 sm:px-12">
+            <Link
+              href="/portfolio"
+              className="text-xs tracking-widest text-white/60 transition-colors hover:text-white"
+            >
+              &larr; PORTFOLIO
+            </Link>
           </div>
-        </section>
+
+          {/* Title overlay */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-12 sm:px-12 lg:px-20">
+            <div className="mx-auto max-w-4xl">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="bg-ekkyo-accent px-3 py-1 text-[10px] font-semibold tracking-[0.2em] text-white">
+                  SUMMIT
+                </span>
+                <span className="text-xs text-white/50">
+                  2025年11月1日〜3日
+                </span>
+              </div>
+              <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                EKKYO.SUMMIT 2025 in 信州上田
+              </h1>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["summit", "ueda", "nagano", "co-creation"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-white/20 px-2.5 py-0.5 text-[10px] tracking-wide text-white/60"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Summary */}
+        <div className="px-6 py-14 sm:px-12 sm:py-20">
+          <p className="mx-auto max-w-3xl text-lg font-medium leading-[2] tracking-tight text-ekkyo-black sm:text-xl lg:text-2xl">
+            「耕せ」をテーマに、長野県上田市で3日間開催。感性を耕し合い、まだ見ぬ「わたし」に会いに行く越境の祭典。
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="mx-auto max-w-3xl px-6 sm:px-12">
+          <div className="h-px w-16 bg-ekkyo-accent" />
+        </div>
 
         {/* Concept */}
         <section className="px-6 py-20 sm:px-12 lg:py-28">
