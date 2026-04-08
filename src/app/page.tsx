@@ -16,30 +16,35 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
-        <div className="absolute inset-0 bg-gradient-to-b from-ekkyo-accent/5 via-transparent to-transparent" />
+        <Image
+          src="/images/hero/ekkyo-conference.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-white/85" />
 
         <div className="relative z-10 text-center">
           <AnimatedSection>
             <p className="mb-6 text-[11px] font-medium tracking-[0.4em] text-ekkyo-accent">
-              一般社団法人 EKKYO.HUB
+              一般社団法人EKKYO.HUB
             </p>
           </AnimatedSection>
 
           <AnimatedSection delay={0.15}>
             <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.15] tracking-tight text-ekkyo-black sm:text-6xl lg:text-7xl">
-              面白そうを開拓せよ、
+              <span className="text-ekkyo-accent">面白そう</span>を開拓せよ、
               <br />
-              <span className="text-ekkyo-accent">面白そうでは</span>
-              <br />
-              終わらせない。
+              <span className="text-ekkyo-accent">面白そう</span>では終わらせない。
             </h1>
           </AnimatedSection>
 
           <AnimatedSection delay={0.3}>
             <p className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base">
-              好奇心と創造性で領域の境界を越えていく。
+              好奇心と創造性で境界を越えていく。
               <br className="hidden sm:inline" />
-              アート、テクノロジー、社会——あらゆる境界を実験の場に。
+              学問、社会、国境——あらゆる境界を実験の場に。
             </p>
           </AnimatedSection>
 
@@ -85,15 +90,16 @@ export default async function HomePage() {
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
             <h2 className="mt-6 max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
-              境界を越え、問いを立て、
+              問いを立て、境界を越え、
               <br />
               共に未来を創る。
             </h2>
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
-              EKKYO.HUBは、トビタテ留学JAPANの卒業生を中心に生まれたクリエイティブコミュニティ。
-              サミット、カンファレンス、メディアを通じて、分野や立場を越えた対話と共創の場を創出しています。
+              EKKYO.HUBは、トビタテ留学JAPANの卒業生を中心に生まれたクリエイティブユニット。
+              <br />
+              ワークショップやアート、ビジネス、テクノロジーを通じた探求と表現を行っています。
             </p>
           </AnimatedSection>
         </div>
@@ -141,21 +147,21 @@ export default async function HomePage() {
                       </div>
                     )}
                     <div className="relative p-8 sm:p-10">
-                    <span className="absolute right-6 top-6 text-[10px] font-medium tracking-[0.15em] text-ekkyo-accent">
-                      {project.category}
-                    </span>
-                    <p className="text-xs text-ekkyo-gray">
-                      {formatDate(project.date)}
-                    </p>
-                    <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent sm:text-2xl">
-                      {project.title}
-                    </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-ekkyo-gray">
-                      {project.summary}
-                    </p>
-                    <span className="mt-6 inline-block text-[11px] font-medium tracking-[0.15em] text-ekkyo-accent opacity-0 transition-opacity group-hover:opacity-100">
-                      READ MORE &rarr;
-                    </span>
+                      <span className="absolute right-6 top-6 text-[10px] font-medium tracking-[0.15em] text-ekkyo-accent">
+                        {project.category}
+                      </span>
+                      <p className="text-xs text-ekkyo-gray">
+                        {formatDate(project.date)}
+                      </p>
+                      <h3 className="mt-3 text-xl font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent sm:text-2xl">
+                        {project.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-relaxed text-ekkyo-gray">
+                        {project.summary}
+                      </p>
+                      <span className="mt-6 inline-block text-[11px] font-medium tracking-[0.15em] text-ekkyo-accent opacity-0 transition-opacity group-hover:opacity-100">
+                        READ MORE &rarr;
+                      </span>
                     </div>
                   </Link>
                 </AnimatedSection>
@@ -237,7 +243,9 @@ export default async function HomePage() {
             境界を越えよう。
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/70">
-            EKKYO.HUBの活動に興味がある方、一緒に何かやりたい方、お気軽にご連絡ください。
+            EKKYO.HUBの活動に興味がある方、一緒に何かやりたい方、
+            <br />
+            お気軽にご連絡ください。
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link

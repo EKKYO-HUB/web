@@ -11,6 +11,7 @@
 | スタイリング | [Tailwind CSS](https://tailwindcss.com/) 3 |
 | アニメーション | [Framer Motion](https://www.framer.com/motion/) |
 | コンテンツ管理 | MDX (ポートフォリオ) / RSS (メディア) |
+| ホスティング | [Vercel](https://vercel.com) |
 | フォーマッタ | Prettier + prettier-plugin-tailwindcss |
 | リンター | ESLint (eslint-config-next) |
 
@@ -19,13 +20,19 @@
 ```
 web/
 ├── public/
-│   └── images/
-│       └── members/           # メンバーのプロフィール画像
+│   ├── images/
+│   │   ├── hero/              # Hero 背景画像
+│   │   ├── logo/              # SVG ロゴ
+│   │   ├── members/           # メンバーのプロフィール画像
+│   │   ├── og/                # OG 画像 (SNS シェア用)
+│   │   └── portfolio/         # ポートフォリオカバー画像
+│   └── robots.txt             # 検索エンジンクロール制御
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx         # ルートレイアウト (Header / Footer / フォント)
+│   │   ├── layout.tsx         # ルートレイアウト (Header / Footer / フォント / メタデータ)
 │   │   ├── globals.css        # Tailwind ベース + CSS カスタムプロパティ
 │   │   ├── page.tsx           # トップページ
+│   │   ├── contact/page.tsx   # お問い合わせフォーム (mailto 方式)
 │   │   ├── media/page.tsx     # メディア一覧 (note.com RSS 自動取得)
 │   │   ├── members/page.tsx   # メンバー紹介
 │   │   └── portfolio/
@@ -33,18 +40,13 @@ web/
 │   │       └── [slug]/page.tsx # プロジェクト詳細
 │   ├── components/
 │   │   ├── layout/
-│   │   │   ├── Header.tsx     # グローバルヘッダー (モバイルメニュー対応)
-│   │   │   └── Footer.tsx     # グローバルフッター
+│   │   │   ├── Header.tsx     # グローバルヘッダー (SVG ロゴ / モバイルメニュー対応)
+│   │   │   └── Footer.tsx     # グローバルフッター (ロゴ / ページリンク / SNS / Contact)
 │   │   └── ui/
 │   │       └── AnimatedSection.tsx  # スクロール連動フェードインコンポーネント
 │   ├── content/
 │   │   ├── members.ts         # メンバーデータ (TypeScript)
 │   │   └── portfolio/         # ポートフォリオ記事 (MDX)
-│   │       ├── summit-2022-euro.mdx
-│   │       ├── summit-2023-sendai.mdx
-│   │       ├── summit-2024-fukuoka.mdx
-│   │       ├── ekkyo-conference.mdx
-│   │       └── crowdfunding-2023.mdx
 │   └── lib/
 │       ├── mdx.ts             # MDX ファイルの読み込み・パース
 │       ├── note.ts            # note.com RSS フェッチ (ISR: 1時間)
@@ -99,10 +101,11 @@ yarn lint
 | パス | ページ | 内容 |
 |---|---|---|
 | `/` | トップ | Hero, About, Portfolio プレビュー, Media プレビュー, CTA |
-| `/portfolio` | ポートフォリオ一覧 | MDX から自動生成 |
-| `/portfolio/[slug]` | プロジェクト詳細 | 個別 MDX ファイルの内容を表示 |
+| `/portfolio` | ポートフォリオ一覧 | MDX から自動生成、カバー画像付き |
+| `/portfolio/[slug]` | プロジェクト詳細 | 個別 MDX ファイルの内容をカバー画像付きで表示 |
 | `/media` | メディア | note.com の記事を RSS で自動取得 (ISR: 1時間) |
 | `/members` | メンバー紹介 | `src/content/members.ts` のデータを表示 |
+| `/contact` | お問い合わせ | フォーム入力 → mailto で info@ekkyo.jp にメール |
 
 ## コンテンツの更新方法
 
@@ -118,6 +121,7 @@ title: "プロジェクト名"
 date: "2025-06-01"
 category: "Event"
 tags: ["tag1", "tag2"]
+coverImage: "/images/portfolio/project-name.jpg"
 summary: "一行の説明"
 status: "completed"
 ---
@@ -128,6 +132,7 @@ status: "completed"
 ```
 
 - `category`: Event / Research / Media / Workshop など任意の文字列
+- `coverImage`: `public/images/portfolio/` に画像を配置し、パスを指定（省略可）
 - `status`: `completed` (完了), `ongoing` (進行中), `draft` (非公開)
 
 ### メンバーの追加
@@ -143,7 +148,7 @@ status: "completed"
   affiliation: ["所属1", "所属2"],
   image: "/images/members/taro-yamada.jpg",  // public/images/members/ に配置
   links: [
-    { label: "X", url: "https://x.com/example" },
+    { label: "Instagram", url: "https://www.instagram.com/example/" },
   ],
 }
 ```
@@ -168,17 +173,47 @@ status: "completed"
 
 Tailwind での使用例: `text-ekkyo-accent`, `bg-ekkyo-black`, `hover:bg-ekkyo-accent-dark`
 
+## 画像フォルダ構成
+
+```
+public/images/
+├── hero/                  # トップページ Hero 背景用
+├── logo/                  # SVG ロゴファイル
+│   └── EKKYO.HUB_横長_blue.svg
+├── members/               # メンバープロフィール画像
+├── og/                    # OG 画像 (SNS シェア用, 1200x630px 推奨)
+│   └── OG.png
+└── portfolio/             # ポートフォリオカバー画像 (16:9 推奨)
+```
+
 ## デプロイ
 
-Vercel での運用を想定しています。
+Vercel で運用しています。GitHub リポジトリ (`EKKYO-HUB/web`) と連携済みです。
 
-1. [vercel.com](https://vercel.com) でプロジェクトを作成し、リポジトリを連携
-2. 環境変数に `NOTE_RSS_URL` を設定
-3. `main` ブランチへの push で自動デプロイ
+- `main` ブランチへの push で自動デプロイ
+- 環境変数 `NOTE_RSS_URL` を Vercel プロジェクト設定で管理
+
+### 検索エンジン
+
+現在、検索エンジンへのインデックスをブロックしています。
+
+- `public/robots.txt` で全クローラーを Disallow
+- `layout.tsx` の metadata で `robots: { index: false, follow: false }` を設定
+
+公開時にはこれらを解除してください。
 
 ### 画像ドメインの許可設定
 
 `next.config.mjs` で note.com 関連の画像ドメインを許可しています。外部画像を追加する場合は `remotePatterns` に追記してください。
+
+## 外部リンク
+
+| サービス | URL |
+|---|---|
+| Note | https://note.com/ekkyo_hub |
+| Instagram | https://www.instagram.com/ekkyo.hub/ |
+| Peatix | https://ekkyo-hub.peatix.com |
+| お問い合わせ | info@ekkyo.jp |
 
 ## ライセンス
 

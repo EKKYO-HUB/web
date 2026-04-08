@@ -19,7 +19,8 @@ export default function Footer() {
             </p>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">
               面白そうを開拓せよ、面白そうでは終わらせない。
-              好奇心と創造性で領域を越えていくクリエイティブコミュニティ。
+              <br />
+              好奇心と創造性で領域を越えていくクリエイティブユニット。
             </p>
           </div>
 
