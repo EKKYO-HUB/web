@@ -5,6 +5,7 @@ import matter from "gray-matter";
 export type ProjectFrontmatter = {
   title: string;
   date: string;
+  dateLabel?: string;
   category: string;
   tags: string[];
   coverImage?: string;

@@ -32,11 +32,13 @@ export default function ProjectPage({ params }: Props) {
   const project = getProjectBySlug(params.slug);
   if (!project) notFound();
 
+  const displayDate = project.dateLabel || formatDate(project.date);
+
   return (
     <article>
       {/* Hero */}
       {project.coverImage ? (
-        <div className="relative h-[50vh] min-h-[360px] w-full sm:h-[60vh]">
+        <div className="relative h-[55vh] min-h-[400px] w-full sm:h-[65vh]">
           <Image
             src={project.coverImage}
             alt={project.title}
@@ -45,101 +47,116 @@ export default function ProjectPage({ params }: Props) {
             sizes="100vw"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ekkyo-black/80 via-ekkyo-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
 
-          {/* Back link over image */}
+          {/* Back link */}
           <div className="absolute left-0 top-0 z-10 px-6 pt-24 sm:px-12">
             <Link
               href="/portfolio"
-              className="text-xs tracking-widest text-white/70 transition-colors hover:text-white"
+              className="text-xs tracking-widest text-white/60 transition-colors hover:text-white"
             >
               &larr; PORTFOLIO
             </Link>
           </div>
 
-          {/* Title over image */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-10 sm:px-12 lg:px-20">
+          {/* Title overlay */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-12 sm:px-12 lg:px-20">
             <div className="mx-auto max-w-4xl">
-              <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-                {project.category}
-              </p>
-              <h1 className="mt-2 text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="bg-ekkyo-accent px-3 py-1 text-[10px] font-semibold tracking-[0.2em] text-white">
+                  {project.category.toUpperCase()}
+                </span>
+                <span className="text-xs text-white/50">{displayDate}</span>
+              </div>
+              <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {project.title}
               </h1>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <p className="text-xs text-white/50">
-                  {formatDate(project.date)}
-                </p>
-                <span className="text-white/20">|</span>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags?.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs tracking-wide text-white/50"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="px-6 pb-4 pt-24 sm:px-12">
-          <Link
-            href="/portfolio"
-            className="mb-12 inline-block text-xs tracking-widest text-ekkyo-gray transition-colors hover:text-ekkyo-black"
-          >
-            &larr; PORTFOLIO
-          </Link>
-          <div className="mx-auto max-w-4xl">
-            <p className="text-xs tracking-wider text-ekkyo-gray">
-              {project.category}
-            </p>
-            <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-              {project.title}
-            </h1>
-            <div className="mt-4 flex flex-wrap items-center gap-4">
-              <p className="text-xs text-ekkyo-gray">
-                {formatDate(project.date)}
-              </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {project.tags?.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs tracking-wide text-ekkyo-gray"
+                    className="border border-white/20 px-2.5 py-0.5 text-[10px] tracking-wide text-white/60"
                   >
-                    #{tag}
+                    {tag}
                   </span>
                 ))}
               </div>
             </div>
           </div>
         </div>
+      ) : (
+        /* No cover fallback */
+        <div className="bg-ekkyo-black px-6 pb-16 pt-28 sm:px-12">
+          <Link
+            href="/portfolio"
+            className="mb-10 inline-block text-xs tracking-widest text-white/50 transition-colors hover:text-white"
+          >
+            &larr; PORTFOLIO
+          </Link>
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="bg-ekkyo-accent px-3 py-1 text-[10px] font-semibold tracking-[0.2em] text-white">
+                {project.category.toUpperCase()}
+              </span>
+              <span className="text-xs text-white/50">{displayDate}</span>
+            </div>
+            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl">
+              {project.title}
+            </h1>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.tags?.map((tag) => (
+                <span
+                  key={tag}
+                  className="border border-white/20 px-2.5 py-0.5 text-[10px] tracking-wide text-white/60"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
-      {/* Summary */}
-      <div className="border-b border-black/10 px-6 py-10 sm:px-12 sm:py-14">
-        <p className="mx-auto max-w-3xl text-base leading-[1.9] text-ekkyo-gray sm:text-lg">
+      {/* Summary — large lead text */}
+      <div className="px-6 py-14 sm:px-12 sm:py-20">
+        <p className="mx-auto max-w-3xl text-lg font-medium leading-[2] tracking-tight text-ekkyo-black sm:text-xl lg:text-2xl">
           {project.summary}
         </p>
       </div>
 
+      {/* Divider */}
+      <div className="mx-auto max-w-3xl px-6 sm:px-12">
+        <div className="h-px w-16 bg-ekkyo-accent" />
+      </div>
+
       {/* Body */}
-      <div className="px-6 py-16 sm:px-12 sm:py-20">
-        <div className="prose prose-neutral mx-auto max-w-3xl prose-headings:font-bold prose-headings:tracking-tight prose-h2:mt-16 prose-h2:border-l-2 prose-h2:border-ekkyo-accent prose-h2:pl-4 prose-h2:text-2xl prose-h2:sm:text-3xl prose-p:leading-[1.9] prose-p:text-ekkyo-black/80 prose-a:text-ekkyo-accent prose-a:underline-offset-4 prose-li:leading-[1.8] prose-strong:text-ekkyo-black">
+      <div className="px-6 py-14 sm:px-12 sm:py-20">
+        <div
+          className="mx-auto max-w-3xl
+            prose prose-lg
+            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-ekkyo-black
+            prose-h2:mt-20 prose-h2:mb-6 prose-h2:border-l-[3px] prose-h2:border-ekkyo-accent prose-h2:pl-5 prose-h2:text-2xl prose-h2:sm:text-3xl
+            prose-h3:mt-10 prose-h3:text-lg prose-h3:text-ekkyo-accent
+            prose-p:text-base prose-p:leading-[2] prose-p:text-ekkyo-black/70
+            prose-strong:text-ekkyo-black prose-strong:font-semibold
+            prose-a:text-ekkyo-accent prose-a:font-medium prose-a:underline prose-a:underline-offset-4 prose-a:decoration-ekkyo-accent/30 hover:prose-a:decoration-ekkyo-accent
+            prose-ul:my-6 prose-li:text-base prose-li:leading-[2] prose-li:text-ekkyo-black/70
+            prose-li:marker:text-ekkyo-accent"
+        >
           <MDXRemote source={project.content} />
         </div>
       </div>
 
       {/* Back to portfolio */}
-      <div className="border-t border-black/10 px-6 py-12 text-center sm:px-12">
+      <div className="border-t border-black/10 px-6 py-14 text-center sm:px-12">
         <Link
           href="/portfolio"
-          className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-ekkyo-accent transition-opacity hover:opacity-70"
+          className="group inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-ekkyo-accent transition-all hover:gap-3"
         >
-          &larr; ALL WORKS
+          <span className="transition-transform group-hover:-translate-x-1">
+            &larr;
+          </span>
+          ALL WORKS
         </Link>
       </div>
     </article>
