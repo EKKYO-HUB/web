@@ -16,6 +16,7 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.ekkyo.jp"),
   title: {
     default: "EKKYO.HUB | 越境",
     template: "%s | EKKYO.HUB",
