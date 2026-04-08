@@ -135,48 +135,48 @@ export default function MembersPage() {
         onClick={close}
       />
 
-      {/* Slide panel */}
+      {/* Slide panel — GO style */}
       <div
         className={cn(
-          "fixed right-0 top-0 z-50 flex h-full w-full max-w-3xl flex-col overflow-y-auto bg-ekkyo-black transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "fixed right-0 top-0 z-50 flex h-full w-full max-w-[900px] flex-col overflow-y-auto bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
           selectedId ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Close button */}
         <button
           onClick={close}
-          className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center text-white/60 transition-colors hover:text-white"
+          className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center text-ekkyo-gray transition-colors hover:text-ekkyo-black"
           aria-label="Close"
         >
           <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
           >
-            <line x1="2" y1="2" x2="18" y2="18" />
-            <line x1="18" y1="2" x2="2" y2="18" />
+            <line x1="4" y1="4" x2="20" y2="20" />
+            <line x1="20" y1="4" x2="4" y2="20" />
           </svg>
         </button>
 
         {selected && (
-          <div className="flex flex-1 flex-col lg:flex-row">
-            {/* Photo */}
-            <div className="relative aspect-[3/4] w-full shrink-0 lg:h-full lg:w-[45%]">
+          <div className="flex flex-1 flex-col items-start gap-10 px-8 py-16 sm:px-16 lg:flex-row lg:items-start lg:gap-16 lg:py-24">
+            {/* Photo — fixed size like GO */}
+            <div className="relative aspect-[3/4] w-full max-w-[280px] shrink-0 overflow-hidden bg-gray-100 lg:max-w-[320px]">
               {selected.image ? (
                 <Image
                   src={selected.image}
                   alt={selected.name}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  sizes="320px"
                   priority
                 />
               ) : (
-                <div className="flex h-full items-center justify-center bg-ekkyo-black">
-                  <span className="text-7xl font-bold text-white/10">
+                <div className="flex h-full items-center justify-center bg-gray-100">
+                  <span className="text-6xl font-bold text-ekkyo-gray/20">
                     {selected.name[0]}
                   </span>
                 </div>
@@ -184,29 +184,31 @@ export default function MembersPage() {
             </div>
 
             {/* Info */}
-            <div className="flex flex-1 flex-col justify-center px-8 py-10 sm:px-12 lg:py-16">
-              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <div className="flex-1">
+              <h2 className="text-3xl font-bold tracking-tight text-ekkyo-black sm:text-4xl">
                 {selected.name}
               </h2>
-              <p className="mt-1 text-lg text-white/60">{selected.nameEn}</p>
+              <p className="mt-1 text-base text-ekkyo-gray">
+                {selected.nameEn}
+              </p>
               <p className="mt-3 text-sm font-medium text-ekkyo-accent">
                 {selected.role}
               </p>
 
-              <p className="mt-8 text-sm leading-[2] text-white/70">
+              <p className="mt-8 text-sm leading-[2] text-ekkyo-black/70">
                 {selected.bio}
               </p>
 
               {/* Links */}
               {selected.links.length > 0 && (
-                <div className="mt-10 flex flex-wrap gap-4">
+                <div className="mt-10 flex flex-wrap gap-3">
                   {selected.links.map((link) => (
                     <Link
                       key={link.url}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="border border-white/20 px-5 py-2.5 text-[11px] font-medium tracking-[0.1em] text-white/70 transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
+                      className="border border-ekkyo-black/15 px-5 py-2.5 text-[11px] font-medium tracking-[0.1em] text-ekkyo-black/70 transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
                     >
                       {link.label}
                     </Link>
