@@ -9,7 +9,7 @@ export const revalidate = 3600; // 1時間ごとに再生成
 export const metadata: Metadata = {
   title: "MEDIA",
   description:
-    "EKKYOのメディア。note.comで発信している記事の一覧です。",
+    "EKKYO.HUBのメディア。noteで発信している記事の一覧です。",
 };
 
 export default async function MediaPage() {
@@ -22,16 +22,7 @@ export default async function MediaPage() {
           MEDIA
         </h1>
         <p className="mt-4 text-ekkyo-gray">
-          EKKYOの思考と活動を記録するメディア。
-          <Link
-            href="https://note.com/ekkyo_hub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 underline underline-offset-4 transition-opacity hover:opacity-60"
-          >
-            note.com/ekkyo_hub
-          </Link>{" "}
-          でも読めます。
+          思考と活動の記録。
         </p>
       </div>
 

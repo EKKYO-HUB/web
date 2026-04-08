@@ -99,14 +99,14 @@ export default async function HomePage() {
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
             <h2 className="mt-6 max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
-              問いを立て、境界を越え、
+              問いを立て、境を越え、
               <br />
               共に未来を創る。
             </h2>
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
-              EKKYO.HUBは、トビタテ留学JAPANの卒業生を中心に生まれたクリエイティブユニット。
+              EKKYO.HUBは、世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
               <br />
               ワークショップやアート、ビジネス、テクノロジーを通じた探求と表現を行っています。
             </p>
@@ -125,7 +125,7 @@ export default async function HomePage() {
                     PORTFOLIO
                   </p>
                   <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-                    活動実績
+                    活動記録
                   </h2>
                 </div>
                 <Link

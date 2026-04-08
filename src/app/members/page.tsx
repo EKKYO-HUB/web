@@ -85,7 +85,7 @@ export default function MembersPage() {
             MEMBERS
           </h1>
           <p className="mt-4 text-ekkyo-gray">
-            EKKYOを動かすメンバーたち。
+            EKKYO.HUBを構成するメンバー
           </p>
         </div>
 
