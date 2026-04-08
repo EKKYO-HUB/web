@@ -6,11 +6,25 @@ import Link from "next/link";
 import { members } from "@/content/members";
 import { cn } from "@/lib/utils";
 
+const heroImages = [
+  "/images/members/members-1.jpg",
+  "/images/members/members-2.jpg",
+];
+
 export default function MembersPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = members.find((m) => m.id === selectedId) ?? null;
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const close = useCallback(() => setSelectedId(null), []);
+
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Close on Escape
   useEffect(() => {
@@ -29,7 +43,43 @@ export default function MembersPage() {
 
   return (
     <>
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-12">
+      {/* Hero slideshow */}
+      <div className="relative h-[40vh] min-h-[280px] w-full overflow-hidden sm:h-[50vh]">
+        {heroImages.map((src, i) => (
+          <Image
+            key={src}
+            src={src}
+            alt="EKKYO.HUB メンバー"
+            fill
+            className={cn(
+              "object-cover transition-opacity duration-1000",
+              i === currentSlide ? "opacity-100" : "opacity-0"
+            )}
+            sizes="100vw"
+            priority={i === 0}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+
+        {/* Slide indicators */}
+        <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+          {heroImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all",
+                i === currentSlide
+                  ? "w-8 bg-ekkyo-accent"
+                  : "w-1.5 bg-black/30 hover:bg-black/50"
+              )}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:px-12">
         <div className="mb-16">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             MEMBERS
