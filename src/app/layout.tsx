@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_JP, Cormorant_Garamond } from "next/font/google";
+import { Inter, Noto_Sans_JP, Montserrat } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
@@ -15,10 +15,10 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "700"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["200", "300", "400", "600"],
   style: ["normal", "italic"],
 });
 
@@ -52,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={`${inter.variable} ${notoSansJP.variable} ${cormorant.variable}`}>
+    <html lang="ja" className={`${inter.variable} ${notoSansJP.variable} ${montserrat.variable}`}>
       <body className="min-h-screen font-sans">
         <Header />
         <main className="pt-[69px]">{children}</main>
