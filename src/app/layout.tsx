@@ -25,11 +25,11 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ekkyo.jp"),
   title: {
-    default: "EKKYO.HUB | 越境",
+    default: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
     template: "%s | EKKYO.HUB",
   },
   description:
-    "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブコミュニティです。",
+    "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
   robots: {
     index: false,
     follow: false,
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     apple: "/images/logo/logo_丸_青背景.svg",
   },
   openGraph: {
-    title: "EKKYO.HUB | 越境",
+    title: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
     description:
-      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブコミュニティです。",
+      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
     url: "https://www.ekkyo.jp",
     siteName: "EKKYO.HUB",
     locale: "ja_JP",
