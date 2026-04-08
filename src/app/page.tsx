@@ -79,8 +79,19 @@ export default async function HomePage() {
       </section>
 
       {/* About teaser */}
-      <section className="bg-ekkyo-black px-6 py-24 sm:px-12 lg:py-32">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative overflow-hidden bg-ekkyo-black px-6 py-24 sm:px-12 lg:py-32">
+        {/* Logo mark as background — positioned absolutely */}
+        <div className="pointer-events-none absolute right-[5%] top-1/2 -translate-y-1/2 sm:right-[8%]">
+          <Image
+            src="/images/logo/logo_mark_white.svg"
+            alt=""
+            width={300}
+            height={300}
+            className="opacity-[0.07] sm:opacity-[0.12] lg:opacity-[0.2]"
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl">
           <AnimatedSection>
             <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               ABOUT
