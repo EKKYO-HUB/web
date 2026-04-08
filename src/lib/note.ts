@@ -11,7 +11,7 @@ export type NoteArticle = {
 
 type CustomFeed = { title: string; link: string };
 type CustomItem = {
-  "media:thumbnail": { $: { url: string } };
+  "media:thumbnail": string;
   "note:creatorName": string;
 };
 
@@ -35,7 +35,7 @@ export async function getNoteArticles(): Promise<NoteArticle[]> {
       link: item.link ?? "",
       pubDate: item.pubDate ?? "",
       contentSnippet: item.contentSnippet ?? "",
-      thumbnail: item["media:thumbnail"]?.["$"]?.url,
+      thumbnail: item["media:thumbnail"] || undefined,
       creatorName: item["note:creatorName"],
     }));
   } catch (error) {
