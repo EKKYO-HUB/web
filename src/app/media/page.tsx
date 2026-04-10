@@ -16,7 +16,7 @@ export default async function MediaPage() {
   const articles = await getNoteArticles();
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-12">
+    <div className="mx-auto max-w-6xl overflow-hidden px-6 py-20 sm:px-12">
       <div className="mb-16">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           MEDIA
@@ -36,10 +36,10 @@ export default async function MediaPage() {
               href={article.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col border border-black/10 transition-all hover:border-ekkyo-black"
+              className="group flex flex-col overflow-hidden border border-black/10 transition-all hover:border-ekkyo-black"
             >
               {article.thumbnail ? (
-                <div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
                   <Image
                     src={article.thumbnail}
                     alt={article.title}
