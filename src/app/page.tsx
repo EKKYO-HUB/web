@@ -13,7 +13,7 @@ export default async function HomePage() {
   const featuredProjects = projects.slice(0, 4);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
         <Image

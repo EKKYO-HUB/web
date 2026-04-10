@@ -57,7 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`${inter.variable} ${notoSansJP.variable} ${montserrat.variable}`}>
-      <body className="min-h-screen font-sans">
+      <body className="min-h-screen overflow-x-hidden font-sans">
         <Header />
         <main className="pt-[69px]">{children}</main>
         <Footer />
