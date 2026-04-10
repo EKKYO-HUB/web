@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Noto_Sans_JP, Montserrat } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import PageProgressBar from "@/components/ui/PageProgressBar";
 import "./globals.css";
 
 const inter = Inter({
@@ -58,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.variable} ${notoSansJP.variable} ${montserrat.variable}`}>
       <body className="min-h-screen overflow-x-hidden font-sans">
+        <PageProgressBar />
         <Header />
         <main className="pt-[69px]">{children}</main>
         <Footer />
