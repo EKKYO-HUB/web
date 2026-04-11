@@ -27,9 +27,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: project.title,
     description: project.summary,
-    openGraph: project.coverImage
-      ? { images: [{ url: project.coverImage }] }
-      : undefined,
+    alternates: {
+      canonical: `https://www.ekkyo.jp/portfolio/${params.slug}`,
+    },
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      url: `https://www.ekkyo.jp/portfolio/${params.slug}`,
+      type: "article",
+      ...(project.coverImage
+        ? { images: [{ url: project.coverImage }] }
+        : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.summary,
+      ...(project.coverImage ? { images: [project.coverImage] } : {}),
+    },
   };
 }
 
@@ -39,8 +54,29 @@ export default function ProjectPage({ params }: Props) {
 
   const displayDate = project.dateLabel || formatDate(project.date);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.summary,
+    datePublished: project.date,
+    url: `https://www.ekkyo.jp/portfolio/${params.slug}`,
+    ...(project.coverImage
+      ? { image: `https://www.ekkyo.jp${project.coverImage}` }
+      : {}),
+    author: {
+      "@type": "Organization",
+      name: "一般社団法人EKKYO.HUB",
+      url: "https://www.ekkyo.jp",
+    },
+  };
+
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       {project.coverImage ? (
         <div className="relative h-[55vh] min-h-[400px] w-full sm:h-[65vh]">

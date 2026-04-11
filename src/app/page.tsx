@@ -12,8 +12,36 @@ export default async function HomePage() {
   const latestArticles = articles.slice(0, 3);
   const featuredProjects = projects.slice(0, 4);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "一般社団法人EKKYO.HUB",
+    url: "https://www.ekkyo.jp",
+    logo: "https://www.ekkyo.jp/images/logo/logo_丸_青背景.svg",
+    description:
+      "面白そうを開拓せよ、面白そうでは終わらせない。好奇心と創造性で領域を越えていくクリエイティブユニット。",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "円山町5番3号 MIEUX渋谷ビル8階",
+      addressLocality: "渋谷区",
+      addressRegion: "東京都",
+      postalCode: "150-0044",
+      addressCountry: "JP",
+    },
+    email: "info@ekkyo.jp",
+    sameAs: [
+      "https://note.com/ekkyo_hub",
+      "https://www.instagram.com/ekkyo.hub/",
+      "https://ekkyo-hub.peatix.com",
+    ],
+  };
+
   return (
     <div className="overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
         <Image

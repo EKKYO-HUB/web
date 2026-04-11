@@ -39,6 +39,9 @@ export const metadata: Metadata = {
     icon: "/images/logo/logo_丸_青背景.svg",
     apple: "/images/logo/logo_丸_青背景.svg",
   },
+  alternates: {
+    canonical: "https://www.ekkyo.jp",
+  },
   openGraph: {
     title: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
     description:
@@ -48,6 +51,13 @@ export const metadata: Metadata = {
     locale: "ja_JP",
     type: "website",
     images: [{ url: "/images/og/OG.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
+    description:
+      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
+    images: ["/images/og/OG.png"],
   },
 };
 
