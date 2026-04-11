@@ -76,7 +76,7 @@ export default function MediaFilter({
             key={key}
             onClick={() => { setFilter(key); setNewsPage(0); }}
             className={cn(
-              "px-4 py-2 text-[11px] font-medium tracking-[0.1em] transition-all",
+              "font-chunk px-4 py-2 text-[11px] font-medium tracking-[0.1em] transition-all",
               filter === key
                 ? "bg-ekkyo-accent text-white"
                 : "border border-ekkyo-black/15 text-ekkyo-black/70 hover:border-ekkyo-accent hover:text-ekkyo-accent"
@@ -92,7 +92,7 @@ export default function MediaFilter({
       {showPress && pressReleases.length > 0 && (
         <section className={showNote ? "mb-16" : ""}>
           {filter === "all" && (
-            <h2 className="mb-6 text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
+            <h2 className="mb-6 font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               NEWS
             </h2>
           )}
@@ -198,7 +198,7 @@ export default function MediaFilter({
       {showNote && articles.length > 0 && (
         <section>
           {filter === "all" && (
-            <h2 className="mb-6 text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
+            <h2 className="mb-6 font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               NOTE ARTICLES
             </h2>
           )}
