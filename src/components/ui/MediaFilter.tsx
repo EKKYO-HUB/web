@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type NoteArticle = {
@@ -48,6 +49,7 @@ export default function MediaFilter({
 }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [newsPage, setNewsPage] = useState(0);
+  const [slideDir, setSlideDir] = useState(1);
   const NEWS_PER_PAGE = 3;
 
   const totalNewsPages = Math.ceil(pressReleases.length / NEWS_PER_PAGE);
@@ -94,52 +96,63 @@ export default function MediaFilter({
               NEWS
             </h2>
           )}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {pagedNews.map((pr) => (
-              <Link
-                key={pr.slug}
-                href={pr.externalUrl || `/media/news/${pr.slug}`}
-                {...(pr.externalUrl
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className="group flex flex-col overflow-hidden border border-black/10 transition-all hover:border-ekkyo-black"
+          <div className="relative overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={newsPage}
+                initial={{ x: slideDir * 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: slideDir * -300, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="divide-y divide-black/10"
               >
-                {pr.coverImage && (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
-                    <Image
-                      src={pr.coverImage}
-                      alt={pr.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                )}
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="bg-ekkyo-accent/10 px-2 py-0.5 text-[10px] font-semibold tracking-[0.1em] text-ekkyo-accent">
-                      {categoryLabel[pr.category] ?? "NEWS"}
+                {pagedNews.map((pr) => (
+                  <Link
+                    key={pr.slug}
+                    href={pr.externalUrl || `/media/news/${pr.slug}`}
+                    {...(pr.externalUrl
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="group flex items-start gap-5 py-6 transition-colors sm:items-center"
+                  >
+                    {pr.coverImage && (
+                      <div className="relative hidden h-20 w-32 shrink-0 overflow-hidden bg-gray-100 sm:block">
+                        <Image
+                          src={pr.coverImage}
+                          alt={pr.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="128px"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <div className="mb-1 flex items-center gap-2">
+                        <span className="bg-ekkyo-accent/10 px-2 py-0.5 text-[10px] font-semibold tracking-[0.1em] text-ekkyo-accent">
+                          {categoryLabel[pr.category] ?? "NEWS"}
+                        </span>
+                        <span className="text-xs text-ekkyo-gray">
+                          {fmtDate(pr.date)}
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent">
+                        {pr.title}
+                      </h3>
+                    </div>
+                    <span className="shrink-0 text-ekkyo-accent opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                      &rarr;
                     </span>
-                    <span className="text-xs text-ekkyo-gray">
-                      {fmtDate(pr.date)}
-                    </span>
-                  </div>
-                  <h3 className="flex-1 text-base font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent">
-                    {pr.title}
-                  </h3>
-                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ekkyo-gray">
-                    {pr.summary}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                  </Link>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Pagination */}
           {totalNewsPages > 1 && (
             <div className="mt-8 flex items-center justify-center gap-2">
               <button
-                onClick={() => setNewsPage((p) => Math.max(0, p - 1))}
+                onClick={() => { setSlideDir(-1); setNewsPage((p) => Math.max(0, p - 1)); }}
                 disabled={newsPage === 0}
                 className={cn(
                   "px-3 py-1.5 text-xs transition-colors",
@@ -153,7 +166,7 @@ export default function MediaFilter({
               {Array.from({ length: totalNewsPages }, (_, i) => (
                 <button
                   key={i}
-                  onClick={() => setNewsPage(i)}
+                  onClick={() => { setSlideDir(i > newsPage ? 1 : -1); setNewsPage(i); }}
                   className={cn(
                     "flex h-8 w-8 items-center justify-center text-xs transition-all",
                     i === newsPage
@@ -165,9 +178,7 @@ export default function MediaFilter({
                 </button>
               ))}
               <button
-                onClick={() =>
-                  setNewsPage((p) => Math.min(totalNewsPages - 1, p + 1))
-                }
+                onClick={() => { setSlideDir(1); setNewsPage((p) => Math.min(totalNewsPages - 1, p + 1)); }}
                 disabled={newsPage === totalNewsPages - 1}
                 className={cn(
                   "px-3 py-1.5 text-xs transition-colors",
