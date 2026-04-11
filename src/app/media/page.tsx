@@ -17,7 +17,7 @@ export default async function MediaPage() {
     Promise.resolve(getPressReleases()),
   ]);
 
-  const pressItems = pressReleases.slice(0, 3).map((pr) => ({
+  const pressItems = pressReleases.map((pr) => ({
     slug: pr.slug,
     title: pr.title,
     date: pr.date,

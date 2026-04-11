@@ -47,6 +47,14 @@ export default function MediaFilter({
   pressReleases: PressItem[];
 }) {
   const [filter, setFilter] = useState<Filter>("all");
+  const [newsPage, setNewsPage] = useState(0);
+  const NEWS_PER_PAGE = 3;
+
+  const totalNewsPages = Math.ceil(pressReleases.length / NEWS_PER_PAGE);
+  const pagedNews = pressReleases.slice(
+    newsPage * NEWS_PER_PAGE,
+    (newsPage + 1) * NEWS_PER_PAGE
+  );
 
   const filters: { key: Filter; label: string; count: number }[] = [
     { key: "all", label: "ALL", count: articles.length + pressReleases.length },
@@ -87,7 +95,7 @@ export default function MediaFilter({
             </h2>
           )}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {pressReleases.map((pr) => (
+            {pagedNews.map((pr) => (
               <Link
                 key={pr.slug}
                 href={pr.externalUrl || `/media/news/${pr.slug}`}
@@ -126,6 +134,52 @@ export default function MediaFilter({
               </Link>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalNewsPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <button
+                onClick={() => setNewsPage((p) => Math.max(0, p - 1))}
+                disabled={newsPage === 0}
+                className={cn(
+                  "px-3 py-1.5 text-xs transition-colors",
+                  newsPage === 0
+                    ? "text-ekkyo-gray/30"
+                    : "text-ekkyo-gray hover:text-ekkyo-accent"
+                )}
+              >
+                &larr;
+              </button>
+              {Array.from({ length: totalNewsPages }, (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setNewsPage(i)}
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center text-xs transition-all",
+                    i === newsPage
+                      ? "bg-ekkyo-accent text-white"
+                      : "text-ekkyo-gray hover:text-ekkyo-accent"
+                  )}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() =>
+                  setNewsPage((p) => Math.min(totalNewsPages - 1, p + 1))
+                }
+                disabled={newsPage === totalNewsPages - 1}
+                className={cn(
+                  "px-3 py-1.5 text-xs transition-colors",
+                  newsPage === totalNewsPages - 1
+                    ? "text-ekkyo-gray/30"
+                    : "text-ekkyo-gray hover:text-ekkyo-accent"
+                )}
+              >
+                &rarr;
+              </button>
+            </div>
+          )}
         </section>
       )}
 
