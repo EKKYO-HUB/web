@@ -28,24 +28,70 @@ const NOTE_RSS_URL =
   process.env.NOTE_RSS_URL ?? "https://note.com/ekkyo_hub/rss";
 
 /**
- * 手動で追加する外部note記事。
- * RSSフィードに含まれない他アカウントの記事などをここに追加。
+ * 手動で追加する外部note記事。URLだけ指定すればOK。
+ * ビルド時にOGタグからタイトル・サムネイル・説明文を自動取得。
  */
-const manualArticles: NoteArticle[] = [
-  {
-    title: "EKKYO.SUMMIT2025無事に終わりました！感想と運営の裏話",
-    link: "https://note.com/tackmetakumi/n/n684d52aebb6e",
-    pubDate: "2025-11-11",
-    contentSnippet:
-      "EKKYO.SUMMIT2025in信州上田を11月1日～3日に執り行い、無事終了いたしました。いや〜、本当に終わりました。感無量です。関係者各位には、本当に頭があがりません。ありがとうございます。大成功といってもいいのではないかと思うのですが、ここでは上田アンバサダーとしてSUMMITでは語りきれなかった裏話も交えながら振り返っていければと思います。",
-    creatorName: "平澤拓海",
-  },
+const manualArticleUrls: string[] = [
+  "https://note.com/tackmetakumi/n/n684d52aebb6e",
 ];
+
+async function fetchOgMeta(
+  url: string
+): Promise<NoteArticle | null> {
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0" },
+    });
+    const html = await res.text();
+
+    const getOg = (prop: string): string => {
+      const m =
+        html.match(
+          new RegExp(`property="${prop}"\\s+content="([^"]*?)"`)
+        ) ||
+        html.match(
+          new RegExp(`content="([^"]*?)"\\s+property="${prop}"`)
+        );
+      return m ? m[1] : "";
+    };
+
+    const rawTitle = getOg("og:title");
+    // note.com appends "｜著者名" to og:title
+    const titleParts = rawTitle.split("｜");
+    const title = titleParts[0].trim();
+    const creatorName = titleParts[1]?.trim() || "";
+
+    const thumbnail = getOg("og:image") || undefined;
+    const contentSnippet = getOg("og:description");
+
+    // Try to get published date from meta or JSON-LD
+    const dateMatch = html.match(
+      /note__createdAt"[^>]*>([^<]+)</
+    ) || html.match(/"datePublished"\s*:\s*"([^"]+)"/);
+
+    return {
+      title,
+      link: url.split("?")[0], // remove query params
+      pubDate: dateMatch ? dateMatch[1] : new Date().toISOString(),
+      contentSnippet,
+      thumbnail,
+      creatorName,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch OG meta for ${url}:`, error);
+    return null;
+  }
+}
 
 export async function getNoteArticles(): Promise<NoteArticle[]> {
   try {
-    const feed = await parser.parseURL(NOTE_RSS_URL);
-    const rssArticles = feed.items.map((item) => ({
+    // Fetch RSS + manual articles in parallel
+    const [feed, ...manualResults] = await Promise.all([
+      parser.parseURL(NOTE_RSS_URL),
+      ...manualArticleUrls.map((url) => fetchOgMeta(url)),
+    ]);
+
+    const rssArticles: NoteArticle[] = feed.items.map((item) => ({
       title: item.title ?? "",
       link: item.link ?? "",
       pubDate: item.pubDate ?? "",
@@ -54,7 +100,11 @@ export async function getNoteArticles(): Promise<NoteArticle[]> {
       creatorName: item["note:creatorName"],
     }));
 
-    // Merge RSS + manual, deduplicate by link, sort by date
+    const manualArticles = manualResults.filter(
+      (a): a is NoteArticle => a !== null
+    );
+
+    // Merge, deduplicate by link, sort by date
     const allLinks = new Set(rssArticles.map((a) => a.link));
     const unique = [
       ...rssArticles,
@@ -66,6 +116,10 @@ export async function getNoteArticles(): Promise<NoteArticle[]> {
     );
   } catch (error) {
     console.error("Failed to fetch Note RSS:", error);
-    return manualArticles;
+    // Fallback: try manual articles only
+    const results = await Promise.all(
+      manualArticleUrls.map((url) => fetchOgMeta(url))
+    );
+    return results.filter((a): a is NoteArticle => a !== null);
   }
 }
