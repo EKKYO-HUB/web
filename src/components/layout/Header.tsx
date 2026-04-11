@@ -38,7 +38,7 @@ export default function Header() {
               key={href}
               href={href}
               className={cn(
-                "relative text-[11px] font-medium tracking-[0.2em] transition-colors",
+                "relative font-chunk text-[11px] font-medium tracking-[0.2em] transition-colors",
                 pathname === href
                   ? "text-ekkyo-accent"
                   : "text-ekkyo-black/50 hover:text-ekkyo-black"
@@ -89,7 +89,7 @@ export default function Header() {
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
-                  "text-sm font-medium tracking-[0.15em]",
+                  "font-chunk text-sm font-medium tracking-[0.15em]",
                   pathname === href
                     ? "text-ekkyo-accent"
                     : "text-ekkyo-black/50"
