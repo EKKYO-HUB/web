@@ -30,7 +30,7 @@ export default async function MediaPage() {
   return (
     <div className="mx-auto max-w-6xl overflow-hidden px-6 py-20 sm:px-12">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+        <h1 className="font-chunk text-4xl font-bold tracking-tight sm:text-5xl">
           MEDIA
         </h1>
         <p className="mt-4 text-ekkyo-gray">思考と活動の記録。</p>
