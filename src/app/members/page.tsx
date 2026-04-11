@@ -89,8 +89,18 @@ export default function MembersPage() {
           </p>
         </div>
 
+        {/* Board Members */}
+        <div className="mb-10">
+          <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
+            BOARD
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+            理事
+          </h2>
+        </div>
+
         <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {members.map((member) => (
+          {members.filter((m) => m.group === "board").map((member) => (
             <button
               key={member.id}
               onClick={() => setSelectedId(member.id)}
@@ -124,6 +134,53 @@ export default function MembersPage() {
             </button>
           ))}
         </div>
+
+        {/* Community Members */}
+        {members.filter((m) => m.group === "community").length > 0 && (
+          <>
+            <div className="mb-10 mt-20 border-t border-black/10 pt-20">
+              <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
+                COMMUNITY
+              </p>
+              <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+                コミュニティ
+              </h2>
+            </div>
+
+            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {members.filter((m) => m.group === "community").map((member) => (
+                <button
+                  key={member.id}
+                  onClick={() => setSelectedId(member.id)}
+                  className="group cursor-pointer text-left"
+                >
+                  <div className="relative mb-5 aspect-[3/4] overflow-hidden bg-gray-100">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-ekkyo-black">
+                        <span className="text-5xl font-bold text-white/20">
+                          {member.name[0]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <h2 className="text-lg font-bold tracking-tight">
+                    {member.name}
+                  </h2>
+                  <p className="text-sm text-ekkyo-gray">{member.nameEn}</p>
+                  <p className="mt-1 text-xs text-ekkyo-gray">{member.role}</p>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Overlay */}
