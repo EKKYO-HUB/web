@@ -22,16 +22,13 @@ export const members: Member[] = [
     links: [],
   },
   {
-    id: "hiroto-kizu",
-    name: "木津 裕人",
-    nameEn: "Hiroto Kizu",
-    role: "理事 / Researcher",
-    bio: "2002年埼玉県出身。東北大学大学院理学研究科博士前期課程1年。宇宙が好き。初期火星における生命起源物質の形成過程に関して研究中。人工衛星開発スタートアップでの活動や学生火星探査ローバーの開発を経て、現在は独立系ベンチャーキャピタルで活動中。『EKKYO.SUMMIT2025 in信州上田』のプロジェクトマネージャーを務める。",
-    image: "/images/members/hiroto-kizu.jpg",
-    links: [
-      { label: "Facebook", url: "https://www.facebook.com/hiroto.keys/" },
-      { label: "Instagram", url: "https://www.instagram.com/keys_713/" },
-    ],
+    id: "moka-takeda",
+    name: "武田 萌花",
+    nameEn: "Moka Takeda",
+    role: "理事 / Art Director",
+    image: "/images/members/moka-takeda.png",
+    bio: "1997年東京都出身。アーティスト。2024年東京藝術大学大学院 先端芸術表現専攻修了。「車窓風景」や「工事現場」など都市の日常的な風景から着想を得て、情報やイメージで氾濫した現代におけるリアリティとは何かを問うインスタレーション作品を発表している。主な展示歴・活動歴に「藝大アートプラザ・アートアワード2024」デジタルアート部門「JR東日本賞」受賞(2024)、「ヨーゼフ・ボイス ダイアローグ展」(GYRE gallery, 2024)、NTTインターコミュニケーション・センター【ICC】「エマージェンシーズ！045」(ICC, 2023)、他。",
+    links: [],
   },
   {
     id: "haruki-tabata",
@@ -43,15 +40,6 @@ export const members: Member[] = [
     links: [],
   },
   {
-    id: "moka-takeda",
-    name: "武田 萌花",
-    nameEn: "Moka Takeda",
-    role: "理事 / Art Director",
-    image: "/images/members/moka-takeda.png",
-    bio: "1997年東京都出身。アーティスト。2024年東京藝術大学大学院 先端芸術表現専攻修了。「車窓風景」や「工事現場」など都市の日常的な風景から着想を得て、情報やイメージで氾濫した現代におけるリアリティとは何かを問うインスタレーション作品を発表している。主な展示歴・活動歴に「藝大アートプラザ・アートアワード2024」デジタルアート部門「JR東日本賞」受賞(2024)、「ヨーゼフ・ボイス ダイアローグ展」(GYRE gallery, 2024)、NTTインターコミュニケーション・センター【ICC】「エマージェンシーズ！045」(ICC, 2023)、他。",
-    links: [],
-  },
-  {
     id: "tomoya-suzuki",
     name: "鈴木 智也",
     nameEn: "Tomoya Suzuki",
@@ -59,6 +47,18 @@ export const members: Member[] = [
     image: "/images/members/tomoya-suzuki.jpg",
     bio: "茨城県日立市出身。東北大学理学部物理学科4年。材料科学高等研究所(AIMR)光電子固体物性研究室所属。小学校時代はつくば市で過ごし、研究所への見学を通じて自然科学への憧れを募らせる。小学校6年生の時に島根県津和野市に移住。全校生徒7名の小学校を卒業後、廃校を食い止めるクラウドファンディングを行う。愛媛県の高校に進学し、一浪の末、東北大学理学部に進学。大学では国際交流・留学などを通じ見聞を広げる一方、学問知と社会変革の接続点を見出すためにEKKYO.HUBにジョイン。主に学際連携や内部創発、複数の学問を横断したアートプロジェクトのプロデュースなどに関わる。",
     links: [],
+  },
+  {
+    id: "hiroto-kizu",
+    name: "木津 裕人",
+    nameEn: "Hiroto Kizu",
+    role: "理事 / Researcher",
+    bio: "2002年埼玉県出身。東北大学大学院理学研究科博士前期課程1年。宇宙が好き。初期火星における生命起源物質の形成過程に関して研究中。人工衛星開発スタートアップでの活動や学生火星探査ローバーの開発を経て、現在は独立系ベンチャーキャピタルで活動中。『EKKYO.SUMMIT2025 in信州上田』のプロジェクトマネージャーを務める。",
+    image: "/images/members/hiroto-kizu.jpg",
+    links: [
+      { label: "Facebook", url: "https://www.facebook.com/hiroto.keys/" },
+      { label: "Instagram", url: "https://www.instagram.com/keys_713/" },
+    ],
   },
   {
     id: "tasuke-oya",
