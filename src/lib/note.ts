@@ -33,6 +33,7 @@ const NOTE_RSS_URL =
  */
 const manualArticleUrls: string[] = [
   "https://note.com/tackmetakumi/n/n684d52aebb6e",
+  "https://note.com/harmonism/n/nd5052d4a5e2e",
 ];
 
 async function fetchOgMeta(

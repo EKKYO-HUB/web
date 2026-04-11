@@ -48,7 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const pressPages: MetadataRoute.Sitemap = pressReleases.map((pr) => ({
-    url: `${baseUrl}/media/press/${pr.slug}`,
+    url: `${baseUrl}/media/news/${pr.slug}`,
     lastModified: new Date(pr.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,

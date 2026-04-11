@@ -33,12 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: release.title,
     description: release.summary,
     alternates: {
-      canonical: `https://www.ekkyo.jp/media/press/${params.slug}`,
+      canonical: `https://www.ekkyo.jp/media/news/${params.slug}`,
     },
     openGraph: {
       title: release.title,
       description: release.summary,
-      url: `https://www.ekkyo.jp/media/press/${params.slug}`,
+      url: `https://www.ekkyo.jp/media/news/${params.slug}`,
       type: "article",
       ...(release.coverImage
         ? { images: [{ url: release.coverImage }] }
@@ -63,7 +63,7 @@ export default function PressReleasePage({ params }: Props) {
     headline: release.title,
     description: release.summary,
     datePublished: release.date,
-    url: `https://www.ekkyo.jp/media/press/${params.slug}`,
+    url: `https://www.ekkyo.jp/media/news/${params.slug}`,
     ...(release.coverImage
       ? { image: `https://www.ekkyo.jp${release.coverImage}` }
       : {}),

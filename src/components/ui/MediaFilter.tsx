@@ -24,7 +24,7 @@ type PressItem = {
   externalUrl?: string;
 };
 
-type Filter = "all" | "press" | "note";
+type Filter = "all" | "news" | "note";
 
 const categoryLabel: Record<string, string> = {
   event: "EVENT",
@@ -50,11 +50,11 @@ export default function MediaFilter({
 
   const filters: { key: Filter; label: string; count: number }[] = [
     { key: "all", label: "ALL", count: articles.length + pressReleases.length },
-    { key: "press", label: "PRESS", count: pressReleases.length },
+    { key: "news", label: "NEWS", count: pressReleases.length },
     { key: "note", label: "NOTE", count: articles.length },
   ];
 
-  const showPress = filter === "all" || filter === "press";
+  const showPress = filter === "all" || filter === "news";
   const showNote = filter === "all" || filter === "note";
 
   return (
@@ -83,14 +83,14 @@ export default function MediaFilter({
         <section className={showNote ? "mb-16" : ""}>
           {filter === "all" && (
             <h2 className="mb-6 text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              PRESS RELEASES
+              NEWS
             </h2>
           )}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pressReleases.map((pr) => (
               <Link
                 key={pr.slug}
-                href={pr.externalUrl || `/media/press/${pr.slug}`}
+                href={pr.externalUrl || `/media/news/${pr.slug}`}
                 {...(pr.externalUrl
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

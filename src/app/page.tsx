@@ -28,7 +28,7 @@ export default async function HomePage() {
   const pressItems: MediaItem[] = pressReleases.map((pr) => ({
     title: pr.title,
     date: pr.date,
-    link: pr.externalUrl || `/media/press/${pr.slug}`,
+    link: pr.externalUrl || `/media/news/${pr.slug}`,
     isExternal: !!pr.externalUrl,
   }));
   const latestMedia = [...noteItems, ...pressItems]
