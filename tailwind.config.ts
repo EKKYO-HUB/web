@@ -21,6 +21,7 @@ const config: Config = {
         sans: ["var(--font-inter)", "var(--font-noto-sans-jp)", "sans-serif"],
         display: ["var(--font-inter)", "sans-serif"],
         montserrat: ["var(--font-montserrat)", "sans-serif"],
+        chunk: ["'ChunkFive'", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
