@@ -81,7 +81,7 @@ export const members: Member[] = [
     nameEn: "Tasuke Oya",
     role: "理事 / Researcher",
     image: "/images/members/tasuke-oya.jpg",
-    bio: "福岡県育ち。昨年の糸島SUMMIT契機で参画。普段はIT企業のマーケター。大学時代は学際系の学部で文化人類学を専攻し、卒論はアイガモ稲作について執筆。現在は哲学も含めて個人的に学習中。",
+    bio: "2001年生まれ、福岡県育ち。九州大学共創学部卒。専攻は文化人類学で、八女市の合鴨稲作農家をフィールドに、卒論はアイガモ稲作について執筆。2024年の糸島SUMMIT契機で参画。普段はIT企業のマーケターをしており、哲学も含めて個人的に学習中。",
     links: [
       { label: "Instagram", url: "https://www.instagram.com/tasuke008/" },
       { label: "Facebook", url: "https://www.facebook.com/tasukeoya" },
