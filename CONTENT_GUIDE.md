@@ -88,9 +88,48 @@ status: "completed"
 
 ## メディアの更新
 
+### note記事
+
 メディアページは [note.com/ekkyo_hub](https://note.com/ekkyo_hub) の記事を自動で取得・表示しています。
 note に記事を投稿するだけで、最大1時間以内にサイトのメディアページに反映されます。
 特別な操作は不要です。
+
+### プレスリリースの追加
+
+プレスリリースは `src/content/press-releases/` フォルダ内の `.mdx` ファイルで管理しています。
+
+1. GitHub で `src/content/press-releases/` フォルダを開く
+2. 「Add file」→「Create new file」をクリック
+3. ファイル名を `プレスリリース名.mdx`（英数字・ハイフンで）とする
+4. 以下のテンプレートをコピーして内容を編集する
+
+```
+---
+title: "プレスリリースのタイトル"
+date: "2025-09-15"
+category: "event"
+summary: "一行の概要"
+status: "published"
+---
+
+## 本文
+
+プレスリリースの詳細をここに記述します。
+```
+
+5. 「Commit changes」で保存
+
+| フィールド | 必須 | 説明 |
+|---|---|---|
+| `title` | はい | プレスリリースのタイトル |
+| `date` | はい | 日付（YYYY-MM-DD 形式） |
+| `category` | はい | `event`（イベント）/ `partnership`（提携）/ `award`（受賞）/ `coverage`（メディア掲載） |
+| `summary` | はい | 一行の概要 |
+| `status` | はい | `published`（公開）/ `draft`（下書き・非公開） |
+| `coverImage` | いいえ | カバー画像のパス（`public/images/press/` に配置） |
+| `externalUrl` | いいえ | 外部記事へのリンク（メディア掲載の場合など） |
+
+プレスリリースは `/media` ページに「PRESS RELEASES」セクションとして表示され、個別ページは `/media/press/ファイル名` で公開されます。
 
 ## お問い合わせフォーム
 

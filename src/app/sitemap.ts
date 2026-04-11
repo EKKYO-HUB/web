@@ -1,9 +1,11 @@
 import { MetadataRoute } from "next";
 import { getPortfolioProjects } from "@/lib/mdx";
+import { getPressReleases } from "@/lib/press-releases";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.ekkyo.jp";
   const projects = getPortfolioProjects();
+  const pressReleases = getPressReleases();
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -45,5 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...projectPages];
+  const pressPages: MetadataRoute.Sitemap = pressReleases.map((pr) => ({
+    url: `${baseUrl}/media/press/${pr.slug}`,
+    lastModified: new Date(pr.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...projectPages, ...pressPages];
 }

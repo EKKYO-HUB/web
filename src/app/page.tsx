@@ -2,14 +2,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { getNoteArticles } from "@/lib/note";
 import { getPortfolioProjects } from "@/lib/mdx";
+import { getPressReleases } from "@/lib/press-releases";
 import { formatDate } from "@/lib/utils";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+
+type MediaItem = {
+  title: string;
+  date: string;
+  link: string;
+  isExternal: boolean;
+};
 
 export default async function HomePage() {
   const articles = await getNoteArticles().catch(() => []);
   const projects = getPortfolioProjects();
+  const pressReleases = getPressReleases();
 
-  const latestArticles = articles.slice(0, 3);
+  // Merge note articles + press releases, sort by date, take top 3
+  const noteItems: MediaItem[] = articles.map((a) => ({
+    title: a.title,
+    date: a.pubDate,
+    link: a.link,
+    isExternal: true,
+  }));
+  const pressItems: MediaItem[] = pressReleases.map((pr) => ({
+    title: pr.title,
+    date: pr.date,
+    link: `/media/press/${pr.slug}`,
+    isExternal: false,
+  }));
+  const latestMedia = [...noteItems, ...pressItems]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+
   const featuredProjects = projects.slice(0, 4);
 
   const jsonLd = {
@@ -216,7 +241,7 @@ export default async function HomePage() {
       )}
 
       {/* Media preview */}
-      {latestArticles.length > 0 && (
+      {latestMedia.length > 0 && (
         <section className="bg-gray-50 px-6 py-24 sm:px-12 lg:py-32">
           <div className="mx-auto max-w-7xl">
             <AnimatedSection>
@@ -239,20 +264,21 @@ export default async function HomePage() {
             </AnimatedSection>
 
             <div className="mt-12 space-y-0 divide-y divide-black/10">
-              {latestArticles.map((article, i) => (
-                <AnimatedSection key={article.link} delay={i * 0.1}>
+              {latestMedia.map((item, i) => (
+                <AnimatedSection key={item.link} delay={i * 0.1}>
                   <Link
-                    href={article.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={item.link}
+                    {...(item.isExternal
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="group flex items-center justify-between gap-6 py-8"
                   >
                     <div className="flex-1">
                       <p className="text-xs text-ekkyo-gray">
-                        {formatDate(article.pubDate)}
+                        {formatDate(item.date)}
                       </p>
                       <h3 className="mt-2 text-lg font-bold leading-snug tracking-tight transition-colors group-hover:text-ekkyo-accent sm:text-xl">
-                        {article.title}
+                        {item.title}
                       </h3>
                     </div>
                     <span className="shrink-0 text-ekkyo-accent opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
