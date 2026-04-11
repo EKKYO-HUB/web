@@ -50,12 +50,12 @@ export default function MediaFilter({
   const [filter, setFilter] = useState<Filter>("all");
   const [newsPage, setNewsPage] = useState(0);
   const [slideDir, setSlideDir] = useState(1);
-  const NEWS_PER_PAGE = 3;
+  const newsPerPage = filter === "news" ? 10 : 3;
 
-  const totalNewsPages = Math.ceil(pressReleases.length / NEWS_PER_PAGE);
+  const totalNewsPages = Math.ceil(pressReleases.length / newsPerPage);
   const pagedNews = pressReleases.slice(
-    newsPage * NEWS_PER_PAGE,
-    (newsPage + 1) * NEWS_PER_PAGE
+    newsPage * newsPerPage,
+    (newsPage + 1) * newsPerPage
   );
 
   const filters: { key: Filter; label: string; count: number }[] = [
@@ -74,7 +74,7 @@ export default function MediaFilter({
         {filters.map(({ key, label, count }) => (
           <button
             key={key}
-            onClick={() => setFilter(key)}
+            onClick={() => { setFilter(key); setNewsPage(0); }}
             className={cn(
               "px-4 py-2 text-[11px] font-medium tracking-[0.1em] transition-all",
               filter === key
