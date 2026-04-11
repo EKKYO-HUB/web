@@ -98,7 +98,7 @@ export const members: Member[] = [
     id: "takumi-hirasawa",
     name: "平澤 拓海",
     nameEn: "Takumi Hirasawa",
-    role: "メンバー / SUMMIT2025 Ambassador",
+    role: "SUMMIT2025 Ambassador",
     group: "community",
     image: "/images/members/takumi-hirasawa.png",
     bio: "1997年長野県上田市出身。東北大学工学部卒業。エネルギーシステムを専攻しながら学生時代にCOP25に参加。2022年に環境省に入省し、気候変動対策に取り組んでいる。2024年からは地元に戻り、NPOにて脱炭素化に携わる傍ら、ゆるりと未来のことを話す「緑のフィーカの会」を開催している。",

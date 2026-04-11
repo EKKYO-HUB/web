@@ -95,7 +95,7 @@ export default function MembersPage() {
             BOARD
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-            理事
+            Board
           </h2>
         </div>
 
@@ -143,7 +143,7 @@ export default function MembersPage() {
                 COMMUNITY
               </p>
               <h2 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-                コミュニティ
+                Community
               </h2>
             </div>
 
