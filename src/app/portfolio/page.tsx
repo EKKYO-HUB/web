@@ -18,7 +18,7 @@ export default function PortfolioPage() {
     <div className="mx-auto max-w-6xl px-6 py-20 sm:px-12">
       {/* Header */}
       <div className="mb-16">
-        <h1 className="font-chunk text-4xl font-bold tracking-tight sm:text-5xl">
+        <h1 className="font-chunk text-4xl font-bold tracking-wide sm:text-5xl">
           PORTFOLIO
         </h1>
         <p className="mt-4 font-chunk text-ekkyo-gray">
@@ -33,7 +33,7 @@ export default function PortfolioPage() {
             <p className="font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               PROJECT
             </p>
-            <h2 className="font-chunk mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="font-chunk mt-2 text-2xl font-bold tracking-wide sm:text-3xl">
               EKKYO.PROJECTS
             </h2>
           </div>
@@ -80,7 +80,7 @@ export default function PortfolioPage() {
             <p className="font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
               ACTIVITY
             </p>
-            <h2 className="font-chunk mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+            <h2 className="font-chunk mt-2 text-2xl font-bold tracking-wide sm:text-3xl">
               ARCHIVES
             </h2>
           </div>
