@@ -28,8 +28,8 @@ export default async function HomePage() {
   const pressItems: MediaItem[] = pressReleases.map((pr) => ({
     title: pr.title,
     date: pr.date,
-    link: `/media/press/${pr.slug}`,
-    isExternal: false,
+    link: pr.externalUrl || `/media/press/${pr.slug}`,
+    isExternal: !!pr.externalUrl,
   }));
   const latestMedia = [...noteItems, ...pressItems]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

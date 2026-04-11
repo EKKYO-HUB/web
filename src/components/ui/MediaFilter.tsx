@@ -21,6 +21,7 @@ type PressItem = {
   category: string;
   coverImage?: string;
   summary: string;
+  externalUrl?: string;
 };
 
 type Filter = "all" | "press" | "note";
@@ -89,7 +90,10 @@ export default function MediaFilter({
             {pressReleases.map((pr) => (
               <Link
                 key={pr.slug}
-                href={`/media/press/${pr.slug}`}
+                href={pr.externalUrl || `/media/press/${pr.slug}`}
+                {...(pr.externalUrl
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 className="group flex flex-col overflow-hidden border border-black/10 transition-all hover:border-ekkyo-black"
               >
                 {pr.coverImage && (

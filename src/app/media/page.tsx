@@ -24,6 +24,7 @@ export default async function MediaPage() {
     category: pr.category,
     coverImage: pr.coverImage,
     summary: pr.summary,
+    externalUrl: pr.externalUrl,
   }));
 
   return (
