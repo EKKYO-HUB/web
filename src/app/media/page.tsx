@@ -33,7 +33,7 @@ export default async function MediaPage() {
         <h1 className="font-chunk text-4xl font-bold tracking-tight sm:text-5xl">
           MEDIA
         </h1>
-        <p className="mt-4 text-ekkyo-gray">思考と活動の記録。</p>
+        <p className="mt-4 font-chunk text-ekkyo-gray">Thoughts and Activities.</p>
       </div>
 
       <MediaFilter articles={articles} pressReleases={pressItems} />

@@ -21,8 +21,8 @@ export default function PortfolioPage() {
         <h1 className="font-chunk text-4xl font-bold tracking-tight sm:text-5xl">
           PORTFOLIO
         </h1>
-        <p className="mt-4 text-ekkyo-gray">
-          プロジェクトとイベントの記録。
+        <p className="mt-4 font-chunk text-ekkyo-gray">
+          Projects and Events Archive.
         </p>
       </div>
 
