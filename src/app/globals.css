@@ -24,7 +24,7 @@
   }
 
   ::selection {
-    @apply bg-ekkyo-accent text-white;
+    @apply bg-ekkyo-black text-white;
   }
 }
 
