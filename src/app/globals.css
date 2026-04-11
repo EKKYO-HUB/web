@@ -26,6 +26,13 @@
   ::selection {
     @apply bg-ekkyo-black text-white;
   }
+
+  .bg-ekkyo-black ::selection,
+  .bg-ekkyo-accent ::selection,
+  [class*="bg-black"] ::selection,
+  [class*="bg-gradient"] ::selection {
+    @apply bg-white text-ekkyo-black;
+  }
 }
 
 @layer utilities {
