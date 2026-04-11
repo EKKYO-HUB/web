@@ -9,6 +9,7 @@ export type ProjectFrontmatter = {
   category: string;
   tags: string[];
   coverImage?: string;
+  heroImages?: string[];
   summary: string;
   status: "draft" | "completed" | "ongoing";
 };

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getPortfolioProjects, getProjectBySlug } from "@/lib/mdx";
 import { formatDate } from "@/lib/utils";
+import HeroSlideshow from "@/components/ui/HeroSlideshow";
 
 type Props = {
   params: { slug: string };
@@ -79,15 +80,19 @@ export default function ProjectPage({ params }: Props) {
       />
       {/* Hero */}
       {project.coverImage ? (
-        <div className="relative h-[55vh] min-h-[400px] w-full sm:h-[65vh]">
-          <Image
-            src={project.coverImage}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
+        <div className="relative h-[55vh] min-h-[400px] w-full overflow-hidden sm:h-[65vh]">
+          {project.heroImages && project.heroImages.length > 1 ? (
+            <HeroSlideshow images={project.heroImages} />
+          ) : (
+            <Image
+              src={project.coverImage}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
 
           {/* Back link */}
