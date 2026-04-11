@@ -33,12 +33,12 @@ const NOTE_RSS_URL =
  */
 const manualArticles: NoteArticle[] = [
   {
-    title:
-      "日本一の越境と共創の祭典で得た気づき｜EKKYO SUMMIT 2025 参加レポート",
+    title: "EKKYO.SUMMIT2025無事に終わりました！感想と運営の裏話",
     link: "https://note.com/tackmetakumi/n/n684d52aebb6e",
-    pubDate: "2025-12-01",
-    contentSnippet: "",
-    creatorName: "tackmetakumi",
+    pubDate: "2025-11-11",
+    contentSnippet:
+      "EKKYO.SUMMIT2025in信州上田を11月1日～3日に執り行い、無事終了いたしました。いや〜、本当に終わりました。感無量です。関係者各位には、本当に頭があがりません。ありがとうございます。大成功といってもいいのではないかと思うのですが、ここでは上田アンバサダーとしてSUMMITでは語りきれなかった裏話も交えながら振り返っていければと思います。",
+    creatorName: "平澤拓海",
   },
 ];
 
