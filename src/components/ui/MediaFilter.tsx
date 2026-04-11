@@ -184,7 +184,7 @@ export default function MediaFilter({
       )}
 
       {/* Empty state */}
-      {((filter === "press" && pressReleases.length === 0) ||
+      {((filter === "news" && pressReleases.length === 0) ||
         (filter === "note" && articles.length === 0)) && (
         <p className="text-ekkyo-gray">該当する記事がありません。</p>
       )}
