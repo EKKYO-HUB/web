@@ -46,7 +46,7 @@ export default async function HomePage() {
     url: "https://www.ekkyo.jp",
     logo: "https://www.ekkyo.jp/images/logo/logo_丸_青背景.svg",
     description:
-      "面白そうを開拓せよ、面白そうでは終わらせない。好奇心と創造性で領域を越えていくクリエイティブユニット。",
+      "面白そうを開拓せよ、面白そうでは終わらせない。越境と共創を通じて、好奇心と創造性で領域を越えていくクリエイティブユニット。",
     address: {
       "@type": "PostalAddress",
       streetAddress: "円山町5番3号 MIEUX渋谷ビル8階",
@@ -93,14 +93,14 @@ export default async function HomePage() {
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
             <h2 className="mt-6 max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
-              問いを立て、境を越え、
+              問いを立て、越境し、
               <br />
               共に未来を創る。
             </h2>
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
-              EKKYO.HUBは、世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
+              EKKYO.HUBは、越境と共創を通じて世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
               <br />
               学際融合的な研究やアート・ビジネスの往還を通じた探求と表現を行っています。
             </p>

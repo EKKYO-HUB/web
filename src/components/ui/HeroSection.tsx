@@ -206,7 +206,7 @@ export default function HeroSection() {
           animate={{ opacity: showUI ? 1 : 0 }}
           transition={{ duration: 0.8, delay: showUI ? 0.3 : 0 }}
         >
-          好奇心と創造性で領域を越えていくクリエイティブユニット。
+          越境と共創で、好奇心と創造性の領域を拡張するクリエイティブユニット。
         </motion.p>
 
         {/* Buttons */}

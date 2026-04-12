@@ -18,9 +18,7 @@ export default function Footer() {
               一般社団法人EKKYO.HUB
             </p>
             <p className="mt-4 text-xs leading-relaxed text-white/60 sm:text-sm">
-              面白そうを開拓せよ、面白そうでは終わらせない。
-              <br />
-              好奇心と創造性で領域を越えていくクリエイティブユニット。
+              越境と共創で世界をもっと面白く。
             </p>
           </div>
 
