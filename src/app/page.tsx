@@ -102,7 +102,7 @@ export default async function HomePage() {
             <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
               EKKYO.HUBは、世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
               <br />
-              ワークショップやアート、ビジネス、テクノロジーを通じた探求と表現を行っています。
+              学際融合的な研究やアート・ビジネスの往還を通じた探求と表現を行っています。
             </p>
           </AnimatedSection>
         </div>
