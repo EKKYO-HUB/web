@@ -36,7 +36,7 @@ export default function HeroSection() {
       if (i < line1Chars.length) {
         setTypedLine1(line1Chars.slice(0, i + 1).join(""));
         i++;
-        setTimeout(typeLine1, 120);
+        setTimeout(typeLine1, 100);
       } else {
         setTimeout(startLine2, 400);
       }
@@ -48,7 +48,7 @@ export default function HeroSection() {
         if (j < line2Chars.length) {
           setTypedLine2(line2Chars.slice(0, j + 1).join(""));
           j++;
-          setTimeout(typeLine2, 120);
+          setTimeout(typeLine2, 100);
         } else {
           // Pause, then start reveal
           setTimeout(() => {
@@ -142,6 +142,7 @@ export default function HeroSection() {
         <motion.p
           className="mb-6 text-[11px] font-medium tracking-[0.4em]"
           style={{ color: accentOrWhite }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{
             opacity: showUI ? 1 : 0,
             y: showUI ? 0 : 10,
@@ -185,6 +186,7 @@ export default function HeroSection() {
         {/* Subtitle */}
         <motion.p
           className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base"
+          initial={{ opacity: 0, y: 15 }}
           animate={{
             opacity: showUI ? 1 : 0,
             y: showUI ? 0 : 15,
@@ -197,6 +199,7 @@ export default function HeroSection() {
         {/* Buttons */}
         <motion.div
           className="mt-12 flex flex-wrap justify-center gap-4"
+          initial={{ opacity: 0, y: 15 }}
           animate={{
             opacity: showUI ? 1 : 0,
             y: showUI ? 0 : 15,
@@ -223,7 +226,8 @@ export default function HeroSection() {
 
       {/* Slide indicators */}
       <motion.div
-        className="absolute bottom-20 left-1/2 z-10 flex -translate-x-1/2 gap-2"
+        className="absolute bottom-24 left-1/2 z-10 flex -translate-x-1/2 gap-2"
+        initial={{ opacity: 0 }}
         animate={{ opacity: showUI ? 1 : 0 }}
         transition={{ delay: 0.6 }}
       >
@@ -245,6 +249,7 @@ export default function HeroSection() {
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+        initial={{ opacity: 0 }}
         animate={{ opacity: showUI ? 1 : 0 }}
         transition={{ delay: 0.8 }}
       >
