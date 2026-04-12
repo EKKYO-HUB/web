@@ -100,7 +100,7 @@ export default async function HomePage() {
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
-              EKKYO.HUBは、世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
+              越境と共創を通じて世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
               <br />
               学際融合的な研究やアート・ビジネスの往還を通じた探求と表現を行っています。
             </p>
