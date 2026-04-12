@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000, // 1 year cache for optimized images
     remotePatterns: [
       {
         protocol: "https",
@@ -16,6 +17,19 @@ const nextConfig = {
         hostname: "d2l930y2yx77uf.cloudfront.net",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

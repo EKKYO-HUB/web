@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPortfolioProjects } from "@/lib/mdx";
 import { formatDate } from "@/lib/utils";
+import { blurProps } from "@/lib/image-utils";
 
 export const metadata: Metadata = {
   title: "PORTFOLIO",
@@ -52,6 +53,7 @@ export default function PortfolioPage() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      {...blurProps(project.coverImage)}
                       sizes="(max-width: 640px) 100vw, 50vw"
                     />
                   </div>
@@ -99,6 +101,7 @@ export default function PortfolioPage() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      {...blurProps(project.coverImage)}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getPortfolioProjects, getProjectBySlug } from "@/lib/mdx";
 import { formatDate } from "@/lib/utils";
+import { blurProps } from "@/lib/image-utils";
 import HeroSlideshow from "@/components/ui/HeroSlideshow";
 
 type Props = {
@@ -91,6 +92,7 @@ export default function ProjectPage({ params }: Props) {
               className="object-cover"
               sizes="100vw"
               priority
+              {...blurProps(project.coverImage)}
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />

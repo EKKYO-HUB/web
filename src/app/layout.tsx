@@ -68,6 +68,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`${inter.variable} ${notoSansJP.variable} ${montserrat.variable}`}>
+      <head>
+        {/* Preconnect to image CDN for note.com thumbnails */}
+        <link rel="preconnect" href="https://assets.st-note.com" />
+        <link rel="dns-prefetch" href="https://assets.st-note.com" />
+      </head>
       <body className="min-h-screen overflow-x-hidden font-sans">
         <PageProgressBar />
         <Header />

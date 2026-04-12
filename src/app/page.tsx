@@ -6,6 +6,7 @@ import { getPressReleases } from "@/lib/press-releases";
 import { formatDate } from "@/lib/utils";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import HeroSection from "@/components/ui/HeroSection";
+import { blurProps } from "@/lib/image-utils";
 
 type MediaItem = {
   title: string;
@@ -145,6 +146,7 @@ export default async function HomePage() {
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 640px) 100vw, 50vw"
+                          {...blurProps(project.coverImage)}
                         />
                       </div>
                     )}
