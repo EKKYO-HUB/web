@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -13,10 +13,20 @@ const heroImages = [
   "/images/hero/summit-2024-fukuoka.jpg",
 ];
 
-const line1Chars = "面白そうを開拓せよ、".split("");
-const line2Chars = "面白そうでは終わらせない。".split("");
+const line1Full = "面白そうを開拓せよ、";
+const line2Full = "面白そうでは終わらせない。";
+const line1Chars = line1Full.split("");
+const line2Chars = line2Full.split("");
 
 export default function HeroSection() {
+  // Skip intro if returning visitor (sessionStorage flag)
+  const skipIntro = useRef(false);
+  useEffect(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem("hero-seen")) {
+      skipIntro.current = true;
+    }
+  }, []);
+
   const [phase, setPhase] = useState<"typing" | "reveal" | "ready">("typing");
   const [typedLine1, setTypedLine1] = useState("");
   const [typedLine2, setTypedLine2] = useState("");
@@ -29,8 +39,17 @@ export default function HeroSection() {
   const textY = useTransform(scrollY, [0, 800], [0, 100]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
-  // Phase 1: Typewriter (slower: 120ms per char)
+  // Phase 1: Typewriter (or skip if returning)
   useEffect(() => {
+    if (skipIntro.current) {
+      setTypedLine1(line1Full);
+      setTypedLine2(line2Full);
+      setRevealProgress(1);
+      setPhase("ready");
+      return;
+    }
+    sessionStorage.setItem("hero-seen", "1");
+
     let i = 0;
     const typeLine1 = () => {
       if (i < line1Chars.length) {
