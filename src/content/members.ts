@@ -49,6 +49,7 @@ export const members: Member[] = [
     image: "/images/members/haruki-tabata.jpg",
     bio: "1999年福岡県出身。立命館アジア太平洋大学 国際経営学部卒。大学在学中のバックパッカー旅を通じてアジア各国の孤児院やスラム、難民キャンプを訪れた経験から、途上国での子ども支援に関心を持つ。その後国際協力関連の学生活動を経て、大学3年時にITを通じて社会課題解決に取り組む株式会社STEAHを創業。本業の側、地域の子どものクリエイティビティと社会のクリエイティビティを連関させるE'muプロジェクトを発足し、ディレクターを務める。",
     links: [
+      { label: "Website", url: "https://steah.co.jp/" },
       { label: "Instagram", url: "https://www.instagram.com/tabaharu_39/" },
       { label: "Facebook", url: "https://www.facebook.com/profile.php?id=100025912242470" },
       { label: "Note", url: "https://note.com/ekkyo_hub/n/n9a485ef6b6bc" },
