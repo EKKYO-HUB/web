@@ -41,3 +41,16 @@
   }
 }
 
+@keyframes kenBurns {
+  0% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 6s ease-out forwards;
+}
+

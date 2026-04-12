@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const heroImages = [
@@ -21,22 +21,24 @@ export default function HeroSection() {
   const [typedLine1, setTypedLine1] = useState("");
   const [typedLine2, setTypedLine2] = useState("");
   const [current, setCurrent] = useState(0);
+  // Track reveal progress 0→1 for smooth color transition
+  const [revealProgress, setRevealProgress] = useState(0);
 
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 200]);
   const textY = useTransform(scrollY, [0, 800], [0, 100]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
-  // Phase 1: Typewriter
+  // Phase 1: Typewriter (slower: 120ms per char)
   useEffect(() => {
     let i = 0;
     const typeLine1 = () => {
       if (i < line1Chars.length) {
         setTypedLine1(line1Chars.slice(0, i + 1).join(""));
         i++;
-        setTimeout(typeLine1, 80);
+        setTimeout(typeLine1, 120);
       } else {
-        setTimeout(startLine2, 300);
+        setTimeout(startLine2, 400);
       }
     };
 
@@ -46,11 +48,25 @@ export default function HeroSection() {
         if (j < line2Chars.length) {
           setTypedLine2(line2Chars.slice(0, j + 1).join(""));
           j++;
-          setTimeout(typeLine2, 80);
+          setTimeout(typeLine2, 120);
         } else {
-          // Pause, then reveal
-          setTimeout(() => setPhase("reveal"), 800);
-          setTimeout(() => setPhase("ready"), 2200);
+          // Pause, then start reveal
+          setTimeout(() => {
+            setPhase("reveal");
+            // Animate revealProgress from 0 to 1 over 1.8s
+            const start = Date.now();
+            const duration = 1800;
+            const tick = () => {
+              const elapsed = Date.now() - start;
+              const p = Math.min(elapsed / duration, 1);
+              // easeInOut
+              const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+              setRevealProgress(eased);
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }, 1000);
+          setTimeout(() => setPhase("ready"), 3500);
         }
       };
       typeLine2();
@@ -59,7 +75,7 @@ export default function HeroSection() {
     setTimeout(typeLine1, 600);
   }, []);
 
-  // Auto-slide images
+  // Auto-slide images with Ken Burns
   useEffect(() => {
     if (phase !== "ready") return;
     const timer = setInterval(() => {
@@ -71,50 +87,50 @@ export default function HeroSection() {
   const showBg = phase === "reveal" || phase === "ready";
   const showUI = phase === "ready";
 
+  // Interpolate colors based on revealProgress
+  const textColor = `rgb(${Math.round(255 - revealProgress * 245)}, ${Math.round(255 - revealProgress * 245)}, ${Math.round(255 - revealProgress * 245)})`;
+  const accentOrWhite = revealProgress > 0.5 ? "#0071B3" : "#ffffff";
+
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
-      {/* Phase 1 & 2: Blue/dark background */}
-      <motion.div
-        className="absolute inset-0 bg-ekkyo-accent"
-        animate={{
-          opacity: showBg ? 0 : 1,
-        }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
+      {/* Blue background — starts fully visible, covers hero images initially */}
+      <div
+        className="absolute inset-0 z-[2] bg-ekkyo-accent transition-none"
+        style={{ opacity: 1 - revealProgress }}
       />
 
-      {/* Background images — fade in during reveal */}
+      {/* Background images — always rendered but hidden behind blue */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 z-[1]"
         style={showUI ? { y: bgY } : {}}
-        animate={{ opacity: showBg ? 1 : 0 }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            className="absolute inset-0"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+        {heroImages.map((src, i) => (
+          <div
+            key={src}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-[2000ms]",
+              i === current ? "opacity-100" : "opacity-0"
+            )}
           >
             <Image
-              src={heroImages[current]}
+              src={src}
               alt=""
               fill
-              className="object-cover"
+              className={cn(
+                "object-cover",
+                i === current && phase === "ready" && "animate-ken-burns"
+              )}
               sizes="100vw"
-              priority={current === 0}
+              priority={i === 0}
             />
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        ))}
       </motion.div>
 
-      {/* White overlay — fades in with images */}
-      <motion.div
-        className="absolute inset-0 bg-white/80"
-        animate={{ opacity: showBg ? 1 : 0 }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
+      {/* White overlay — fades in as blue fades out */}
+      <div
+        className="absolute inset-0 z-[3] bg-white/80 transition-none"
+        style={{ opacity: revealProgress }}
       />
 
       {/* Content */}
@@ -125,10 +141,10 @@ export default function HeroSection() {
         {/* Org name — appears after reveal */}
         <motion.p
           className="mb-6 text-[11px] font-medium tracking-[0.4em]"
+          style={{ color: accentOrWhite }}
           animate={{
             opacity: showUI ? 1 : 0,
             y: showUI ? 0 : 10,
-            color: showBg ? "#0071B3" : "#ffffff",
           }}
           transition={{ duration: 0.6 }}
         >
@@ -137,54 +153,41 @@ export default function HeroSection() {
 
         {/* Main heading — typewriter then stays */}
         <h1 className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.3] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-          <motion.span
-            className="inline-block"
-            animate={{
-              color: showBg ? "#0a0a0a" : "#ffffff",
-            }}
-            transition={{ duration: 1 }}
-          >
-            <span className={showBg ? "text-ekkyo-accent" : "text-white"}>
+          <span className="inline-block" style={{ color: textColor }}>
+            <span style={{ color: accentOrWhite }}>
               {typedLine1.slice(0, 4)}
             </span>
             {typedLine1.slice(4)}
             {typedLine1.length > 0 && typedLine1.length < line1Chars.length && (
               <motion.span
-                className="inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle"
+                className="ml-0.5 inline-block h-[1em] w-[2px] align-middle bg-current"
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
               />
             )}
-          </motion.span>
+          </span>
           <br />
-          <motion.span
-            className="inline-block"
-            animate={{
-              color: showBg ? "#0a0a0a" : "#ffffff",
-            }}
-            transition={{ duration: 1 }}
-          >
-            <span className={showBg ? "text-ekkyo-accent" : "text-white"}>
+          <span className="inline-block" style={{ color: textColor }}>
+            <span style={{ color: accentOrWhite }}>
               {typedLine2.slice(0, 4)}
             </span>
             {typedLine2.slice(4)}
             {typedLine2.length > 0 && typedLine2.length < line2Chars.length && (
               <motion.span
-                className="inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle"
+                className="ml-0.5 inline-block h-[1em] w-[2px] align-middle bg-current"
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
               />
             )}
-          </motion.span>
+          </span>
         </h1>
 
         {/* Subtitle */}
         <motion.p
-          className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] sm:text-base"
+          className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base"
           animate={{
             opacity: showUI ? 1 : 0,
             y: showUI ? 0 : 15,
-            color: showBg ? "#6b7280" : "#ffffff80",
           }}
           transition={{ duration: 0.6, delay: showUI ? 0.2 : 0 }}
         >
