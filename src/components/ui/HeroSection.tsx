@@ -206,8 +206,6 @@ export default function HeroSection() {
           animate={{ opacity: showUI ? 1 : 0 }}
           transition={{ duration: 0.8, delay: showUI ? 0.3 : 0 }}
         >
-          越境と共創で世界をもっと面白く。
-          <br />
           好奇心と創造性で領域を越えていくクリエイティブユニット。
         </motion.p>
 

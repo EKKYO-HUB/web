@@ -19,6 +19,8 @@ export default function Footer() {
             </p>
             <p className="mt-4 text-xs leading-relaxed text-white/60 sm:text-sm">
               越境と共創で世界をもっと面白く。
+              <br />
+              好奇心と創造性で領域を越えていくクリエイティブユニット。
             </p>
           </div>
 
