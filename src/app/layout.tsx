@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | EKKYO.HUB",
   },
   description:
-    "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは越境と共創を通じて、好奇心と創造性で領域を越えていくクリエイティブユニットです。",
+    "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
   robots: {
     index: true,
     follow: true,
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
     description:
-      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは越境と共創を通じて、好奇心と創造性で領域を越えていくクリエイティブユニットです。",
+      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
     url: "https://www.ekkyo.jp",
     siteName: "EKKYO.HUB",
     locale: "ja_JP",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EKKYO.HUB | 越境と共創で世界をもっと面白く",
     description:
-      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは越境と共創を通じて、好奇心と創造性で領域を越えていくクリエイティブユニットです。",
+      "面白そうを開拓せよ、面白そうでは終わらせない。一般社団法人EKKYO.HUBは好奇心と創造性で領域を越えていくクリエイティブユニットです。",
     images: ["/images/og/OG.png"],
   },
 };
