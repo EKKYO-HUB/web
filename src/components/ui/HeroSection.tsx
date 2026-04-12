@@ -116,10 +116,10 @@ export default function HeroSection() {
               src={src}
               alt=""
               fill
-              className={cn(
-                "object-cover",
-                i === current && phase === "ready" && "animate-ken-burns"
-              )}
+              className="object-cover transition-transform duration-[6000ms] ease-out"
+              style={{
+                transform: i === current && phase === "ready" ? "scale(1.06)" : "scale(1)",
+              }}
               sizes="100vw"
               priority={i === 0}
             />
