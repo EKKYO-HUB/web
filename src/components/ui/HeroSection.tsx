@@ -142,12 +142,9 @@ export default function HeroSection() {
         <motion.p
           className="mb-6 text-[11px] font-medium tracking-[0.4em]"
           style={{ color: accentOrWhite }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: showUI ? 1 : 0,
-            y: showUI ? 0 : 10,
-          }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showUI ? 1 : 0 }}
+          transition={{ duration: 0.8 }}
         >
           一般社団法人 EKKYO.HUB
         </motion.p>
@@ -186,12 +183,9 @@ export default function HeroSection() {
         {/* Subtitle */}
         <motion.p
           className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{
-            opacity: showUI ? 1 : 0,
-            y: showUI ? 0 : 15,
-          }}
-          transition={{ duration: 0.6, delay: showUI ? 0.2 : 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showUI ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: showUI ? 0.3 : 0 }}
         >
           好奇心と創造性で領域を越えていくクリエイティブユニット。
         </motion.p>
@@ -199,12 +193,9 @@ export default function HeroSection() {
         {/* Buttons */}
         <motion.div
           className="mt-12 flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 15 }}
-          animate={{
-            opacity: showUI ? 1 : 0,
-            y: showUI ? 0 : 15,
-          }}
-          transition={{ duration: 0.6, delay: showUI ? 0.4 : 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showUI ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: showUI ? 0.5 : 0 }}
         >
           <Link
             href="/portfolio"
