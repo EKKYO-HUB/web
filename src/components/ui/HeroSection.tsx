@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const heroImages = [
@@ -13,103 +13,180 @@ const heroImages = [
   "/images/hero/summit-2024-fukuoka.jpg",
 ];
 
+const line1Chars = "面白そうを開拓せよ、".split("");
+const line2Chars = "面白そうでは終わらせない。".split("");
+
 export default function HeroSection() {
+  const [phase, setPhase] = useState<"typing" | "reveal" | "ready">("typing");
+  const [typedLine1, setTypedLine1] = useState("");
+  const [typedLine2, setTypedLine2] = useState("");
   const [current, setCurrent] = useState(0);
-  const [mounted, setMounted] = useState(false);
 
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 200]);
   const textY = useTransform(scrollY, [0, 800], [0, 100]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
+  // Phase 1: Typewriter
   useEffect(() => {
-    setMounted(true);
+    let i = 0;
+    const typeLine1 = () => {
+      if (i < line1Chars.length) {
+        setTypedLine1(line1Chars.slice(0, i + 1).join(""));
+        i++;
+        setTimeout(typeLine1, 80);
+      } else {
+        setTimeout(startLine2, 300);
+      }
+    };
+
+    let j = 0;
+    const startLine2 = () => {
+      const typeLine2 = () => {
+        if (j < line2Chars.length) {
+          setTypedLine2(line2Chars.slice(0, j + 1).join(""));
+          j++;
+          setTimeout(typeLine2, 80);
+        } else {
+          // Pause, then reveal
+          setTimeout(() => setPhase("reveal"), 800);
+          setTimeout(() => setPhase("ready"), 2200);
+        }
+      };
+      typeLine2();
+    };
+
+    setTimeout(typeLine1, 600);
   }, []);
 
-  // Auto-slide every 6 seconds
+  // Auto-slide images
   useEffect(() => {
+    if (phase !== "ready") return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroImages.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [phase]);
+
+  const showBg = phase === "reveal" || phase === "ready";
+  const showUI = phase === "ready";
 
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
-      {/* Background images with Ken Burns + parallax */}
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        {heroImages.map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt=""
-            fill
-            className={cn(
-              "object-cover transition-opacity duration-[2000ms]",
-              i === current
-                ? "animate-ken-burns opacity-100"
-                : "opacity-0"
-            )}
-            sizes="100vw"
-            priority={i === 0}
-          />
-        ))}
+      {/* Phase 1 & 2: Blue/dark background */}
+      <motion.div
+        className="absolute inset-0 bg-ekkyo-accent"
+        animate={{
+          opacity: showBg ? 0 : 1,
+        }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      />
+
+      {/* Background images — fade in during reveal */}
+      <motion.div
+        className="absolute inset-0"
+        style={showUI ? { y: bgY } : {}}
+        animate={{ opacity: showBg ? 1 : 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          >
+            <Image
+              src={heroImages[current]}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority={current === 0}
+            />
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-white/80" />
+      {/* White overlay — fades in with images */}
+      <motion.div
+        className="absolute inset-0 bg-white/80"
+        animate={{ opacity: showBg ? 1 : 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      />
 
-      {/* Content with parallax + staggered animation */}
+      {/* Content */}
       <motion.div
         className="relative z-10 px-6 text-center"
-        style={{ y: textY, opacity }}
+        style={showUI ? { y: textY, opacity } : {}}
       >
-        {/* Org name */}
+        {/* Org name — appears after reveal */}
         <motion.p
-          className="mb-6 text-[11px] font-medium tracking-[0.4em] text-ekkyo-accent"
-          initial={{ opacity: 0, y: 20 }}
-          animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mb-6 text-[11px] font-medium tracking-[0.4em]"
+          animate={{
+            opacity: showUI ? 1 : 0,
+            y: showUI ? 0 : 10,
+            color: showBg ? "#0071B3" : "#ffffff",
+          }}
+          transition={{ duration: 0.6 }}
         >
           一般社団法人 EKKYO.HUB
         </motion.p>
 
-        {/* Main heading — typewriter-style staggered reveal */}
-        <motion.h1
-          className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.2] tracking-tight text-ekkyo-black sm:text-4xl md:text-5xl lg:text-6xl"
-          initial={{ opacity: 0 }}
-          animate={mounted ? { opacity: 1 } : {}}
-          transition={{ duration: 0.3, delay: 0.6 }}
-        >
-          <span className="inline-block overflow-hidden">
-            <motion.span
-              className="inline-block"
-              initial={{ y: "100%" }}
-              animate={mounted ? { y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="text-ekkyo-accent">面白そう</span>を開拓せよ、
-            </motion.span>
-          </span>
+        {/* Main heading — typewriter then stays */}
+        <h1 className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.3] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+          <motion.span
+            className="inline-block"
+            animate={{
+              color: showBg ? "#0a0a0a" : "#ffffff",
+            }}
+            transition={{ duration: 1 }}
+          >
+            <span className={showBg ? "text-ekkyo-accent" : "text-white"}>
+              {typedLine1.slice(0, 4)}
+            </span>
+            {typedLine1.slice(4)}
+            {typedLine1.length > 0 && typedLine1.length < line1Chars.length && (
+              <motion.span
+                className="inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle"
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity }}
+              />
+            )}
+          </motion.span>
           <br />
-          <span className="inline-block overflow-hidden">
-            <motion.span
-              className="inline-block"
-              initial={{ y: "100%" }}
-              animate={mounted ? { y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="text-ekkyo-accent">面白そう</span>では終わらせない。
-            </motion.span>
-          </span>
-        </motion.h1>
+          <motion.span
+            className="inline-block"
+            animate={{
+              color: showBg ? "#0a0a0a" : "#ffffff",
+            }}
+            transition={{ duration: 1 }}
+          >
+            <span className={showBg ? "text-ekkyo-accent" : "text-white"}>
+              {typedLine2.slice(0, 4)}
+            </span>
+            {typedLine2.slice(4)}
+            {typedLine2.length > 0 && typedLine2.length < line2Chars.length && (
+              <motion.span
+                className="inline-block w-[2px] h-[1em] bg-current ml-0.5 align-middle"
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity }}
+              />
+            )}
+          </motion.span>
+        </h1>
 
         {/* Subtitle */}
         <motion.p
-          className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base"
-          initial={{ opacity: 0, y: 15 }}
-          animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.3 }}
+          className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] sm:text-base"
+          animate={{
+            opacity: showUI ? 1 : 0,
+            y: showUI ? 0 : 15,
+            color: showBg ? "#6b7280" : "#ffffff80",
+          }}
+          transition={{ duration: 0.6, delay: showUI ? 0.2 : 0 }}
         >
           好奇心と創造性で領域を越えていくクリエイティブユニット。
         </motion.p>
@@ -117,9 +194,11 @@ export default function HeroSection() {
         {/* Buttons */}
         <motion.div
           className="mt-12 flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 15 }}
-          animate={mounted ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.6 }}
+          animate={{
+            opacity: showUI ? 1 : 0,
+            y: showUI ? 0 : 15,
+          }}
+          transition={{ duration: 0.6, delay: showUI ? 0.4 : 0 }}
         >
           <Link
             href="/portfolio"
@@ -142,9 +221,8 @@ export default function HeroSection() {
       {/* Slide indicators */}
       <motion.div
         className="absolute bottom-20 left-1/2 z-10 flex -translate-x-1/2 gap-2"
-        initial={{ opacity: 0 }}
-        animate={mounted ? { opacity: 1 } : {}}
-        transition={{ delay: 2 }}
+        animate={{ opacity: showUI ? 1 : 0 }}
+        transition={{ delay: 0.6 }}
       >
         {heroImages.map((_, i) => (
           <button
@@ -164,9 +242,8 @@ export default function HeroSection() {
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={mounted ? { opacity: 1 } : {}}
-        transition={{ delay: 2.2 }}
+        animate={{ opacity: showUI ? 1 : 0 }}
+        transition={{ delay: 0.8 }}
       >
         <div className="flex flex-col items-center gap-2">
           <p className="text-[9px] tracking-[0.3em] text-ekkyo-gray">
