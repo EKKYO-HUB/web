@@ -19,7 +19,7 @@ export const members: Member[] = [
     nameEn: "Ritsuha Tanaka",
     role: "代表理事 / Founder",
     group: "board",
-    image: "/images/members/ritsuha-tanaka.png",
+    image: "/images/members/ritsuha-tanaka.jpg",
     bio: "1998年長野県松本市生まれ。2023年東北大学工学研究科応用化学専攻卒(工学修士)。在学中に技術の社会実装に興味を持ち留学し、UC BerkeleyのHaas MBAでデザイン思考を学び、デンマーク工科大学大学院のtechnology designクラスでは現地企業と大学共同でのスタートアップ立ち上げに参画(文科省トビタテ!留学JAPAN大学14期)。その後ドイツ・ベルリンに渡り、アクセラレータでの技術探索インターンを通して日欧のスタートアップエコシステムの構築に携わった。卒業後は大手日系メーカーにて、新事業開発の戦略、オープンイノベーション推進を経て経営戦略に従事。並行して、留学中に立ち上げた若者の越境と共創の場を創るクリエイティブユニットEKKYO.HUBの代表および一般社団法人EKKYO.HUBの代表理事を務めながら、さらなる越境への探求を進めている。",
     links: [
       { label: "Instagram", url: "https://www.instagram.com/ritanoryokouki/" },
@@ -32,7 +32,7 @@ export const members: Member[] = [
     nameEn: "Moka Takeda",
     role: "理事 / Art Director",
     group: "board",
-    image: "/images/members/moka-takeda.png",
+    image: "/images/members/moka-takeda.jpg",
     bio: "1997年東京都出身。アーティスト。2024年東京藝術大学大学院 先端芸術表現専攻修了。「車窓風景」や「工事現場」など都市の日常的な風景から着想を得て、情報やイメージで氾濫した現代におけるリアリティとは何かを問うインスタレーション作品を発表している。主な展示歴・活動歴に「藝大アートプラザ・アートアワード2024」デジタルアート部門「JR東日本賞」受賞(2024)、「ヨーゼフ・ボイス ダイアローグ展」(GYRE gallery, 2024)、NTTインターコミュニケーション・センター【ICC】「エマージェンシーズ！045」(ICC, 2023)、他。",
     links: [
       { label: "Instagram", url: "https://www.instagram.com/land.scape.laboratory/" },
@@ -100,7 +100,7 @@ export const members: Member[] = [
     nameEn: "Takumi Hirasawa",
     role: "SUMMIT2025 Ambassador",
     group: "community",
-    image: "/images/members/takumi-hirasawa.png",
+    image: "/images/members/takumi-hirasawa.jpg",
     bio: "1997年長野県上田市出身。東北大学工学部卒業。エネルギーシステムを専攻しながら学生時代にCOP25に参加。2022年に環境省に入省し、気候変動対策に取り組んでいる。2024年からは地元に戻り、NPOにて脱炭素化に携わる傍ら、ゆるりと未来のことを話す「緑のフィーカの会」を開催している。",
     links: [],
   },
