@@ -5,6 +5,7 @@ import { getPortfolioProjects } from "@/lib/mdx";
 import { getPressReleases } from "@/lib/press-releases";
 import { formatDate } from "@/lib/utils";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import HeroSection from "@/components/ui/HeroSection";
 
 type MediaItem = {
   title: string;
@@ -68,68 +69,7 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Hero */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
-        <Image
-          src="/images/hero/ekkyo-conference.jpg"
-          alt=""
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-white/85" />
-
-        <div className="relative z-10 text-center">
-          <AnimatedSection>
-            <p className="mb-6 text-[11px] font-medium tracking-[0.4em] text-ekkyo-accent">
-              一般社団法人EKKYO.HUB
-            </p>
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.15}>
-            <h1 className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.2] tracking-tight text-ekkyo-black sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="text-ekkyo-accent">面白そう</span>を開拓せよ、
-              <br />
-              <span className="text-ekkyo-accent">面白そう</span>では終わらせない。
-            </h1>
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.3}>
-            <p className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base">
-              好奇心と創造性で領域を越えていくクリエイティブユニット
-            </p>
-          </AnimatedSection>
-
-          <AnimatedSection delay={0.45}>
-            <div className="mt-12 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/portfolio"
-                className="group inline-flex items-center gap-2 bg-ekkyo-accent px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-white transition-all hover:bg-ekkyo-accent-dark"
-              >
-                PORTFOLIO
-                <span className="transition-transform group-hover:translate-x-1">
-                  &rarr;
-                </span>
-              </Link>
-              <Link
-                href="/media"
-                className="inline-flex items-center gap-2 border border-ekkyo-black/20 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-ekkyo-black transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
-              >
-                MEDIA
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-[9px] tracking-[0.3em] text-ekkyo-gray">
-              SCROLL
-            </p>
-            <div className="h-8 w-[1px] bg-gradient-to-b from-ekkyo-gray/40 to-transparent" />
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* About teaser */}
       <section className="relative overflow-hidden bg-ekkyo-black px-6 py-24 sm:px-12 lg:py-32">
