@@ -1,9 +1,6 @@
 # EKKYO.HUB Web
 
 一般社団法人 EKKYO.HUB の公式ウェブサイト（[www.ekkyo.jp](https://www.ekkyo.jp)）です。
-
-このREADMEは、**エンジニアでなくても** サイトを編集できるように書かれています。
-
 ---
 
 ## 🚀 まずはここから
