@@ -34,6 +34,15 @@ export default function HeroSection() {
   // Track reveal progress 0→1 for smooth color transition
   const [revealProgress, setRevealProgress] = useState(0);
 
+  // Lock scroll during typing and reveal phases
+  useEffect(() => {
+    if (phase === "ready") return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [phase]);
+
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 200]);
   const textY = useTransform(scrollY, [0, 800], [0, 100]);
