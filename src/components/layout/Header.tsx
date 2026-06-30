@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "HOME" },
+  { href: "/summit/2026", label: "SUMMIT", highlight: true },
   { href: "/portfolio", label: "PORTFOLIO" },
   { href: "/media", label: "MEDIA" },
   { href: "/members", label: "MEMBERS" },
@@ -19,7 +20,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md">
+    <header className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-12">
         <Link href="/" className="flex items-center">
           <Image
@@ -33,23 +34,28 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-10 md:flex">
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "relative font-chunk text-[11px] font-medium tracking-[0.2em] transition-colors",
-                pathname === href
-                  ? "text-ekkyo-accent"
-                  : "text-ekkyo-black/50 hover:text-ekkyo-black"
-              )}
-            >
-              {label}
-              {pathname === href && (
-                <span className="absolute -bottom-1 left-0 h-[2px] w-full bg-ekkyo-accent" />
-              )}
-            </Link>
-          ))}
+          {navLinks.map(({ href, label, highlight }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  "relative font-chunk text-[11px] font-medium tracking-[0.2em] transition-colors",
+                  highlight
+                    ? "text-ekkyo-accent hover:text-ekkyo-accent-dark"
+                    : active
+                      ? "text-ekkyo-accent"
+                      : "text-ekkyo-black/50 hover:text-ekkyo-black"
+                )}
+              >
+                {label}
+                {(active || highlight) && (
+                  <span className="absolute -bottom-1 left-0 h-[2px] w-full bg-ekkyo-accent" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile hamburger */}
@@ -83,14 +89,14 @@ export default function Header() {
       {menuOpen && (
         <div className="border-t border-black/5 bg-white/95 px-6 pb-8 pt-6 backdrop-blur-md md:hidden">
           <nav className="flex flex-col gap-6">
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, label, highlight }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "font-chunk text-sm font-medium tracking-[0.15em]",
-                  pathname === href
+                  highlight || pathname === href
                     ? "text-ekkyo-accent"
                     : "text-ekkyo-black/50"
                 )}

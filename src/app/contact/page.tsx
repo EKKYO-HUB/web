@@ -51,10 +51,7 @@ export default function ContactPage() {
     <div className="mx-auto max-w-4xl px-6 py-20 sm:px-12">
       <AnimatedSection>
         <div className="mb-16">
-          <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-            CONTACT
-          </p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             お問い合わせ
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-ekkyo-gray">

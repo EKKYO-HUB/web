@@ -91,10 +91,7 @@ export default function MembersPage() {
 
         {/* Board Members */}
         <div className="mb-10">
-          <p className="font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-            BOARD
-          </p>
-          <h2 className="font-chunk mt-2 text-2xl font-bold tracking-wide sm:text-3xl">
+          <h2 className="font-chunk text-2xl font-bold tracking-wide sm:text-3xl">
             Board
           </h2>
         </div>
@@ -139,10 +136,7 @@ export default function MembersPage() {
         {members.filter((m) => m.group === "community").length > 0 && (
           <>
             <div className="mb-10 mt-20 border-t border-black/10 pt-20">
-              <p className="font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-                COMMUNITY
-              </p>
-              <h2 className="font-chunk mt-2 text-2xl font-bold tracking-wide sm:text-3xl">
+              <h2 className="font-chunk text-2xl font-bold tracking-wide sm:text-3xl">
                 Community
               </h2>
             </div>
