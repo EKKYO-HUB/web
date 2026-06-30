@@ -45,7 +45,7 @@ const overview = [
 
 /* ─── ページ内ナビ ─── */
 const sectionNav = [
-  { id: "concept", label: "CONCEPT" },
+  { id: "concept", label: "コンセプト" },
   { id: "overview", label: "開催概要" },
   { id: "history", label: "これまで" },
   { id: "contents", label: "コンテンツ" },

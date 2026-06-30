@@ -42,16 +42,21 @@ export default function Header() {
                 href={href}
                 className={cn(
                   "relative font-chunk text-[11px] font-medium tracking-[0.2em] transition-colors",
-                  highlight
-                    ? "text-ekkyo-accent hover:text-ekkyo-accent-dark"
-                    : active
-                      ? "text-ekkyo-accent"
+                  active
+                    ? "text-ekkyo-accent"
+                    : highlight
+                      ? "animate-blink text-ekkyo-orange motion-reduce:animate-none hover:text-ekkyo-orange-dark"
                       : "text-ekkyo-black/50 hover:text-ekkyo-black"
                 )}
               >
                 {label}
                 {(active || highlight) && (
-                  <span className="absolute -bottom-1 left-0 h-[2px] w-full bg-ekkyo-accent" />
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-[2px] w-full",
+                      active ? "bg-ekkyo-accent" : "bg-ekkyo-orange"
+                    )}
+                  />
                 )}
               </Link>
             );
@@ -96,9 +101,11 @@ export default function Header() {
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "font-chunk text-sm font-medium tracking-[0.15em]",
-                  highlight || pathname === href
+                  pathname === href
                     ? "text-ekkyo-accent"
-                    : "text-ekkyo-black/50"
+                    : highlight
+                      ? "animate-blink text-ekkyo-orange motion-reduce:animate-none"
+                      : "text-ekkyo-black/50"
                 )}
               >
                 {label}
