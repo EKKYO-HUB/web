@@ -139,17 +139,18 @@ export default async function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <AnimatedSection>
             <h2 className="max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
-              問いを立て、越境し、
-              <br />
-              共に未来を創る。
+              「若者という文化（＝越境）」を創る。
             </h2>
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
-            <p className="mt-6 max-w-2xl text-sm leading-[2] text-white/60">
-              越境と共創を通じて世の中のオルタナティブと好奇心を探究し続けるクリエイティブユニットです。
-              <br />
-              学際融合的な研究やアート・ビジネスの往還を通じた探求と表現を行っています。
-            </p>
+            <div className="mt-6 max-w-2xl space-y-5 text-sm leading-[2] text-white/60">
+              <p>
+                EKKYO.HUBは、越境と共創を通じて社会のオルタナティブを探究するクリエイティブユニットです。
+              </p>
+              <p>
+                私たちの言う「若者」は、年齢のことではありません。立場や肩書きを軽やかに越え、「面白そう」へ夢中で挑む——誰の中にもある、その姿勢のこと。それを世代を超えて分かち合える文化として育てていくことが、私たちの目指す姿です。
+              </p>
+            </div>
           </AnimatedSection>
         </div>
       </section>
