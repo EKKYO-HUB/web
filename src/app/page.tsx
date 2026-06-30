@@ -72,6 +72,57 @@ export default async function HomePage() {
       {/* Hero */}
       <HeroSection />
 
+      {/* SUMMIT 2026 告知 — 最重要フラグシップイベント */}
+      <section className="relative overflow-hidden bg-ekkyo-accent px-6 py-20 sm:px-12 lg:py-28">
+        <div className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2">
+          <Image
+            src="/images/logo/logo_mark_white.svg"
+            alt=""
+            width={480}
+            height={480}
+            className="h-auto w-[260px] opacity-[0.1] sm:w-[420px]"
+          />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <AnimatedSection>
+                <h2 className="text-6xl font-bold leading-none tracking-tight text-white sm:text-7xl lg:text-8xl">
+                  まみれろ
+                </h2>
+                <p className="mt-4 text-base font-medium tracking-wide text-white/90 sm:text-lg">
+                  EKKYO.SUMMIT 2026
+                </p>
+              </AnimatedSection>
+              <AnimatedSection delay={0.1}>
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-white">
+                  <span className="font-montserrat text-xl font-semibold tracking-wide sm:text-2xl">
+                    2026.10.10 – 12
+                  </span>
+                  <span className="hidden h-4 w-px bg-white/40 sm:block" />
+                  <span className="text-base tracking-wide">滋賀県・琵琶湖</span>
+                </div>
+                <p className="mt-6 max-w-xl text-sm leading-[2] text-white/80">
+                  越境と共創を通じて、まだ見ぬ「わたし」と出会う3日間。
+                  EKKYO.HUBの年次フラグシップイベント、今年の舞台は滋賀・琵琶湖。
+                </p>
+              </AnimatedSection>
+            </div>
+            <AnimatedSection delay={0.3}>
+              <Link
+                href="/summit/2026"
+                className="group inline-flex items-center gap-2 bg-white px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-ekkyo-accent transition-all hover:bg-white/90"
+              >
+                詳細・参加する
+                <span className="transition-transform group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
       {/* About teaser */}
       <section className="relative overflow-hidden bg-ekkyo-black px-6 py-24 sm:px-12 lg:py-32">
         {/* Logo mark — large background accent */}
@@ -87,12 +138,7 @@ export default async function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <AnimatedSection>
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              ABOUT
-            </p>
-          </AnimatedSection>
-          <AnimatedSection delay={0.1}>
-            <h2 className="mt-6 max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
+            <h2 className="max-w-3xl text-2xl font-bold leading-[1.6] text-white sm:text-3xl lg:text-4xl">
               問いを立て、越境し、
               <br />
               共に未来を創る。
@@ -115,10 +161,7 @@ export default async function HomePage() {
             <AnimatedSection>
               <div className="flex items-end justify-between">
                 <div>
-                  <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-                    PORTFOLIO
-                  </p>
-                  <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                  <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                     活動記録
                   </h2>
                 </div>
@@ -189,10 +232,7 @@ export default async function HomePage() {
             <AnimatedSection>
               <div className="flex items-end justify-between">
                 <div>
-                  <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-                    MEDIA
-                  </p>
-                  <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                  <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                     最新の記事
                   </h2>
                 </div>

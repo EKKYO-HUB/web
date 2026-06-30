@@ -15,6 +15,8 @@ const config: Config = {
           gray: "#6b7280",
           accent: "#0071B3",
           "accent-dark": "#005a8f",
+          orange: "#EB5505",
+          "orange-dark": "#c2470a",
         },
       },
       fontFamily: {

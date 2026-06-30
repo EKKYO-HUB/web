@@ -92,8 +92,8 @@ export default function MediaFilter({
       {showPress && pressReleases.length > 0 && (
         <section className={showNote ? "mb-16" : ""}>
           {filter === "all" && (
-            <h2 className="mb-6 font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              NEWS
+            <h2 className="mb-6 text-sm font-bold tracking-wide text-ekkyo-black">
+              プレスリリース
             </h2>
           )}
           <div className="relative overflow-hidden">
@@ -198,8 +198,8 @@ export default function MediaFilter({
       {showNote && articles.length > 0 && (
         <section>
           {filter === "all" && (
-            <h2 className="mb-6 font-chunk text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              NOTE ARTICLES
+            <h2 className="mb-6 text-sm font-bold tracking-wide text-ekkyo-black">
+              note記事
             </h2>
           )}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

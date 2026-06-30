@@ -155,10 +155,7 @@ export default function Summit2025Page() {
         {/* Concept */}
         <section className="px-6 py-20 sm:px-12 lg:py-28">
           <div className="mx-auto max-w-3xl">
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              CONCEPT
-            </p>
-            <div className="mt-8 space-y-6 text-base leading-[2.2] text-ekkyo-black/70 sm:text-lg">
+            <div className="space-y-6 text-base leading-[2.2] text-ekkyo-black/70 sm:text-lg">
               <p>
                 「わたし」は、「わたし」を知っているだろうか。
                 <br />
@@ -214,10 +211,7 @@ export default function Summit2025Page() {
         {/* Place */}
         <section className="bg-gray-50 px-6 py-20 sm:px-12 lg:py-28">
           <div className="mx-auto max-w-3xl">
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              PLACE
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               信州 上田
             </h2>
             <div className="mt-8 space-y-4 text-sm leading-[2] text-ekkyo-black/70 sm:text-base">
@@ -237,10 +231,7 @@ export default function Summit2025Page() {
         {/* Workshops */}
         <section className="px-6 py-20 sm:px-12 lg:py-28">
           <div className="mx-auto max-w-5xl">
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              CONTENTS
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               ワークショップ
             </h2>
 
@@ -281,10 +272,7 @@ export default function Summit2025Page() {
         {/* Sponsors */}
         <section className="bg-ekkyo-black px-6 py-20 sm:px-12 lg:py-28">
           <div className="mx-auto max-w-5xl">
-            <p className="text-[10px] font-medium tracking-[0.3em] text-ekkyo-accent">
-              SPONSOR
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               協賛・協力
             </h2>
 
