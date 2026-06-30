@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 /* ──────────────────────────────────────────────────────────
    オープニング演出（初回のみ・全画面オーバーレイ）:
@@ -15,6 +17,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const LOGO_SRC = "/images/logo/EKKYO.HUB_横長_blue.svg";
 const LOGO_AR = 243 / 83;
+const HERO_IMAGES = [
+  "/images/hero/ekkyo-conference.jpg",
+  "/images/hero/summit-2022-euro.jpg",
+  "/images/hero/summit-2023-sendai.jpg",
+  "/images/hero/summit-2024-fukuoka.jpg",
+];
 const VIVID = [
   "#0071B3", "#0098E0", "#00B3A6", "#16C172", "#2D6BFF",
   "#7A3FF2", "#C026A8", "#E0218A", "#EB5505", "#FF8A00",
@@ -33,6 +41,7 @@ export default function HeroSection() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [ready, setReady] = useState(false);
   const [logoReveal, setLogoReveal] = useState(0);
+  const [current, setCurrent] = useState(0);
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -41,7 +50,18 @@ export default function HeroSection() {
 
   const { scrollY } = useScroll();
   const textY = useTransform(scrollY, [0, 500], [0, 70]);
+  const bgY = useTransform(scrollY, [0, 800], [0, 120]);
   const fade = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // 背景写真スライドショー（着地後に自動切替）
+  useEffect(() => {
+    if (!ready) return;
+    const id = window.setInterval(
+      () => setCurrent((p) => (p + 1) % HERO_IMAGES.length),
+      6000
+    );
+    return () => window.clearInterval(id);
+  }, [ready]);
 
   // 初回判定
   useEffect(() => {
@@ -220,6 +240,30 @@ export default function HeroSection() {
   return (
     <>
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-white px-6">
+        {/* 背景写真スライドショー（自動切替＋Ken Burns） */}
+        <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
+          {HERO_IMAGES.map((src, i) => (
+            <div
+              key={src}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-[2000ms]",
+                i === current ? "opacity-100" : "opacity-0"
+              )}
+            >
+              <Image
+                src={src}
+                alt=""
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className="object-cover transition-transform duration-[6000ms] ease-out"
+                style={{ transform: i === current && ready ? "scale(1.06)" : "scale(1)" }}
+              />
+            </div>
+          ))}
+          <div className="absolute inset-0 bg-white/80" />
+        </motion.div>
+
         <motion.div style={{ y: textY, opacity: fade }} className="relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -250,6 +294,26 @@ export default function HeroSection() {
               </Link>
             </div>
           </motion.div>
+        </motion.div>
+
+        {/* スライドインジケータ */}
+        <motion.div
+          className="absolute bottom-24 left-1/2 z-10 flex -translate-x-1/2 gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: ready ? 1 : 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          {HERO_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-500",
+                i === current ? "w-8 bg-ekkyo-accent" : "w-1.5 bg-ekkyo-black/20 hover:bg-ekkyo-black/40"
+              )}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
         </motion.div>
 
         <motion.div
