@@ -1,289 +1,293 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { cn } from "@/lib/utils";
 
-const heroImages = [
-  "/images/hero/ekkyo-conference.jpg",
-  "/images/hero/summit-2022-euro.jpg",
-  "/images/hero/summit-2023-sendai.jpg",
-  "/images/hero/summit-2024-fukuoka.jpg",
+/* ──────────────────────────────────────────────────────────
+   オープニング演出（初回のみ・全画面オーバーレイ）:
+   カラフルな風の粒子が EKKYO.HUB ロゴを形づくり → 着地で光り →
+   ブランドの青ロゴに収束 → 左上（ヘッダーのロゴ位置）へ吸い込まれて
+   通常のページ（ヘッダー＋ヒーロー本文）に着地する。
+   ・再訪問者は sessionStorage でスキップ
+   ・prefers-reduced-motion 時はスキップ（通常ページを即表示）
+   ────────────────────────────────────────────────────────── */
+
+const LOGO_SRC = "/images/logo/EKKYO.HUB_横長_blue.svg";
+const LOGO_AR = 243 / 83;
+const VIVID = [
+  "#0071B3", "#0098E0", "#00B3A6", "#16C172", "#2D6BFF",
+  "#7A3FF2", "#C026A8", "#E0218A", "#EB5505", "#FF8A00",
 ];
 
-const line1Full = "面白そうを開拓せよ、";
-const line2Full = "面白そうでは終わらせない。";
-const line1Chars = line1Full.split("");
-const line2Chars = line2Full.split("");
+function hexToRgb(h: string): [number, number, number] {
+  return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+}
+
+type Particle = {
+  tx: number; ty: number; x: number; y: number;
+  vx: number; vy: number; c: number[]; ph: number; delay: number;
+};
 
 export default function HeroSection() {
-  // Skip intro if returning visitor (sessionStorage flag)
-  const skipIntro = useRef(false);
-  useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("hero-seen")) {
-      skipIntro.current = true;
-    }
-  }, []);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [logoReveal, setLogoReveal] = useState(0);
 
-  const [phase, setPhase] = useState<"typing" | "reveal" | "ready">("typing");
-  const [typedLine1, setTypedLine1] = useState("");
-  const [typedLine2, setTypedLine2] = useState("");
-  const [current, setCurrent] = useState(0);
-  // Track reveal progress 0→1 for smooth color transition
-  const [revealProgress, setRevealProgress] = useState(0);
-
-  // Lock scroll during typing and reveal phases
-  useEffect(() => {
-    if (phase === "ready") return;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [phase]);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const crispRef = useRef<HTMLImageElement>(null);
 
   const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 800], [0, 200]);
-  const textY = useTransform(scrollY, [0, 800], [0, 100]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const textY = useTransform(scrollY, [0, 500], [0, 70]);
+  const fade = useTransform(scrollY, [0, 400], [1, 0]);
 
-  // Phase 1: Typewriter (or skip if returning)
+  // 初回判定
   useEffect(() => {
-    if (skipIntro.current) {
-      setTypedLine1(line1Full);
-      setTypedLine2(line2Full);
-      setRevealProgress(1);
-      setPhase("ready");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (sessionStorage.getItem("hero-seen") || reduce) {
+      setReady(true);
       return;
     }
     sessionStorage.setItem("hero-seen", "1");
-
-    let i = 0;
-    const typeLine1 = () => {
-      if (i < line1Chars.length) {
-        setTypedLine1(line1Chars.slice(0, i + 1).join(""));
-        i++;
-        setTimeout(typeLine1, 100);
-      } else {
-        setTimeout(startLine2, 400);
-      }
-    };
-
-    let j = 0;
-    const startLine2 = () => {
-      const typeLine2 = () => {
-        if (j < line2Chars.length) {
-          setTypedLine2(line2Chars.slice(0, j + 1).join(""));
-          j++;
-          setTimeout(typeLine2, 100);
-        } else {
-          // Pause, then start reveal
-          setTimeout(() => {
-            setPhase("reveal");
-            // Animate revealProgress from 0 to 1 over 1.8s
-            const start = Date.now();
-            const duration = 1800;
-            const tick = () => {
-              const elapsed = Date.now() - start;
-              const p = Math.min(elapsed / duration, 1);
-              // easeInOut
-              const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-              setRevealProgress(eased);
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }, 1000);
-          setTimeout(() => setPhase("ready"), 3500);
-        }
-      };
-      typeLine2();
-    };
-
-    setTimeout(typeLine1, 600);
+    setShowOverlay(true);
   }, []);
 
-  // Auto-slide images with Ken Burns
+  // オープニング演出
   useEffect(() => {
-    if (phase !== "ready") return;
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroImages.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [phase]);
+    if (!showOverlay) return;
+    const canvas = canvasRef.current, box = boxRef.current, overlay = overlayRef.current;
+    if (!canvas || !box || !overlay) return;
+    const ctx = canvas.getContext("2d");
+    const octx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+    if (!ctx || !octx) { setReady(true); setShowOverlay(false); return; }
+    const oc = octx.canvas;
 
-  const showBg = phase === "reveal" || phase === "ready";
-  const showUI = phase === "ready";
+    const VR = VIVID.map(hexToRgb);
+    const BLUE = [0, 113, 179];
+    const GLOW_C = [175, 218, 255];
+    const img = new window.Image();
+    const timers: number[] = [];
 
-  // Interpolate colors based on revealProgress
-  const textColor = `rgb(${Math.round(255 - revealProgress * 245)}, ${Math.round(255 - revealProgress * 245)}, ${Math.round(255 - revealProgress * 245)})`;
-  const accentOrWhite = revealProgress > 0.5 ? "#0071B3" : "#ffffff";
+    let W = 0, H = 0, DPR = 1, logoW = 0;
+    let particles: Particle[] = [];
+    let t = 0, raf = 0, tFlash = -1, running = true, finished = false;
+    const MAX = 7000;
+
+    const lock = () => { document.body.style.overflow = "hidden"; };
+    const unlock = () => { document.body.style.overflow = ""; };
+
+    const size = () => {
+      const r = box.getBoundingClientRect();
+      W = Math.round(r.width); H = Math.round(r.height);
+      DPR = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = W * DPR; canvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      oc.width = W; oc.height = H;
+    };
+    const colorFor = (nx: number, ny: number) => {
+      let i = Math.floor((nx * 4 + ny * 1.6 + 0.8 * Math.sin(nx * 11 + ny * 6)) * VR.length);
+      i = ((i % VR.length) + VR.length) % VR.length;
+      return VR[i].slice();
+    };
+    const buildPoints = () => {
+      logoW = W * 0.82;
+      const lh = logoW / LOGO_AR, lx = (W - logoW) / 2, ly = (H - lh) / 2;
+      octx.clearRect(0, 0, W, H);
+      octx.drawImage(img, lx, ly, logoW, lh);
+      const d = octx.getImageData(0, 0, W, H).data;
+      const pts: number[][] = [];
+      const step = Math.max(2, Math.round(W / 340));
+      for (let y = 0; y < H; y += step)
+        for (let x = 0; x < W; x += step)
+          if (d[(y * W + x) * 4 + 3] > 110) pts.push([x, y]);
+      return pts;
+    };
+    const ease = (p: number) => p * p * (3 - 2 * p);
+
+    // 左上ヘッダーへドック → 通常ページへ
+    const dockAndReveal = () => {
+      const crisp = crispRef.current;
+      const headerImg = document.querySelector("header a img") as HTMLElement | null;
+      if (crisp && headerImg) {
+        const s = crisp.getBoundingClientRect();
+        const d = headerImg.getBoundingClientRect();
+        const scale = d.width / s.width;
+        const dx = (d.left + d.width / 2) - (s.left + s.width / 2);
+        const dy = (d.top + d.height / 2) - (s.top + s.height / 2);
+        box.style.transition = "transform .85s cubic-bezier(.7,0,.2,1)";
+        box.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      }
+      timers.push(window.setTimeout(() => {
+        setReady(true);
+        if (overlay) { overlay.style.transition = "opacity .5s ease"; overlay.style.opacity = "0"; }
+        unlock();
+      }, crisp && headerImg ? 760 : 0));
+      timers.push(window.setTimeout(() => setShowOverlay(false), crisp && headerImg ? 1320 : 450));
+    };
+
+    // 粒子 → くっきり青ロゴ へクロスフェード後にドック
+    const toCrispThenDock = () => {
+      if (finished) return;
+      finished = true; running = false; cancelAnimationFrame(raf);
+      const t0 = performance.now();
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / 420);
+        setLogoReveal(k);
+        canvas.style.opacity = String(1 - k);
+        if (k < 1) requestAnimationFrame(step); else dockAndReveal();
+      };
+      requestAnimationFrame(step);
+    };
+
+    const loop = () => {
+      if (!running) return;
+      t++;
+      const settleFrames = 200, KMAX = 0.06, damp = 0.9;
+      ctx.globalCompositeOperation = "source-over";
+      if (t === 1) { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H); }
+      else { ctx.fillStyle = "rgba(255,255,255,0.12)"; ctx.fillRect(0, 0, W, H); }
+
+      const fa = tFlash >= 0 ? t - tFlash : -1;
+      const glow = fa >= 0 ? Math.max(0, Math.sin(Math.min(1, fa / 18) * Math.PI)) : 0;
+      const blueP = tFlash >= 0 ? Math.min(1, Math.max(0, (fa - 4) / 40)) : 0;
+
+      let settled = 0;
+      for (let i = 0; i < particles.length; i++) {
+        const q = particles[i];
+        const e = ease(Math.min(1, Math.max(0, (t - q.delay) / settleFrames)));
+        const k = 0.004 + e * KMAX, wind = 1 - e;
+        q.vx = (q.vx + (q.tx - q.x) * k + (Math.sin(q.y * 0.011 + t * 0.02) * 0.7 * wind + 0.9 * wind)) * damp;
+        q.vy = (q.vy + (q.ty - q.y) * k + Math.cos(q.x * 0.011 - t * 0.018) * 0.7 * wind) * damp;
+        q.x += q.vx; q.y += q.vy;
+        const dx = q.tx - q.x, dy = q.ty - q.y, near = dx * dx + dy * dy < 3.5;
+        if (near) { settled++; q.ph += 0.045; q.x = q.tx + Math.sin(q.ph) * 0.5; q.y = q.ty + Math.cos(q.ph * 0.9) * 0.5; }
+        let col = q.c;
+        if (blueP > 0) col = [col[0] + (BLUE[0] - col[0]) * blueP, col[1] + (BLUE[1] - col[1]) * blueP, col[2] + (BLUE[2] - col[2]) * blueP];
+        if (glow > 0) col = [col[0] + (GLOW_C[0] - col[0]) * glow * 0.85, col[1] + (GLOW_C[1] - col[1]) * glow * 0.85, col[2] + (GLOW_C[2] - col[2]) * glow * 0.85];
+        ctx.fillStyle = "rgb(" + (col[0] | 0) + "," + (col[1] | 0) + "," + (col[2] | 0) + ")";
+        ctx.globalAlpha = 0.95;
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, (near ? 1.5 : 2.0) + glow * 2.6, 0, 6.283);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      if (tFlash < 0 && settled > particles.length * 0.985 && t > settleFrames * 0.7) tFlash = t;
+      if (fa >= 0 && fa < 30) {
+        const a = Math.max(0, 1 - fa / 30);
+        ctx.strokeStyle = "rgba(0,150,220," + a * 0.5 + ")";
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(W / 2, H / 2, logoW * 0.5 * (0.7 + fa * 0.05), 0, 6.283); ctx.stroke();
+      }
+      if (fa > 70) { toCrispThenDock(); return; }
+      raf = requestAnimationFrame(loop);
+    };
+
+    const begin = () => {
+      size();
+      let pts = buildPoints();
+      if (pts.length === 0) { setReady(true); setShowOverlay(false); unlock(); return; }
+      if (pts.length > MAX) {
+        const s = pts.length / MAX, o: number[][] = [];
+        for (let i = 0; i < pts.length; i += s) o.push(pts[i | 0]);
+        pts = o;
+      }
+      particles = pts.map((p) => ({
+        tx: p[0], ty: p[1], x: -Math.random() * W * 0.6 - 40, y: p[1] + (Math.random() - 0.5) * H * 0.9,
+        vx: 0.4 + Math.random() * 1.0, vy: 0, c: colorFor(p[0] / W, p[1] / H), ph: Math.random() * 6.283, delay: Math.random() * 70,
+      }));
+      t = 0; tFlash = -1;
+      lock();
+      raf = requestAnimationFrame(loop);
+    };
+
+    img.onload = begin;
+    img.onerror = () => { setReady(true); setShowOverlay(false); unlock(); };
+    img.src = LOGO_SRC;
+
+    timers.push(window.setTimeout(toCrispThenDock, 6000)); // セーフティ
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      timers.forEach((x) => window.clearTimeout(x));
+      unlock();
+    };
+  }, [showOverlay]);
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
-      {/* Blue background — starts fully visible, covers hero images initially */}
-      <div
-        className="absolute inset-0 z-[2] bg-ekkyo-accent transition-none"
-        style={{ opacity: 1 - revealProgress }}
-      />
-
-      {/* Background images — always rendered but hidden behind blue */}
-      <motion.div
-        className="absolute inset-0 z-[1]"
-        style={showUI ? { y: bgY } : {}}
-      >
-        {heroImages.map((src, i) => (
-          <div
-            key={src}
-            className={cn(
-              "absolute inset-0 transition-opacity duration-[2000ms]",
-              i === current ? "opacity-100" : "opacity-0"
-            )}
+    <>
+      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-white px-6">
+        <motion.div style={{ y: textY, opacity: fade }} className="relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 14 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <Image
-              src={src}
-              alt=""
-              fill
-              className="object-cover transition-transform duration-[6000ms] ease-out"
-              style={{
-                transform: i === current && phase === "ready" ? "scale(1.06)" : "scale(1)",
-              }}
-              sizes="100vw"
-              priority={i === 0}
+            <h1 className="mx-auto max-w-4xl text-[1.5rem] font-bold leading-[1.3] tracking-tight text-ekkyo-black sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="text-ekkyo-accent">面白そう</span>を開拓せよ、
+              <br />
+              <span className="text-ekkyo-accent">面白そう</span>では終わらせない。
+            </h1>
+            <p className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base">
+              好奇心と創造性で領域を越えていくクリエイティブユニット。
+            </p>
+            <div className="mt-12 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/portfolio"
+                className="group inline-flex items-center gap-2 bg-ekkyo-accent px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-white transition-all hover:bg-ekkyo-accent-dark"
+              >
+                PORTFOLIO
+                <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+              </Link>
+              <Link
+                href="/media"
+                className="inline-flex items-center gap-2 border border-ekkyo-black/20 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-ekkyo-black transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
+              >
+                MEDIA
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: ready ? 1 : 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-[9px] tracking-[0.3em] text-ekkyo-gray">SCROLL</p>
+            <motion.div
+              className="h-8 w-px bg-gradient-to-b from-ekkyo-gray/40 to-transparent"
+              animate={{ scaleY: [0, 1, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              style={{ transformOrigin: "top" }}
             />
           </div>
-        ))}
-      </motion.div>
-
-      {/* White overlay — fades in as blue fades out */}
-      <div
-        className="absolute inset-0 z-[3] bg-white/80 transition-none"
-        style={{ opacity: revealProgress }}
-      />
-
-      {/* Content */}
-      <motion.div
-        className="relative z-10 px-6 text-center"
-        style={showUI ? { y: textY, opacity } : {}}
-      >
-        {/* Org name — appears after reveal */}
-        <motion.p
-          className="mb-6 text-[11px] font-medium tracking-[0.4em]"
-          style={{ color: accentOrWhite }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showUI ? 1 : 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          一般社団法人 EKKYO.HUB
-        </motion.p>
-
-        {/* Main heading — typewriter then stays */}
-        <h1 className="mx-auto max-w-4xl text-[1.35rem] font-bold leading-[1.3] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-          <span className="inline-block" style={{ color: textColor }}>
-            <span style={{ color: accentOrWhite }}>
-              {typedLine1.slice(0, 4)}
-            </span>
-            {typedLine1.slice(4)}
-            {typedLine1.length > 0 && typedLine1.length < line1Chars.length && (
-              <motion.span
-                className="ml-0.5 inline-block h-[1em] w-[2px] align-middle bg-current"
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              />
-            )}
-          </span>
-          <br />
-          <span className="inline-block" style={{ color: textColor }}>
-            <span style={{ color: accentOrWhite }}>
-              {typedLine2.slice(0, 4)}
-            </span>
-            {typedLine2.slice(4)}
-            {typedLine2.length > 0 && typedLine2.length < line2Chars.length && (
-              <motion.span
-                className="ml-0.5 inline-block h-[1em] w-[2px] align-middle bg-current"
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              />
-            )}
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <motion.p
-          className="mx-auto mt-8 max-w-lg text-sm leading-[1.8] text-ekkyo-gray sm:text-base"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showUI ? 1 : 0 }}
-          transition={{ duration: 0.8, delay: showUI ? 0.3 : 0 }}
-        >
-          好奇心と創造性で領域を越えていくクリエイティブユニット。
-        </motion.p>
-
-        {/* Buttons */}
-        <motion.div
-          className="mt-12 flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showUI ? 1 : 0 }}
-          transition={{ duration: 0.8, delay: showUI ? 0.5 : 0 }}
-        >
-          <Link
-            href="/portfolio"
-            className="group inline-flex items-center gap-2 bg-ekkyo-accent px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-white transition-all hover:bg-ekkyo-accent-dark"
-          >
-            PORTFOLIO
-            <span className="transition-transform group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
-          <Link
-            href="/media"
-            className="inline-flex items-center gap-2 border border-ekkyo-black/20 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-ekkyo-black transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
-          >
-            MEDIA
-          </Link>
         </motion.div>
-      </motion.div>
+      </section>
 
-      {/* Slide indicators */}
-      <motion.div
-        className="absolute bottom-24 left-1/2 z-10 flex -translate-x-1/2 gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showUI ? 1 : 0 }}
-        transition={{ delay: 0.6 }}
-      >
-        {heroImages.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={cn(
-              "h-1.5 rounded-full transition-all duration-500",
-              i === current
-                ? "w-8 bg-ekkyo-accent"
-                : "w-1.5 bg-ekkyo-black/20 hover:bg-ekkyo-black/40"
-            )}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showUI ? 1 : 0 }}
-        transition={{ delay: 0.8 }}
-      >
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-[9px] tracking-[0.3em] text-ekkyo-gray">
-            SCROLL
-          </p>
-          <motion.div
-            className="h-8 w-[1px] bg-gradient-to-b from-ekkyo-gray/40 to-transparent"
-            animate={{ scaleY: [0, 1, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            style={{ transformOrigin: "top" }}
-          />
+      {showOverlay && (
+        <div
+          ref={overlayRef}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+        >
+          <div
+            ref={boxRef}
+            className="relative"
+            style={{ width: "min(560px, 80vw)", aspectRatio: "2 / 1", transformOrigin: "center" }}
+          >
+            <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" style={{ opacity: logoReveal }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img ref={crispRef} src={LOGO_SRC} alt="" className="h-auto w-[82%]" />
+            </div>
+          </div>
         </div>
-      </motion.div>
-    </section>
+      )}
+    </>
   );
 }
