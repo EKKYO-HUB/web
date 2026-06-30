@@ -28,6 +28,7 @@ const config: Config = {
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
         "slide-up": "slideUp 0.6s ease-out forwards",
+        blink: "blink 1.4s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -37,6 +38,10 @@ const config: Config = {
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(24px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.35" },
         },
       },
     },
