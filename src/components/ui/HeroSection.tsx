@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils";
 /* ──────────────────────────────────────────────────────────
    オープニング演出（初回のみ・全画面オーバーレイ）:
    カラフルな風の粒子が EKKYO.HUB ロゴを形づくり → 着地で光り →
-   ブランドの青ロゴに収束 → 左上（ヘッダーのロゴ位置）へ吸い込まれて
-   通常のページ（ヘッダー＋ヒーロー本文）に着地する。
-   ・再訪問者は sessionStorage でスキップ
-   ・prefers-reduced-motion 時はスキップ（通常ページを即表示）
+   ブランドの青ロゴに収束 → 左上ヘッダーのロゴ位置へ吸い込まれて
+   通常のページ（ヘッダー＋背景写真スライドショー＋本文）に着地する。
+   ・キャンバスは全画面・透明（矩形の境界や青みの溜まりを出さない）
+   ・再訪問者は sessionStorage でスキップ / reduced-motion はスキップ
    ────────────────────────────────────────────────────────── */
 
 const LOGO_SRC = "/images/logo/EKKYO.HUB_横長_blue.svg";
@@ -41,10 +41,10 @@ export default function HeroSection() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [ready, setReady] = useState(false);
   const [logoReveal, setLogoReveal] = useState(0);
+  const [logoPx, setLogoPx] = useState(0);
   const [current, setCurrent] = useState(0);
 
   const overlayRef = useRef<HTMLDivElement>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const crispRef = useRef<HTMLImageElement>(null);
 
@@ -53,32 +53,25 @@ export default function HeroSection() {
   const bgY = useTransform(scrollY, [0, 800], [0, 120]);
   const fade = useTransform(scrollY, [0, 400], [1, 0]);
 
-  // 背景写真スライドショー（着地後に自動切替）
-  useEffect(() => {
-    if (!ready) return;
-    const id = window.setInterval(
-      () => setCurrent((p) => (p + 1) % HERO_IMAGES.length),
-      6000
-    );
-    return () => window.clearInterval(id);
-  }, [ready]);
-
-  // 初回判定
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (sessionStorage.getItem("hero-seen") || reduce) {
-      setReady(true);
-      return;
-    }
+    if (sessionStorage.getItem("hero-seen") || reduce) { setReady(true); return; }
     sessionStorage.setItem("hero-seen", "1");
     setShowOverlay(true);
   }, []);
 
+  // 背景写真スライドショー（着地後に自動切替）
+  useEffect(() => {
+    if (!ready) return;
+    const id = window.setInterval(() => setCurrent((p) => (p + 1) % HERO_IMAGES.length), 6000);
+    return () => window.clearInterval(id);
+  }, [ready]);
+
   // オープニング演出
   useEffect(() => {
     if (!showOverlay) return;
-    const canvas = canvasRef.current, box = boxRef.current, overlay = overlayRef.current;
-    if (!canvas || !box || !overlay) return;
+    const canvas = canvasRef.current, overlay = overlayRef.current;
+    if (!canvas || !overlay) return;
     const ctx = canvas.getContext("2d");
     const octx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
     if (!ctx || !octx) { setReady(true); setShowOverlay(false); return; }
@@ -90,21 +83,23 @@ export default function HeroSection() {
     const img = new window.Image();
     const timers: number[] = [];
 
-    let W = 0, H = 0, DPR = 1, logoW = 0;
+    let W = 0, H = 0, DPR = 1, logoW = 0, logoH = 0, lx = 0, ly = 0;
     let particles: Particle[] = [];
     let t = 0, raf = 0, tFlash = -1, running = true, finished = false;
-    const MAX = 7000;
-
-    const lock = () => { document.body.style.overflow = "hidden"; };
+    const MAX = 6500;
     const unlock = () => { document.body.style.overflow = ""; };
 
     const size = () => {
-      const r = box.getBoundingClientRect();
+      const r = overlay.getBoundingClientRect();
       W = Math.round(r.width); H = Math.round(r.height);
       DPR = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = W * DPR; canvas.height = H * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       oc.width = W; oc.height = H;
+      logoW = Math.min(560, W * 0.8, H * 0.5 * LOGO_AR);
+      logoH = logoW / LOGO_AR;
+      lx = (W - logoW) / 2; ly = (H - logoH) / 2;
+      setLogoPx(logoW);
     };
     const colorFor = (nx: number, ny: number) => {
       let i = Math.floor((nx * 4 + ny * 1.6 + 0.8 * Math.sin(nx * 11 + ny * 6)) * VR.length);
@@ -112,21 +107,18 @@ export default function HeroSection() {
       return VR[i].slice();
     };
     const buildPoints = () => {
-      logoW = W * 0.82;
-      const lh = logoW / LOGO_AR, lx = (W - logoW) / 2, ly = (H - lh) / 2;
       octx.clearRect(0, 0, W, H);
-      octx.drawImage(img, lx, ly, logoW, lh);
+      octx.drawImage(img, lx, ly, logoW, logoH);
       const d = octx.getImageData(0, 0, W, H).data;
       const pts: number[][] = [];
-      const step = Math.max(2, Math.round(W / 340));
-      for (let y = 0; y < H; y += step)
-        for (let x = 0; x < W; x += step)
+      const step = Math.max(2, Math.round(logoW / 260));
+      for (let y = Math.floor(ly); y < ly + logoH; y += step)
+        for (let x = Math.floor(lx); x < lx + logoW; x += step)
           if (d[(y * W + x) * 4 + 3] > 110) pts.push([x, y]);
       return pts;
     };
     const ease = (p: number) => p * p * (3 - 2 * p);
 
-    // 左上ヘッダーへドック → 通常ページへ
     const dockAndReveal = () => {
       const crisp = crispRef.current;
       const headerImg = document.querySelector("header a img") as HTMLElement | null;
@@ -136,18 +128,19 @@ export default function HeroSection() {
         const scale = d.width / s.width;
         const dx = (d.left + d.width / 2) - (s.left + s.width / 2);
         const dy = (d.top + d.height / 2) - (s.top + s.height / 2);
-        box.style.transition = "transform .85s cubic-bezier(.7,0,.2,1)";
-        box.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+        crisp.style.transformOrigin = "center";
+        crisp.style.transition = "transform .85s cubic-bezier(.7,0,.2,1)";
+        crisp.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
       }
+      const hasDock = !!(crisp && document.querySelector("header a img"));
       timers.push(window.setTimeout(() => {
         setReady(true);
         if (overlay) { overlay.style.transition = "opacity .5s ease"; overlay.style.opacity = "0"; }
         unlock();
-      }, crisp && headerImg ? 760 : 0));
-      timers.push(window.setTimeout(() => setShowOverlay(false), crisp && headerImg ? 1320 : 450));
+      }, hasDock ? 770 : 0));
+      timers.push(window.setTimeout(() => setShowOverlay(false), hasDock ? 1330 : 450));
     };
 
-    // 粒子 → くっきり青ロゴ へクロスフェード後にドック
     const toCrispThenDock = () => {
       if (finished) return;
       finished = true; running = false; cancelAnimationFrame(raf);
@@ -165,9 +158,7 @@ export default function HeroSection() {
       if (!running) return;
       t++;
       const settleFrames = 200, KMAX = 0.06, damp = 0.9;
-      ctx.globalCompositeOperation = "source-over";
-      if (t === 1) { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H); }
-      else { ctx.fillStyle = "rgba(255,255,255,0.12)"; ctx.fillRect(0, 0, W, H); }
+      ctx.clearRect(0, 0, W, H); // 透明: 背景に色を溜めない（青みなし・矩形なし）
 
       const fa = tFlash >= 0 ? t - tFlash : -1;
       const glow = fa >= 0 ? Math.max(0, Math.sin(Math.min(1, fa / 18) * Math.PI)) : 0;
@@ -186,11 +177,16 @@ export default function HeroSection() {
         let col = q.c;
         if (blueP > 0) col = [col[0] + (BLUE[0] - col[0]) * blueP, col[1] + (BLUE[1] - col[1]) * blueP, col[2] + (BLUE[2] - col[2]) * blueP];
         if (glow > 0) col = [col[0] + (GLOW_C[0] - col[0]) * glow * 0.85, col[1] + (GLOW_C[1] - col[1]) * glow * 0.85, col[2] + (GLOW_C[2] - col[2]) * glow * 0.85];
-        ctx.fillStyle = "rgb(" + (col[0] | 0) + "," + (col[1] | 0) + "," + (col[2] | 0) + ")";
-        ctx.globalAlpha = 0.95;
-        ctx.beginPath();
-        ctx.arc(q.x, q.y, (near ? 1.5 : 2.0) + glow * 2.6, 0, 6.283);
-        ctx.fill();
+        const cs = "rgb(" + (col[0] | 0) + "," + (col[1] | 0) + "," + (col[2] | 0) + ")";
+        const rr = (near ? 1.5 : 2.0) + glow * 2.6;
+        // 動いている間だけ短い流線（風）: 背景に溜まらないので青みは出ない
+        const sp = q.vx * q.vx + q.vy * q.vy;
+        if (!near && sp > 1.4) {
+          ctx.strokeStyle = cs; ctx.globalAlpha = 0.32; ctx.lineWidth = rr * 0.9;
+          ctx.beginPath(); ctx.moveTo(q.x - q.vx * 2.6, q.y - q.vy * 2.6); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+        ctx.fillStyle = cs; ctx.globalAlpha = 0.95;
+        ctx.beginPath(); ctx.arc(q.x, q.y, rr, 0, 6.283); ctx.fill();
       }
       ctx.globalAlpha = 1;
 
@@ -215,18 +211,18 @@ export default function HeroSection() {
         pts = o;
       }
       particles = pts.map((p) => ({
-        tx: p[0], ty: p[1], x: -Math.random() * W * 0.6 - 40, y: p[1] + (Math.random() - 0.5) * H * 0.9,
-        vx: 0.4 + Math.random() * 1.0, vy: 0, c: colorFor(p[0] / W, p[1] / H), ph: Math.random() * 6.283, delay: Math.random() * 70,
+        tx: p[0], ty: p[1], x: -Math.random() * W * 0.5 - 40, y: p[1] + (Math.random() - 0.5) * H * 0.7,
+        vx: 0.4 + Math.random() * 1.0, vy: 0, c: colorFor((p[0] - lx) / logoW, (p[1] - ly) / logoH),
+        ph: Math.random() * 6.283, delay: Math.random() * 70,
       }));
       t = 0; tFlash = -1;
-      lock();
+      document.body.style.overflow = "hidden";
       raf = requestAnimationFrame(loop);
     };
 
     img.onload = begin;
     img.onerror = () => { setReady(true); setShowOverlay(false); unlock(); };
     img.src = LOGO_SRC;
-
     timers.push(window.setTimeout(toCrispThenDock, 6000)); // セーフティ
 
     return () => {
@@ -288,7 +284,7 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="/media"
-                className="inline-flex items-center gap-2 border border-ekkyo-black/20 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-ekkyo-black transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
+                className="inline-flex items-center gap-2 border border-ekkyo-black/20 bg-white/50 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-ekkyo-black backdrop-blur-sm transition-all hover:border-ekkyo-accent hover:text-ekkyo-accent"
               >
                 MEDIA
               </Link>
@@ -335,20 +331,17 @@ export default function HeroSection() {
       </section>
 
       {showOverlay && (
-        <div
-          ref={overlayRef}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
-        >
-          <div
-            ref={boxRef}
-            className="relative"
-            style={{ width: "min(560px, 80vw)", aspectRatio: "2 / 1", transformOrigin: "center" }}
-          >
-            <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" style={{ opacity: logoReveal }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img ref={crispRef} src={LOGO_SRC} alt="" className="h-auto w-[82%]" />
-            </div>
+        <div ref={overlayRef} className="fixed inset-0 z-[100] bg-white">
+          <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              ref={crispRef}
+              src={LOGO_SRC}
+              alt=""
+              className="h-auto"
+              style={{ width: logoPx ? `${logoPx}px` : "min(560px,80vw)", opacity: logoReveal }}
+            />
           </div>
         </div>
       )}
