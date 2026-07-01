@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -330,21 +331,23 @@ export default function HeroSection() {
         </motion.div>
       </section>
 
-      {showOverlay && (
-        <div ref={overlayRef} className="fixed inset-0 z-[100] bg-white">
-          <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              ref={crispRef}
-              src={LOGO_SRC}
-              alt=""
-              className="h-auto"
-              style={{ width: logoPx ? `${logoPx}px` : "min(560px,80vw)", opacity: logoReveal }}
-            />
-          </div>
-        </div>
-      )}
+      {showOverlay && typeof document !== "undefined" &&
+        createPortal(
+          <div ref={overlayRef} className="fixed inset-0 z-[100] bg-white">
+            <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                ref={crispRef}
+                src={LOGO_SRC}
+                alt=""
+                className="h-auto"
+                style={{ width: logoPx ? `${logoPx}px` : "min(560px,80vw)", opacity: logoReveal }}
+              />
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }
