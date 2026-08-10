@@ -5,7 +5,6 @@ import SummitHero from "@/components/summit2026/SummitHero";
 import StickyCta from "@/components/summit2026/StickyCta";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
-import type { StainPreset } from "@/components/summit2026/MamireroLogoLoop";
 import { shipporiMincho } from "./fonts";
 
 /* ──────────────────────────────────────────────────────────
@@ -14,9 +13,6 @@ import { shipporiMincho } from "./fonts";
    例: const REGISTRATION_URL = "https://ekkyo-hub.peatix.com/...";
    ────────────────────────────────────────────────────────── */
 const REGISTRATION_URL: string | null = null;
-
-/* ロゴの「塗れ」質感プリセット: "mud"(泥) / "sumi"(墨) — 1語で切替 */
-const STAIN: StainPreset = "mud";
 
 const EVENT = {
   dateLabel: "2026.10.10 – 12",
@@ -143,8 +139,8 @@ export default function Summit2026Page() {
 
       <SummitHeader registrationUrl={REGISTRATION_URL} />
 
-      {/* ════════ HERO: 濁り水にまみれろが浮かぶ ════════ */}
-      <SummitHero stain={STAIN} />
+      {/* ════════ HERO: KVの上でまみれろが溶けては戻る ════════ */}
+      <SummitHero />
 
       {/* ════════ ページ内ナビ（追従・現在地ハイライト） ════════ */}
       <SummitSectionNav items={SECTION_NAV} tone="mamire" offset={120} />
