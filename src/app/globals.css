@@ -41,4 +41,95 @@
   }
 }
 
+/* ────────────────────────────────────────────────────────
+   SUMMIT 2026「まみれろ」専用スタイル
+   水（琵琶湖）と汚れ（泥・墨）の質感・ロゴが塗れていくループ
+   ──────────────────────────────────────────────────────── */
+
+/* 紙・水面の粒子ノイズ（静的 feTurbulence dataURI、負荷ゼロ） */
+.mamire-noise {
+  position: relative;
+}
+.mamire-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ロゴの「溶けて戻る」演出は MamireroLogoLoop.tsx 内の
+   SVGフィルタ(feTurbulence + feDisplacementMap + SMIL)で完結。 */
+
+/* ページ到着時の没入導入
+   ── 濁った水中から浮上し、視界が晴れていくイメージ ── */
+
+/* KV: ぼやけて大きく歪んだ状態からピントが合いながら寄る */
+@keyframes mamire-kv-in {
+  0% {
+    opacity: 0;
+    transform: scale(1.16);
+    filter: blur(22px) saturate(0.7);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) saturate(1);
+  }
+}
+.mamire-kv-in {
+  animation: mamire-kv-in 3.6s cubic-bezier(0.16, 0.7, 0.24, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* 白いベールが引いていく（水面を抜ける瞬間） */
+@keyframes mamire-veil-out {
+  0% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.mamire-veil {
+  animation: mamire-veil-out 2.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ロックアップが少し遅れて浮かび上がる */
+@keyframes mamire-rise-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.mamire-rise-in {
+  animation: mamire-rise-in 1.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 2.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mamire-kv-in,
+  .mamire-rise-in {
+    animation: none;
+  }
+  .mamire-veil {
+    display: none;
+  }
+}
+
 

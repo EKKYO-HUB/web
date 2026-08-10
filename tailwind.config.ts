@@ -18,12 +18,22 @@ const config: Config = {
           orange: "#EB5505",
           "orange-dark": "#c2470a",
         },
+        /* SUMMIT 2026「まみれろ」— 水と汚れのパレット（湖面→水中→水底） */
+        mamire: {
+          "water-pale": "#E6EDEA", // 薄い白濁水（本文背景）
+          water: "#BCCFCB", // 濁り水（ヒーロー）
+          "water-deep": "#20302F", // 水底（クロージング・フッター）
+          ink: "#1F2B2C", // 深い墨（本文テキスト）
+          mud: "#5A4632", // 泥（強罫線・染み）
+          silt: "#7C6A50", // 沈殿（サブテキスト・細罫線）
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "var(--font-noto-sans-jp)", "sans-serif"],
         display: ["var(--font-inter)", "sans-serif"],
         montserrat: ["var(--font-montserrat)", "sans-serif"],
         chunk: ["'ChunkFive'", "serif"],
+        mincho: ["var(--font-shippori)", "'Hiragino Mincho ProN'", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.6s ease-out forwards",
