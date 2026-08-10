@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MamireroLogoLoop from "./MamireroLogoLoop";
+import ArrivalVeil from "./ArrivalVeil";
 
 /* ヒーロー: KV（歪む琵琶湖）を全面に、白い「まみれろ」が溶けては戻る。
    KV・ロゴとも色には手を加えない（オーバーレイや着色なし）。 */
@@ -22,6 +23,9 @@ export default function SummitHero() {
         {/* 次セクションへの沈み込み（最下端のみ） */}
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-mamire-water-pale" />
       </div>
+
+      {/* 到着時の白いベール（水面を抜ける瞬間・演出後にDOMから除去される） */}
+      <ArrivalVeil />
 
       {/* まみれろ（溶けて戻るループ・原色のまま） */}
       <div className="relative">

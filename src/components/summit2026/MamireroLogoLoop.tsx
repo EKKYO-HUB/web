@@ -12,22 +12,22 @@ import { cn } from "@/lib/utils";
    - ノイズ特性(baseFrequency)は復元静止中に discrete 切替（切替は見えない）
    - reduced-motion: 変形なしの静止ロゴ / 画面外: pauseAnimations() */
 
-const INTRO_DUR = "2.6s";
+const INTRO_DUR = "3.2s";
 
-/* 60s ループ: 5ブロック×12s（静止2.4s → 立ち上がり4.8s → 復元4.8s） */
+/* 60s ループ: 5ブロック×12s（静止0.5s → 立ち上がり5.75s → 復元5.75s） */
 const SCALE_KEYTIMES =
-  "0;0.04;0.12;0.2;0.24;0.32;0.4;0.44;0.52;0.6;0.64;0.72;0.8;0.84;0.92;1";
+  "0;0.0083;0.1042;0.2;0.2083;0.3042;0.4;0.4083;0.5042;0.6;0.6083;0.7042;0.8;0.8083;0.9042;1";
 const SCALE_VALUES = "0;0;85;0;0;70;0;0;42;0;0;115;0;0;95;0";
 const SCALE_SPLINES = Array(15).fill("0.4 0 0.4 1").join(";");
 
-/* エピソードごとのノイズ特性（静止中に切替）
+/* エピソードごとのノイズ特性（復元の瞬間に切替）
    1: 縦垂れ / 2: 横流れ / 3: 滲み用のゆるい歪み / 4: 細かく砕け / 5: 長い縦筋 */
 const FREQ_KEYTIMES = "0;0.2;0.4;0.6;0.8;1";
 const FREQ_VALUES =
   "0.02 0.007;0.005 0.022;0.011 0.004;0.05 0.04;0.017 0.003;0.02 0.007";
 
 /* 崩れ3で強くぼかして「ぼやっと広がる」、崩れ5でも軽く滲ませる */
-const BLUR_KEYTIMES = "0;0.44;0.52;0.6;0.84;0.92;1";
+const BLUR_KEYTIMES = "0;0.4083;0.5042;0.6;0.8083;0.9042;1";
 const BLUR_VALUES = "0;0;6.5;0;0;2.5;0";
 
 const DUR = "60s";
@@ -107,12 +107,13 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
           >
             {animate && (
               <>
-                {/* 入場: 溶けきった状態 → かたちを取り戻す */}
+                {/* 入場: 完全に溶けきった状態 → 2段階で結像する（強めの導入） */}
                 <animate
                   attributeName="scale"
-                  values="130;0"
+                  values="210;18;0"
+                  keyTimes="0;0.62;1"
                   calcMode="spline"
-                  keySplines="0.2 0.6 0.3 1"
+                  keySplines="0.16 0.7 0.3 1;0.4 0 0.2 1"
                   begin="0s"
                   dur={INTRO_DUR}
                   fill="freeze"
@@ -136,9 +137,10 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
               <>
                 <animate
                   attributeName="stdDeviation"
-                  values="7;0"
+                  values="13;2;0"
+                  keyTimes="0;0.62;1"
                   calcMode="spline"
-                  keySplines="0.2 0.6 0.3 1"
+                  keySplines="0.16 0.7 0.3 1;0.4 0 0.2 1"
                   begin="0s"
                   dur={INTRO_DUR}
                   fill="freeze"
