@@ -204,6 +204,8 @@ export default function HeroSection() {
 
     const begin = () => {
       size();
+      // 非表示タブ等でレイアウト幅0のまま計測すると getImageData が例外を投げるため即座に着地状態へ
+      if (W === 0 || H === 0) { setReady(true); setShowOverlay(false); unlock(); return; }
       let pts = buildPoints();
       if (pts.length === 0) { setReady(true); setShowOverlay(false); unlock(); return; }
       if (pts.length > MAX) {

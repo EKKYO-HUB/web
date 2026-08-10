@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Noto_Sans_JP, Montserrat } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import PageProgressBar from "@/components/ui/PageProgressBar";
 import "./globals.css";
 
@@ -77,7 +78,9 @@ export default function RootLayout({
         <PageProgressBar />
         <Header />
         <main className="pt-[69px]">{children}</main>
-        <Footer />
+        <ConditionalFooter>
+          <Footer />
+        </ConditionalFooter>
       </body>
     </html>
   );

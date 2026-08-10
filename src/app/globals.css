@@ -41,4 +41,131 @@
   }
 }
 
+/* ────────────────────────────────────────────────────────
+   SUMMIT 2026「まみれろ」専用スタイル
+   水（琵琶湖）と汚れ（泥・墨）の質感・ロゴが塗れていくループ
+   ──────────────────────────────────────────────────────── */
+
+/* 紙・水面の粒子ノイズ（静的 feTurbulence dataURI、負荷ゼロ） */
+.mamire-noise {
+  position: relative;
+}
+.mamire-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ロゴを型抜きにする染みレイヤー */
+.mamire-stain-layer {
+  -webkit-mask-image: url("/images/summit2026/mamirero-mask.svg");
+  mask-image: url("/images/summit2026/mamirero-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+/* mask 非対応環境では染みレイヤーを消し、下地ロゴをフル表示 */
+@supports not ((mask-image: url("")) or (-webkit-mask-image: url(""))) {
+  .mamire-stain-layer {
+    display: none;
+  }
+  .mamire-logo-base {
+    opacity: 1 !important;
+  }
+}
+
+/* 泥/墨ブロブ — パリンドローム(0%=100%)の単一周期でループの継ぎ目を消す */
+.mamire-blob {
+  position: absolute;
+  left: -15%;
+  top: -10%;
+  width: 130%;
+  height: 120%;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    var(--stain) 62%,
+    transparent 76%
+  );
+  will-change: transform;
+}
+@keyframes mamire-blob-a {
+  0%,
+  100% {
+    transform: translate3d(-12%, 52%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(7%, -16%, 0) scale(1.28);
+  }
+}
+@keyframes mamire-blob-b {
+  0%,
+  100% {
+    transform: translate3d(20%, 64%, 0) scale(0.92);
+  }
+  50% {
+    transform: translate3d(-9%, 0%, 0) scale(1.32);
+  }
+}
+@keyframes mamire-blob-c {
+  0%,
+  100% {
+    transform: translate3d(-5%, 78%, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(11%, 16%, 0) scale(1.5);
+  }
+}
+.mamire-blob-a {
+  animation: mamire-blob-a 9s ease-in-out infinite;
+}
+.mamire-blob-b {
+  animation: mamire-blob-b 9s ease-in-out infinite;
+  animation-delay: -3s;
+}
+.mamire-blob-c {
+  animation: mamire-blob-c 9s ease-in-out infinite;
+  animation-delay: -6s;
+}
+/* 画面外では停止（IntersectionObserverでdata属性を切替） */
+[data-mamire-paused="true"] .mamire-blob {
+  animation-play-state: paused;
+}
+
+/* エッジを泥らしく荒らす（フィルタは静的・動きはtransformのみ） */
+.mamire-rough {
+  filter: url(#mamire-rough);
+}
+@media (max-width: 640px) {
+  /* モバイルは displacement を切って軽量化（blurブロブのみで質感維持） */
+  .mamire-rough {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mamire-blob-a,
+  .mamire-blob-b,
+  .mamire-blob-c {
+    animation: none;
+  }
+  /* 「半分塗れた」静止状態 */
+  .mamire-blob-a {
+    transform: translate3d(-12%, 30%, 0) scale(1.1);
+  }
+  .mamire-blob-b {
+    transform: translate3d(20%, 40%, 0) scale(1.05);
+  }
+  .mamire-blob-c {
+    transform: translate3d(-5%, 52%, 0) scale(1.2);
+  }
+}
+
 
