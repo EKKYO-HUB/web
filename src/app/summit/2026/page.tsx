@@ -42,15 +42,6 @@ const HISTORY = [
   { year: "2026", place: "Biwako", theme: "まみれろ", current: true },
 ];
 
-/* ─── 更新履歴（手動管理: 新しい順に追記） ─── */
-const NEWS = [
-  { date: "2026.08.10", text: "特設サイトを公開しました。" },
-  {
-    date: "2026.06.30",
-    text: "EKKYO.SUMMIT 2026の開催概要を発表しました。今年のテーマは「まみれろ」、舞台は滋賀・琵琶湖です。",
-  },
-];
-
 /* ─── ページ内ナビ ─── */
 const SECTION_NAV = [
   { id: "concept", label: "コンセプト" },
@@ -58,10 +49,8 @@ const SECTION_NAV = [
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
   { id: "program", label: "プログラム" },
-  { id: "people", label: "登壇者" },
   { id: "sponsor", label: "協賛" },
   { id: "access", label: "アクセス" },
-  { id: "news", label: "ニュース" },
   { id: "apply", label: "参加する" },
 ];
 
@@ -347,35 +336,10 @@ export default function Summit2026Page() {
           </div>
         </section>
 
-        {/* ════════ 登壇者（近日公開・にじみプレースホルダ） ════════ */}
-        <section
-          id="people"
-          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
-        >
-          <div className="mx-auto max-w-3xl">
-            <SectionTitle>登壇者</SectionTitle>
-            <p className="max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              問いを携えて場をつくる登壇者・ゲストを、決まり次第この場所で紹介します。
-            </p>
-            <div className="mt-10 grid grid-cols-3 gap-6 sm:grid-cols-6">
-              {[0.5, 0.35, 0.6, 0.3, 0.45, 0.55].map((o, i) => (
-                <div
-                  key={i}
-                  aria-hidden
-                  className="aspect-square rounded-full blur-[1px]"
-                  style={{
-                    background: `radial-gradient(closest-side, rgba(90,70,50,${o}) 55%, transparent 78%)`,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ════════ 協賛・パートナー ════════ */}
         <section
           id="sponsor"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>協賛・パートナー募集</SectionTitle>
@@ -407,7 +371,7 @@ export default function Summit2026Page() {
         {/* ════════ アクセス ════════ */}
         <section
           id="access"
-          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>アクセス</SectionTitle>
@@ -434,30 +398,6 @@ export default function Summit2026Page() {
           </div>
         </section>
 
-        {/* ════════ ニュース（日付＋一行） ════════ */}
-        <section
-          id="news"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
-        >
-          <div className="mx-auto max-w-3xl">
-            <SectionTitle>ニュース</SectionTitle>
-            <ul className="divide-y divide-mamire-silt/30 border-y border-mamire-silt/40">
-              {NEWS.map((n) => (
-                <li
-                  key={n.date + n.text}
-                  className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8"
-                >
-                  <span className="shrink-0 font-montserrat text-sm tracking-wide text-mamire-silt">
-                    {n.date}
-                  </span>
-                  <span className="text-sm leading-[1.9] text-mamire-ink/85">
-                    {n.text}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
       </ConceptPoem>
 
       {/* ════════ 参加する（水底） ════════ */}

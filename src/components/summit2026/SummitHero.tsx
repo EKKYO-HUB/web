@@ -9,8 +9,8 @@ export default function SummitHero() {
       id="top"
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-20 pt-20"
     >
-      {/* キービジュアル（原色のまま） */}
-      <div className="absolute inset-0">
+      {/* キービジュアル（原色のまま・到着時にゆっくり寄りながら現れる） */}
+      <div className="mamire-kv-in absolute inset-0">
         <Image
           src="/images/summit2026/kv.jpg"
           alt=""
@@ -29,7 +29,7 @@ export default function SummitHero() {
       </div>
 
       {/* 大会ロックアップ（日付・会場はロゴ内に含まれる） */}
-      <div className="relative mt-10 flex flex-col items-center">
+      <div className="mamire-rise-in relative mt-10 flex flex-col items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/summit2026/ekkyo-summit-2026.svg"
