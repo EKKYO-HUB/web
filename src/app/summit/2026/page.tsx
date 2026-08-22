@@ -12,7 +12,7 @@ import { shipporiMincho } from "./fonts";
    ヘッダー/追従/末尾すべてのCTAが有効化されます。
    例: const REGISTRATION_URL = "https://ekkyo-hub.peatix.com/...";
    ────────────────────────────────────────────────────────── */
-const REGISTRATION_URL: string | null = null;
+const REGISTRATION_URL: string | null = "https://ekkyosummit2026.peatix.com/";
 
 const EVENT = {
   dateLabel: "2026.10.10 – 12",
