@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 export default function PageProgressBar() {
   const pathname = usePathname();
 
+  // SUMMIT 2025アーカイブは没入型マイクロサイトのためブランド青のバーを出さない
+  if (pathname.startsWith("/summit/2025")) return null;
+
   return (
     <motion.div
       key={pathname}

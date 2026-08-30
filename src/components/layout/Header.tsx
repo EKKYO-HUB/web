@@ -19,8 +19,9 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // SUMMIT 2026 は没入型マイクロサイト（専用ヘッダーを使用）のため共通ヘッダーを出さない
-  if (pathname.startsWith("/summit/2026")) return null;
+  // SUMMIT 2026 / 2025アーカイブ は没入型マイクロサイトのため共通ヘッダーを出さない
+  if (pathname.startsWith("/summit/2026") || pathname.startsWith("/summit/2025"))
+    return null;
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur-xl">

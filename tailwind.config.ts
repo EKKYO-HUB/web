@@ -18,6 +18,17 @@ const config: Config = {
           orange: "#EB5505",
           "orange-dark": "#c2470a",
         },
+        /* SUMMIT 2025「耕せ」アーカイブ — 土と紙のパレット（表土→耕土→深層） */
+        tagayase: {
+          crust: "#4A3A26", // 乾いた表土
+          loam: "#241711", // 耕したばかりの土
+          deep: "#120B07", // 深層の土（背景の最深部）
+          paper: "#F0E7D3", // 和紙（本文・見出し）
+          straw: "#C7B58F", // 藁（サブテキスト）
+          sprout: "#A4B25C", // 芽（アクセント）
+          "sprout-deep": "#77863C",
+          akane: "#C4553A", // 茜（日付・小さな印）
+        },
         /* SUMMIT 2026「まみれろ」— 水と汚れのパレット（湖面→水中→水底） */
         mamire: {
           "water-pale": "#E6EDEA", // 薄い白濁水（本文背景）
