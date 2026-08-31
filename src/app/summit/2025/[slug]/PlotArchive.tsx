@@ -17,7 +17,8 @@ import { DAY_LABELS, type Workshop } from "@/content/summit2025";
 const KANJI = "一二三四五六七八九十".split("");
 function kanjiNo(n: number): string {
   if (n <= 10) return KANJI[n - 1];
-  return "十" + KANJI[n - 11];
+  if (n < 20) return "十" + KANJI[n - 11];
+  return "二十" + (n > 20 ? KANJI[n - 21] : "");
 }
 
 export default function PlotArchive({
