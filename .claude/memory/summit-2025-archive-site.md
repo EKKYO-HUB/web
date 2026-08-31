@@ -30,8 +30,15 @@ WIREDクリエイティブハックアワード等への提出を想定した体
 - `Workshop` 型に `place`（会場）と `credits`（主催/共催/協賛/協力の配列）を追加。旧 `facilitator` は廃止。PlotArchiveのヒーロー下に「会場　◯◯　主催　◯◯」の一行で表示（tiny-labelではなく本文と同じ大きさ・字間で統一、AI感回避の方針に準拠）
 - モバイルの日別レイアウトは区画数が8件超だと3列レンガ状（`cols=3`）に自動切替。2列のままだと10件（DAY2）で縦書き名札同士が重なることが判明したための対応（[[design-no-ai-tells]] 関連ではなく純粋なレイアウト崩れ対策）
 
-**未対応（ユーザーの素材待ち）**:
-- 各ワークショップの concept / archive は空（「記録は準備中」表示になる）
-- [[dummy-text-kotoba]] 「言葉の収穫ワークショップ」にはレイアウト確認用ダミー文が入っている。公開前に必ず差し替え
-- 写真は全区画未登録（public/images/summit2025/<slug>/ に置いて photos に追加）
+**Google Driveからの素材取り込み（2026-08-31）**:
+- ソース: Google Drive「08_WS-ワークショップ」フォルダ（フォルダID `1Da2Q6ksX6teNSg1995DaGQYA8YM7P1zS`、出展者向け企画フォーム回答スプレッドシート `1MvkD3igo6t1LLA6Z6MgPRt9cn3yCZWZveDBKkaXH0uc` が主な情報源）
+- 15件のワークショップの `concept`（種）を、出展者が提出した企画概要文・企画書から実データで記入済み（仮面舞踏会/火星の人/SNOB編集部ごっこ/あ・る/発酵と出会い/発明の舞台裏/社会課題と思考/My Grapes/悩みのタネ/医者の思考/美味しいの在処/ディープウォーク/ととのい/言葉の収穫/NOEMA-NOESIS）。「言葉の収穫」のダミー文はこの時に実データへ差し替え済み
+- 埋まっていないのは opening-session, ekkyo-conference-28, lunch, closing-session, ekkyo-fes の5件（EKKYO.HUB内製セッションのため出展者フォームに情報なし。FES企画書はロジ資料のみでコンセプト文なし）
+- `archive`（実り＝当日の振り返り）は全件未着手。Driveにあるのは開催"前"の企画・準備資料のみで、開催後の振り返りテキストは存在しない
+- kanjiNo関数（Field.tsx / PlotArchive.tsx）に `n=20` で「十十」になるバグがあり、この対応中に発見・修正済み（"二十"を正しく返すよう修正）
+
+**未対応（次にやるべきこと）**:
+- 5件（opening-session等）の concept はEKKYO.HUB内部資料の追加提供待ち
+- archive（当日の振り返り）は全20件とも記録待ち
+- 写真は全区画未登録。DriveのDAY1/DAY2/DAY3/FES/菅平フォルダには出展者提出の団体紹介写真（開催前・Drive内画像ファイル）はあるが「当日の風景」ではないため、当日撮影写真が別途必要
 - OG画像はポートフォリオの summit-2025-ueda.jpg を流用中
