@@ -4,7 +4,17 @@ import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
 import StickyCta from "@/components/summit2026/StickyCta";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
+import ConceptMovie from "@/components/summit2026/ConceptMovie";
+import Timetable from "@/components/summit2026/Timetable";
+import WorkshopHosts from "@/components/summit2026/WorkshopHosts";
+import AiPhoto, { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
+import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
+import {
+  SCHEDULE,
+  WORKSHOP_HOSTS,
+  ORGANIZER_PHOTO,
+} from "@/content/summit2026";
 import { shipporiMincho } from "./fonts";
 
 /* ──────────────────────────────────────────────────────────
@@ -48,7 +58,8 @@ const SECTION_NAV = [
   { id: "outline", label: "開催概要" },
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
-  { id: "program", label: "プログラム" },
+  { id: "program", label: "タイムテーブル" },
+  { id: "workshop", label: "ワークショップ" },
   { id: "sponsor", label: "協賛" },
   { id: "access", label: "アクセス" },
   { id: "apply", label: "参加する" },
@@ -127,6 +138,10 @@ export default function Summit2026Page() {
       />
 
       <SummitHeader registrationUrl={REGISTRATION_URL} />
+      {/* 藍色写真用の SVG フィルタ定義（ページに1回） */}
+      <AiPhotoDefs />
+      {/* スクロールで画面がまみれていく（body直下へポータル） */}
+      <MamireDirt />
 
       {/* ════════ HERO: KVの上でまみれろが溶けては戻る ════════ */}
       <SummitHero />
@@ -211,6 +226,9 @@ export default function Summit2026Page() {
           </div>
         </section>
 
+        {/* ════════ コンセプトムービー（詩のあとに沈む） ════════ */}
+        <ConceptMovie />
+
         {/* ════════ 開催概要（大型スペック表） ════════ */}
         <section
           id="outline"
@@ -259,6 +277,25 @@ export default function Summit2026Page() {
                 水と、そこに息づくあらゆるものにまみれる3日間です。
               </p>
             </div>
+
+            {/* 主催: EKKYO.HUB（藍色→ホバーで原色） */}
+            <figure className="mt-14">
+              <AiPhoto
+                src={ORGANIZER_PHOTO.src}
+                alt={ORGANIZER_PHOTO.alt}
+                className="aspect-video w-full"
+                sizes="(min-width: 1024px) 768px, 100vw"
+              />
+              <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-[11px] tracking-[0.15em] text-mamire-silt">
+                <span>主催 ── 一般社団法人EKKYO.HUB</span>
+                <Link
+                  href="/members"
+                  className="underline decoration-mamire-silt/40 underline-offset-4 transition-opacity hover:opacity-70"
+                >
+                  メンバーを見る &rarr;
+                </Link>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -303,43 +340,43 @@ export default function Summit2026Page() {
           </div>
         </section>
 
-        {/* ════════ プログラム（近日公開） ════════ */}
+        {/* ════════ タイムテーブル ════════ */}
         <section
           id="program"
           className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
-            <SectionTitle>プログラム</SectionTitle>
-            <p className="max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              いま、琵琶湖のほとりでフィールドワークを重ねながら、3日間のプログラムを紡いでいます。
-              タイムテーブル、ワークショップ、フィールドワークの詳細は、決まり次第この場所で公開します。
+            <SectionTitle>タイムテーブル</SectionTitle>
+            <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
+              琵琶湖のほとりでフィールドワークを重ねながら、3日間の流れを紡いでいます。
+              各プログラムの詳細は、決まり次第この場所で更新します。
             </p>
-            <div className="mt-10 grid gap-px overflow-hidden border border-mamire-silt/40 bg-mamire-silt/40 sm:grid-cols-3">
-              {[
-                { title: "タイムテーブル", desc: "3日間の流れの全体像" },
-                { title: "ワークショップ", desc: "土と水にまみれる体験" },
-                { title: "フィールドワーク", desc: "湖畔をめぐる問いの旅" },
-              ].map((c) => (
-                <div key={c.title} className="bg-mamire-water-pale p-8">
-                  <p className="font-mincho text-lg font-bold text-mamire-ink">
-                    {c.title}
-                  </p>
-                  <p className="mt-2 text-sm leading-[1.9] text-mamire-ink/70">
-                    {c.desc}
-                  </p>
-                  <p className="mt-5 text-[11px] tracking-[0.15em] text-mamire-mud">
-                    近日公開
-                  </p>
-                </div>
-              ))}
-            </div>
+            <Timetable days={SCHEDULE} />
+            <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
+              ※ 内容・時間は変更となる場合があります。
+            </p>
+          </div>
+        </section>
+
+        {/* ════════ ワークショップ（担当者） ════════ */}
+        <section
+          id="workshop"
+          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
+        >
+          <div className="mx-auto max-w-3xl">
+            <SectionTitle>ワークショップ</SectionTitle>
+            <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
+              土と水にまみれる、出展団体・担当者によるプログラム。
+              写真に触れると、その人の色が戻ります。
+            </p>
+            <WorkshopHosts hosts={WORKSHOP_HOSTS} />
           </div>
         </section>
 
         {/* ════════ 協賛・パートナー ════════ */}
         <section
           id="sponsor"
-          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>協賛・パートナー募集</SectionTitle>
@@ -371,7 +408,7 @@ export default function Summit2026Page() {
         {/* ════════ アクセス ════════ */}
         <section
           id="access"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>アクセス</SectionTitle>

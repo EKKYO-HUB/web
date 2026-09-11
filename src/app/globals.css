@@ -46,18 +46,90 @@
    水（琵琶湖）と汚れ（泥・墨）の質感・ロゴが塗れていくループ
    ──────────────────────────────────────────────────────── */
 
-/* 紙・水面の粒子ノイズ（静的 feTurbulence dataURI、負荷ゼロ） */
+/* ページのルート（粒子ノイズ自体は MamireDirt が body 直下に出す） */
 .mamire-noise {
   position: relative;
 }
-.mamire-noise::after {
-  content: "";
+
+/* ── スクロールで「まみれていく」オーバーレイ（MamireDirt.tsx）──
+   --mamire-dirt: 0(到着) → 1(最下部)。--mamire-y: scrollY(px) */
+.mamire-dirt {
+  --mamire-dirt: 0;
+  --mamire-y: 0px;
+}
+.mamire-dirt > div {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  opacity: 0.055;
   mix-blend-mode: multiply;
+}
+/* 粒子（細かい砂）: 最初から薄く乗っていて、進むほど濃くざらつく */
+.mamire-dirt__grain {
+  opacity: calc(0.06 + 0.3 * var(--mamire-dirt));
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: mamire-grain 0.9s steps(1, end) infinite;
+}
+@keyframes mamire-grain {
+  0% {
+    background-position: 0 0;
+  }
+  17% {
+    background-position: -46px 31px;
+  }
+  34% {
+    background-position: 58px -22px;
+  }
+  51% {
+    background-position: -18px -64px;
+  }
+  68% {
+    background-position: 37px 52px;
+  }
+  85% {
+    background-position: -70px 8px;
+  }
+}
+/* 泥の染み: 低周波ノイズをしきい値で切った斑（スクロールでゆっくり流れる） */
+.mamire-dirt__mud {
+  opacity: calc(0.62 * var(--mamire-dirt));
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0045' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.353 0 0 0 0 0.275 0 0 0 0 0.196 4.5 0 0 0 -2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 900px 900px;
+  background-position: 0 calc(var(--mamire-y) * -0.12);
+}
+/* 縁の汚れ: 画面の外周から泥が迫る */
+.mamire-dirt__edge {
+  opacity: calc(0.6 * var(--mamire-dirt));
+  background: radial-gradient(
+    ellipse 72% 62% at 50% 46%,
+    transparent 52%,
+    rgba(90, 70, 50, 0.85) 100%
+  );
+}
+
+/* ── 藍色写真（AiPhoto.tsx）: 上の藍レイヤーがホバー/タップで上→下へ剥がれる ── */
+.ai-photo__mono {
+  filter: url(#mamire-ai);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: clip-path;
+}
+.ai-photo:hover .ai-photo__mono,
+.ai-photo.is-color .ai-photo__mono {
+  clip-path: inset(100% 0 0 0);
+}
+
+/* タイムテーブルの日付切替 */
+@keyframes mamire-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mamire-fade-in {
+  animation: mamire-fade-in 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
 /* ロゴの「溶けて戻る」演出は MamireroLogoLoop.tsx 内の
@@ -124,11 +196,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .mamire-kv-in,
-  .mamire-rise-in {
+  .mamire-rise-in,
+  .mamire-dirt__grain,
+  .mamire-fade-in {
     animation: none;
   }
   .mamire-veil {
     display: none;
+  }
+  .ai-photo__mono {
+    transition: none;
   }
 }
 
