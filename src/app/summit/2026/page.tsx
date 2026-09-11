@@ -7,16 +7,12 @@ import StickyCta from "@/components/summit2026/StickyCta";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import ConceptMovie from "@/components/summit2026/ConceptMovie";
 import Timetable from "@/components/summit2026/Timetable";
-import ProgramList from "@/components/summit2026/ProgramList";
+import Exhibitors from "@/components/summit2026/Exhibitors";
 import Faq from "@/components/summit2026/Faq";
 import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
 import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
-import {
-  SCHEDULE,
-  ORGANIZER_PHOTO,
-  FAQ,
-} from "@/content/summit2026";
+import { ORGANIZER_PHOTO, FAQ } from "@/content/summit2026";
 import { shipporiMincho } from "./fonts";
 
 /* ──────────────────────────────────────────────────────────
@@ -66,7 +62,7 @@ const SECTION_NAV = [
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
   { id: "program", label: "タイムテーブル" },
-  { id: "workshop", label: "プログラム" },
+  { id: "workshop", label: "出展者" },
   { id: "sponsor", label: "協賛" },
   { id: "access", label: "アクセス" },
   { id: "faq", label: "よくある質問" },
@@ -369,9 +365,10 @@ export default function Summit2026Page() {
           <div className="mx-auto max-w-3xl">
             <SectionTitle>タイムテーブル</SectionTitle>
             <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              3日間の流れ。各プログラムの詳細は下の「プログラム・出展者」をご覧ください。
+              横に並んでいるものは、同じ時間に開いているプログラムです。
+              好きな場所へ、まみれに行ってください。
             </p>
-            <Timetable days={SCHEDULE} />
+            <Timetable />
             <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
               ※ 内容・時間は変更となる場合があります。
             </p>
@@ -384,12 +381,12 @@ export default function Summit2026Page() {
           className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
-            <SectionTitle>プログラム・出展者</SectionTitle>
+            <SectionTitle>出展者</SectionTitle>
             <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
               湖畔の森から街道の宿、寿司、茶道、炊飯、フェスまで。
-              土と水にまみれる、出展者によるプログラムです。
+              土と水にまみれる場をひらく人たちです。
             </p>
-            <ProgramList />
+            <Exhibitors />
           </div>
         </section>
 
