@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type CSSProperties, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
 /* 藍色のデュオトーン＋粒子ノイズをかけた写真。
-   ホバー（タップ端末ではタップ）で汚れが上から洗い流されるように原色へ戻る。
-   仕組み: 原色の <Image> の上に、同じ画像へ SVG フィルタ(#mamire-ai)を掛けたものを重ね、
-   clip-path で上→下へ剥がす。フィルタ定義 <AiPhotoDefs/> はページに1回だけ置く。 */
+   ホバー／タップした位置から【波紋】が広がるように原色へ戻る。
+   仕組み: 藍フィルタ(#mamire-ai)を掛けた <Image> を下に、原色の <Image> を上に重ね、
+   上の層を clip-path: circle() でポインタ位置から広げる。輪（波紋）は ::before/::after。
+   フィルタ定義 <AiPhotoDefs/> はページに1回だけ置く。 */
 
 export const AI_FILTER_ID = "mamire-ai";
 
@@ -79,25 +80,42 @@ export default function AiPhoto({
   className,
   priority,
 }: Props) {
-  const [color, setColor] = useState(false);
+  const [hover, setHover] = useState(false);
+  const [locked, setLocked] = useState(false); // タップ端末用トグル
+  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const [wave, setWave] = useState(0); // 波紋アニメを毎回やり直すためのキー
+
+  const place = (e: MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setOrigin({
+      x: Math.round(((e.clientX - r.left) / r.width) * 100),
+      y: Math.round(((e.clientY - r.top) / r.height) * 100),
+    });
+  };
+
+  const on = hover || locked;
 
   return (
     <span
       className={cn(
         "ai-photo relative block overflow-hidden bg-mamire-water",
-        color && "is-color",
+        on && "is-color",
         className
       )}
-      onClick={() => setColor((c) => !c)}
+      style={{ "--rx": `${origin.x}%`, "--ry": `${origin.y}%` } as CSSProperties}
+      onMouseEnter={(e) => {
+        place(e);
+        setWave((w) => w + 1);
+        setHover(true);
+      }}
+      onMouseLeave={() => setHover(false)}
+      onClick={(e) => {
+        place(e);
+        setWave((w) => w + 1);
+        setLocked((v) => !v);
+      }}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        className="object-cover"
-      />
+      {/* 下: 藍色＋粒子 */}
       <Image
         src={src}
         alt=""
@@ -107,6 +125,17 @@ export default function AiPhoto({
         priority={priority}
         className="ai-photo__mono object-cover"
       />
+      {/* 上: 原色（ポインタ位置から円形に広がる） */}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className="ai-photo__color object-cover"
+      />
+      {/* 波紋（輪が2重で広がる） */}
+      <span key={wave} className="ai-photo__wave" aria-hidden />
     </span>
   );
 }

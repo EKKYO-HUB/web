@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
@@ -7,7 +8,7 @@ import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import ConceptMovie from "@/components/summit2026/ConceptMovie";
 import Timetable from "@/components/summit2026/Timetable";
 import WorkshopHosts from "@/components/summit2026/WorkshopHosts";
-import AiPhoto, { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
+import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
 import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
 import {
@@ -41,6 +42,11 @@ const OUTLINE = [
     value: "高校生〜若手社会人を中心に、好奇心や探求心を持つすべての年代の方",
   },
   { label: "主催", value: "一般社団法人EKKYO.HUB" },
+  { label: "共催", value: "ONE SLASH株式会社" },
+  {
+    label: "協力",
+    value: "一般社団法人こくりしが／DEEP BANK（西浅井町の貸切キャンプ場）",
+  },
 ];
 
 /* ─── これまでの歩み ─── */
@@ -130,8 +136,12 @@ export default function Summit2026Page() {
 
   return (
     <div
-      className={`${shipporiMincho.variable} mamire-noise -mt-[69px] bg-mamire-water-pale text-mamire-ink`}
+      className={`${shipporiMincho.variable} mamire-noise -mt-[69px] bg-transparent text-mamire-ink`}
     >
+      {/* 地の色は body に持たせ、その上に MamireDirt（汚れ）→ コンテンツの順で重なる */}
+      <style
+        dangerouslySetInnerHTML={{ __html: "body{background:#E6EDEA}" }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -278,22 +288,19 @@ export default function Summit2026Page() {
               </p>
             </div>
 
-            {/* 主催: EKKYO.HUB（藍色→ホバーで原色） */}
+            {/* 主催: EKKYO.HUB（原色のまま） */}
             <figure className="mt-14">
-              <AiPhoto
-                src={ORGANIZER_PHOTO.src}
-                alt={ORGANIZER_PHOTO.alt}
-                className="aspect-video w-full"
-                sizes="(min-width: 1024px) 768px, 100vw"
-              />
-              <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-[11px] tracking-[0.15em] text-mamire-silt">
-                <span>主催 ── 一般社団法人EKKYO.HUB</span>
-                <Link
-                  href="/members"
-                  className="underline decoration-mamire-silt/40 underline-offset-4 transition-opacity hover:opacity-70"
-                >
-                  メンバーを見る &rarr;
-                </Link>
+              <div className="relative aspect-video w-full overflow-hidden bg-mamire-water">
+                <Image
+                  src={ORGANIZER_PHOTO.src}
+                  alt={ORGANIZER_PHOTO.alt}
+                  fill
+                  sizes="(min-width: 1024px) 768px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="mt-4 text-[11px] tracking-[0.15em] text-mamire-silt">
+                一般社団法人EKKYO.HUB
               </figcaption>
             </figure>
           </div>
@@ -479,15 +486,16 @@ export default function Summit2026Page() {
           >
             INSTAGRAM
           </a>
-          <a
-            href="https://note.com/ekkyo_hub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-mamire-water-pale/30 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-mamire-water-pale transition-colors hover:bg-mamire-water-pale hover:text-mamire-water-deep"
-          >
-            NOTE
-          </a>
         </div>
+
+        {/* クレジット */}
+        <p className="mx-auto mt-16 max-w-2xl text-[11px] leading-[2.2] tracking-[0.15em] text-mamire-water-pale/55">
+          主催　一般社団法人EKKYO.HUB
+          <br />
+          共催　ONE SLASH株式会社
+          <br />
+          協力　一般社団法人こくりしが／DEEP BANK（西浅井町の貸切キャンプ場）
+        </p>
 
         {/* 専用ミニフッター */}
         <div className="mt-24 border-t border-mamire-water-pale/15 pt-8">

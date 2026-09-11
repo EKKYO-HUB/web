@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-/* スクロールするほど画面が「まみれていく」オーバーレイ。
+/* スクロールするほど「まみれていく」背景。
+   - 文字・ボタン・写真の【下】に敷く（z-index 負）ので、可読性は落ちない。
+     ページ側は背景を透過にし、この層が水色の地＋汚れを担う
    - 粒子（細かいノイズ）／泥の染み／縁の汚れ の3層。進行度 --mamire-dirt(0→1) で濃くなる
    - body 直下へポータル（PageTransition の transform 配下では fixed が効かないため）
    - 進行度は要素の style に直接書く（React の再レンダーを起こさない）
@@ -51,7 +53,7 @@ export default function MamireDirt() {
     <div
       ref={ref}
       aria-hidden
-      className="mamire-dirt pointer-events-none fixed inset-0 z-30"
+      className="mamire-dirt pointer-events-none fixed inset-0 -z-10 bg-mamire-water-pale"
     >
       <div className="mamire-dirt__grain" />
       <div className="mamire-dirt__mud" />
