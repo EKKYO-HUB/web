@@ -60,6 +60,23 @@ export function AiPhotoDefs() {
           <feBlend in="duo" in2="grain" mode="overlay" result="mixed" />
           <feComposite in="mixed" in2="SourceGraphic" operator="in" />
         </filter>
+        {/* 見出し下の「泥の一滴」用: 輪郭をわずかに揺らす */}
+        <filter id="mamire-mud-mark" x="-20%" y="-30%" width="140%" height="160%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.12"
+            numOctaves="2"
+            seed="4"
+            result="n"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="n"
+            scale="4"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
       </defs>
     </svg>
   );

@@ -20,8 +20,6 @@ export default function SummitHero() {
           sizes="100vw"
           className="object-cover"
         />
-        {/* 次セクションへの沈み込み（最下端のみ） */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-mamire-water-pale" />
       </div>
 
       {/* 到着時の白いベール（水面を抜ける瞬間・演出後にDOMから除去される） */}
