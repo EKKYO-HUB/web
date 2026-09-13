@@ -48,7 +48,7 @@ export default function SummitHeader({
         <a href="#top" className="flex items-center" aria-label="EKKYO.SUMMIT 2026">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/summit2026/ekkyo-summit-2026.svg"
+            src="/images/summit2026/ekkyo-summit-2026-nodate.svg"
             alt="EKKYO.SUMMIT 2026"
             className="h-5 w-auto brightness-0 opacity-85 sm:h-6"
           />

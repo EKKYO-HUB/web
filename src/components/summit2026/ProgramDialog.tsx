@@ -125,6 +125,30 @@ export default function ProgramDialog({
             </div>
           </div>
 
+          {program.message && (
+            <p className="mt-6 border-l-2 border-mamire-mud/60 pl-4 font-mincho text-base leading-[1.9] text-mamire-ink">
+              {program.message}
+            </p>
+          )}
+
+          {program.note && (
+            <div className="mt-6">
+              <p className="text-[11px] tracking-[0.2em] text-mamire-silt">参加にあたって</p>
+              <p className="mt-1.5 text-sm leading-[1.9] text-mamire-ink/80">{program.note}</p>
+            </div>
+          )}
+
+          {program.profile && (
+            <div className="mt-6">
+              <p className="text-[11px] tracking-[0.2em] text-mamire-silt">出展者プロフィール</p>
+              <div className="mt-1.5 space-y-2 text-[13px] leading-[1.9] text-mamire-ink/70">
+                {program.profile.map((t) => (
+                  <p key={t}>{t}</p>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-8 flex justify-end">
             <button
               type="button"
