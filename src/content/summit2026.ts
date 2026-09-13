@@ -292,7 +292,8 @@ export const TIMETABLE_OVERVIEW = {
 };
 
 /* チラシ。PDF本体は容量が大きいため外部（Google Drive など）に置き、URLをここに入れる */
-export const FLYER_URL: string | null = null;
+export const FLYER_URL: string | null =
+  "https://drive.google.com/file/d/1mELAv239QVvoaSP_o6nXKR-QDpC-Ao44/view";
 export const FLYER_PREVIEW = {
   src: "/images/summit2026/flyer-p1.jpg",
   alt: "EKKYO.SUMMIT 2026 チラシ（表面）",
