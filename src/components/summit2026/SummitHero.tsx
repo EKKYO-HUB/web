@@ -10,16 +10,46 @@ export default function SummitHero() {
       id="top"
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-20 pt-20"
     >
-      {/* キービジュアル（原色のまま・到着時にゆっくり寄りながら現れる） */}
+      {/* 到着時の「水面の揺らぎ」フィルタ: 揺れの振幅がゆっくり収まっていく */}
+      <svg aria-hidden focusable="false" style={{ position: "absolute", width: 0, height: 0 }}>
+        <defs>
+          <filter id="mamire-water-sway" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="9" result="w">
+              <animate
+                attributeName="baseFrequency"
+                values="0.006 0.018;0.008 0.014;0.006 0.018"
+                dur="6s"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="w" scale="34" xChannelSelector="R" yChannelSelector="G">
+              <animate
+                attributeName="scale"
+                values="34;22;8;0"
+                keyTimes="0;0.4;0.75;1"
+                calcMode="spline"
+                keySplines="0.3 0 0.4 1;0.3 0 0.4 1;0.3 0 0.4 1"
+                dur="5.2s"
+                begin="0s"
+                fill="freeze"
+              />
+            </feDisplacementMap>
+          </filter>
+        </defs>
+      </svg>
+
+      {/* キービジュアル（原色のまま・到着時にゆっくり寄りながら、水面のように揺れて現れる） */}
       <div className="mamire-kv-in absolute inset-0">
-        <Image
-          src="/images/summit2026/kv.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+        <div className="mamire-water-sway absolute inset-0 scale-[1.04]">
+          <Image
+            src="/images/summit2026/kv.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
       </div>
 
       {/* 到着時の白いベール（水面を抜ける瞬間・演出後にDOMから除去される） */}

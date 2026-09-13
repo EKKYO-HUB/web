@@ -295,8 +295,8 @@ export const TIMETABLE_OVERVIEW = {
 export const FLYER_URL: string | null =
   "https://drive.google.com/file/d/1mELAv239QVvoaSP_o6nXKR-QDpC-Ao44/view";
 export const FLYER_PREVIEW = {
-  src: "/images/summit2026/flyer-p1.jpg",
-  alt: "EKKYO.SUMMIT 2026 チラシ（表面）",
-  width: 1400,
-  height: 990,
+  src: "/images/summit2026/flyer-back.jpg",
+  alt: "EKKYO.SUMMIT 2026 チラシ（裏面）",
+  width: 2000,
+  height: 1414,
 };

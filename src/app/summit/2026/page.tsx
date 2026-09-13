@@ -403,24 +403,19 @@ export default function Summit2026Page() {
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>タイムテーブル</SectionTitle>
-            <p className="mb-10 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              横に並んでいるものは、同じ時間に開いているプログラムです。
-              好きな場所へ、まみれに行ってください。
-            </p>
-            {/* 概略図（白地は multiply で地に溶かす） */}
-            <figure className="mb-14">
-              <Image
-                src={TIMETABLE_OVERVIEW.src}
-                alt={TIMETABLE_OVERVIEW.alt}
-                width={TIMETABLE_OVERVIEW.width}
-                height={TIMETABLE_OVERVIEW.height}
-                sizes="(min-width: 1024px) 768px, 100vw"
-                className="h-auto w-full mix-blend-multiply"
-              />
-              <figcaption className="mt-3 text-[11px] tracking-[0.12em] text-mamire-silt">
-                3日間の全体像。各枠をクリックすると詳細が開きます（下の日別タイムテーブル）。
-              </figcaption>
-            </figure>
+          </div>
+          {/* 概略図（本文幅より大きく・白地は multiply で地に溶かす） */}
+          <figure className="mx-auto mb-16 max-w-6xl">
+            <Image
+              src={TIMETABLE_OVERVIEW.src}
+              alt={TIMETABLE_OVERVIEW.alt}
+              width={TIMETABLE_OVERVIEW.width}
+              height={TIMETABLE_OVERVIEW.height}
+              sizes="(min-width: 1280px) 1152px, 100vw"
+              className="h-auto w-full mix-blend-multiply"
+            />
+          </figure>
+          <div className="mx-auto max-w-3xl">
             <Timetable />
             <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
               ※ 内容・時間は変更となる場合があります。

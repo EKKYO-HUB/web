@@ -244,8 +244,12 @@
   }
 }
 .mamire-kv-in {
-  animation: mamire-kv-in 3.6s cubic-bezier(0.16, 0.7, 0.24, 1) both;
+  animation: mamire-kv-in 4.4s cubic-bezier(0.16, 0.7, 0.24, 1) both;
   will-change: transform, opacity, filter;
+}
+/* 水面の揺らぎ（SummitHero 内の SVG フィルタ。振幅は SMIL で 5.2s かけて 0 に） */
+.mamire-water-sway {
+  filter: url(#mamire-water-sway);
 }
 
 /* 白いベールが引いていく（水面を抜ける瞬間） */
@@ -262,7 +266,7 @@
   }
 }
 .mamire-veil {
-  animation: mamire-veil-out 2.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: mamire-veil-out 3s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 /* ロックアップが少し遅れて浮かび上がる */
@@ -280,7 +284,7 @@
 }
 .mamire-rise-in {
   animation: mamire-rise-in 1.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 2.4s;
+  animation-delay: 2.9s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -294,6 +298,9 @@
   }
   .mamire-veil {
     display: none;
+  }
+  .mamire-water-sway {
+    filter: none;
   }
   .ai-photo__color {
     transition: none;

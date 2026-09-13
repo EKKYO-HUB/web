@@ -13,7 +13,7 @@ export default function ArrivalVeil() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setShow(true);
-    const t = window.setTimeout(() => setShow(false), 2600);
+    const t = window.setTimeout(() => setShow(false), 3200);
     return () => window.clearTimeout(t);
   }, []);
 
