@@ -169,6 +169,28 @@
   filter: brightness(0.88);
 }
 
+/* ── 水に浮かべた紙（チラシ）: 縁が揺れ、外周は水に溶けて地に馴染む ── */
+.mamire-paper {
+  position: relative;
+  transform: rotate(-1.2deg);
+  filter: url(#mamire-wet-edge) drop-shadow(0 18px 30px rgba(31, 43, 44, 0.18));
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 80%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    #000 62%,
+    rgba(0, 0, 0, 0.75) 80%,
+    transparent 100%
+  );
+}
+.mamire-paper img {
+  display: block;
+}
+
 /* ── プログラム詳細ポップアップ（ProgramDialog.tsx）── */
 @keyframes mamire-dialog-in {
   0% {

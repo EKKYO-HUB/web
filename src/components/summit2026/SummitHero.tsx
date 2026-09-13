@@ -14,22 +14,22 @@ export default function SummitHero() {
       <svg aria-hidden focusable="false" style={{ position: "absolute", width: 0, height: 0 }}>
         <defs>
           <filter id="mamire-water-sway" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="9" result="w">
+            <feTurbulence type="fractalNoise" baseFrequency="0.005 0.014" numOctaves="2" seed="9" result="w">
               <animate
                 attributeName="baseFrequency"
-                values="0.006 0.018;0.008 0.014;0.006 0.018"
+                values="0.005 0.014;0.007 0.011;0.005 0.014"
                 dur="6s"
                 repeatCount="indefinite"
               />
             </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="w" scale="34" xChannelSelector="R" yChannelSelector="G">
+            <feDisplacementMap in="SourceGraphic" in2="w" scale="64" xChannelSelector="R" yChannelSelector="G">
               <animate
                 attributeName="scale"
-                values="34;22;8;0"
+                values="64;40;14;0"
                 keyTimes="0;0.4;0.75;1"
                 calcMode="spline"
                 keySplines="0.3 0 0.4 1;0.3 0 0.4 1;0.3 0 0.4 1"
-                dur="5.2s"
+                dur="5.8s"
                 begin="0s"
                 fill="freeze"
               />

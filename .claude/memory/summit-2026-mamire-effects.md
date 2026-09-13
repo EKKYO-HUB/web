@@ -14,7 +14,8 @@ metadata:
 - **タイムテーブルの詳細** — `pinRight: true` のプログラム（quick=終日展示）は常に右端レーン。空きレーンがあれば右へ広がる（A PASSING BODY は3レーン幅）。枠の左線は無し（ユーザー指摘）。枠クリックで `ProgramDialog.tsx`（body へポータル、水底の幕＋紙の一枚がぼけから浮上、Esc/幕クリックで閉じる、`.mamire-dialog`）。概略図 `public/images/summit2026/timetable-overview.jpg`（元 `/Users/keys/Documents/co_ekkyo/timetable.png`）を `mix-blend-multiply` でグリッドの上に置く。
 - **ヘッダー** — `SummitHeader.tsx` は client。到着時（scrollY < 0.7vh）は `-translate-y-full` で隠し、ヒーローを抜けると滑り込む（ユーザー要望「最初はバナー無し」）。
 - **申し込みボタンの濁り** — `.mamire-cta` ＝ `color-mix(in srgb, #EB5505, #5A4632 calc(var(--mamire-dirt)*72%))`。`--mamire-dirt` は MamireDirt が `html` にも書く。ヘッダー／追従／末尾の3か所すべてこのクラス。
-- **出展者写真** — `/Users/keys/Documents/co_ekkyo/1-1_名前.png`（1080px正方形）→ sips で 900px JPEG → `public/images/summit2026/exhibitors/<slug>.jpg`。PROGRAMS の `image` か `EXTRA_EXHIBITORS`（運営メンバー：田中律羽・鈴木智也・大屋太亮、担当プログラム未確定）に紐づける。
+- **出展者写真** — `/Users/keys/Documents/co_ekkyo/1-1_名前.png`（1080px正方形）→ sips で 900px JPEG → `public/images/summit2026/exhibitors/<slug>.jpg`。`EXHIBITOR_IMAGES`（名前→パス）に登録すれば、出展者一覧・ポップアップの両方に出る。プログラム側は `by`（表示文字列）／`coop`（協力）／`people`（個人名配列、写真キー）。2026-09-13 時点 11名分あり。運営メンバー（田中律羽・鈴木智也・大屋太亮）は `EXTRA_EXHIBITORS`。
+- **チラシの見せ方** — `.mamire-paper`（−1.2°回転＋`#mamire-wet-edge` で縁を揺らし＋radial mask で外周を水に溶かす）。ユーザー指摘「四角すぎる」への対応。
 - **チラシ** — `SUMMIT2026_チラシ.pdf` は 25MB・2ページ。PDF圧縮ツールがこのMacに無い（gs/qpdf/mutool/magick なし）ため同梱せず、`FLYER_URL`（Drive などの外部URL）を入れる方式。1ページ目のプレビュー `flyer-p1.jpg` は同梱済み（開催概要の下）。
 - **FAQ** — `Faq.tsx`（`<details>` アコーディオン）、データ `FAQ`。2025 STUDIOサイトのFAQを下敷きに、1日券/通し券・20〜30代・永原駅集合へ更新。
 - **見出しの区切り** — 罫線は「AIっぽい」との指摘で廃止。`SectionTitle` の下に泥の一滴（SVG path＋`#mamire-mud-mark` の feDisplacementMap）を置く。

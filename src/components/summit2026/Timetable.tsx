@@ -112,7 +112,7 @@ function DayGrid({
   return (
     <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
       <div
-        className="grid min-w-[620px]"
+        className="grid min-w-[720px]"
         style={{
           gridTemplateColumns: `3.5rem repeat(${COLS}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${rows + 1}, minmax(1.15rem, auto))`,
@@ -152,11 +152,8 @@ function DayGrid({
             <span className="mt-1 font-mincho text-[13px] font-bold leading-snug text-mamire-ink">
               {p.title}
             </span>
-            {p.host && (
-              <span className="mt-1.5 text-[11px] text-mamire-mud">
-                {p.hostRole ? `${p.hostRole}：` : ""}
-                {p.host}
-              </span>
+            {p.by && (
+              <span className="mt-1.5 text-[11px] text-mamire-mud">{p.by}</span>
             )}
             <span className="mt-auto pt-1.5 text-[10px] tracking-[0.1em] text-mamire-silt">
               {p.place ?? "会場調整中"}

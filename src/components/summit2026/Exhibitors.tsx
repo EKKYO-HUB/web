@@ -3,12 +3,14 @@ import {
   DAYS,
   PROGRAMS,
   EXTRA_EXHIBITORS,
+  EXHIBITOR_IMAGES,
+  peopleOf,
   type Program,
 } from "@/content/summit2026";
 
-/* 出展者一覧。PROGRAMS の出展者を重複なくまとめ、担当プログラムを添える。
+/* 出展者一覧。PROGRAMS の出展者（people）を重複なくまとめ、担当プログラムを添える。
    EXTRA_EXHIBITORS（運営メンバーなど）を末尾に加える。
-   写真 image があれば藍色＋波紋の演出（AiPhoto）で表示する。 */
+   写真は EXHIBITOR_IMAGES にあれば藍色＋波紋の演出（AiPhoto）で表示する。 */
 
 type Exhibitor = {
   name: string;
@@ -20,24 +22,27 @@ type Exhibitor = {
 function collect(): Exhibitor[] {
   const map = new Map<string, Exhibitor>();
   for (const p of PROGRAMS) {
-    if (!p.host) continue;
-    const ex = map.get(p.host) ?? {
-      name: p.host,
-      role: p.hostRole,
-      image: p.image,
-      programs: [],
-    };
-    ex.programs.push(p);
-    if (!ex.image && p.image) ex.image = p.image;
-    map.set(p.host, ex);
+    for (const name of peopleOf(p)) {
+      const ex = map.get(name) ?? {
+        name,
+        image: EXHIBITOR_IMAGES[name],
+        programs: [],
+      };
+      ex.programs.push(p);
+      map.set(name, ex);
+    }
   }
   for (const e of EXTRA_EXHIBITORS) {
     const ex = map.get(e.name);
     if (ex) {
-      if (!ex.image) ex.image = e.image;
       if (!ex.role) ex.role = e.role;
     } else {
-      map.set(e.name, { name: e.name, role: e.role, image: e.image, programs: [] });
+      map.set(e.name, {
+        name: e.name,
+        role: e.role,
+        image: EXHIBITOR_IMAGES[e.name],
+        programs: [],
+      });
     }
   }
   return Array.from(map.values());

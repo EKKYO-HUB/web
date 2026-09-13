@@ -278,10 +278,21 @@ export default function Summit2026Page() {
               ))}
             </dl>
 
-            {/* チラシ */}
-            <figure className="mt-14">
-              {FLYER_URL ? (
-                <a href={FLYER_URL} target="_blank" rel="noopener noreferrer" className="block">
+            {/* チラシ（水に浮かべた紙のように、縁を揺らして地に馴染ませる） */}
+            <figure className="mt-16">
+              <div className="mamire-paper">
+                {FLYER_URL ? (
+                  <a href={FLYER_URL} target="_blank" rel="noopener noreferrer" className="block">
+                    <Image
+                      src={FLYER_PREVIEW.src}
+                      alt={FLYER_PREVIEW.alt}
+                      width={FLYER_PREVIEW.width}
+                      height={FLYER_PREVIEW.height}
+                      sizes="(min-width: 1024px) 768px, 100vw"
+                      className="h-auto w-full"
+                    />
+                  </a>
+                ) : (
                   <Image
                     src={FLYER_PREVIEW.src}
                     alt={FLYER_PREVIEW.alt}
@@ -290,17 +301,8 @@ export default function Summit2026Page() {
                     sizes="(min-width: 1024px) 768px, 100vw"
                     className="h-auto w-full"
                   />
-                </a>
-              ) : (
-                <Image
-                  src={FLYER_PREVIEW.src}
-                  alt={FLYER_PREVIEW.alt}
-                  width={FLYER_PREVIEW.width}
-                  height={FLYER_PREVIEW.height}
-                  sizes="(min-width: 1024px) 768px, 100vw"
-                  className="h-auto w-full"
-                />
-              )}
+                )}
+              </div>
               <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-[11px] tracking-[0.15em] text-mamire-silt">
                 <span>チラシ</span>
                 {FLYER_URL && (
@@ -526,11 +528,11 @@ export default function Summit2026Page() {
         <p className="mt-5 text-sm tracking-[0.18em] text-mamire-water-pale/70">
           {EVENT.dateFull} ／ {EVENT.placeShort}
         </p>
-        <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-mamire-water-pale/60">
-          {REGISTRATION_URL
-            ? "まだ見ぬ「わたし」に会いに、琵琶湖へ。お申し込みをお待ちしています。"
-            : "参加申し込みは近日公開予定です。最新情報はSNSでお知らせします。"}
-        </p>
+        {!REGISTRATION_URL && (
+          <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-mamire-water-pale/60">
+            参加申し込みは近日公開予定です。最新情報はSNSでお知らせします。
+          </p>
+        )}
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           {REGISTRATION_URL ? (
             <a

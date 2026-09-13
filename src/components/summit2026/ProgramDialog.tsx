@@ -3,7 +3,12 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import AiPhoto from "./AiPhoto";
-import { DAYS, type Program } from "@/content/summit2026";
+import {
+  DAYS,
+  EXHIBITOR_IMAGES,
+  peopleOf,
+  type Program,
+} from "@/content/summit2026";
 
 /* プログラム詳細のポップアップ。
    水底（濃い緑）の幕の奥から、紙の質感の一枚が浮かび上がる。
@@ -32,6 +37,9 @@ export default function ProgramDialog({
 
   if (!program) return null;
   const day = DAYS[program.day];
+  const photos = peopleOf(program)
+    .filter((n) => EXHIBITOR_IMAGES[n])
+    .map((n) => ({ name: n, src: EXHIBITOR_IMAGES[n] }));
 
   return createPortal(
     <div
@@ -80,24 +88,33 @@ export default function ProgramDialog({
           <dl className="mt-6 grid grid-cols-[4.5rem_1fr] gap-y-2 text-sm">
             <dt className="tracking-[0.2em] text-mamire-silt">会場</dt>
             <dd className="text-mamire-ink/85">{program.place ?? "調整中"}</dd>
-            {program.host && (
+            {program.by && (
               <>
-                <dt className="tracking-[0.2em] text-mamire-silt">
-                  {program.hostRole ?? "出展"}
-                </dt>
-                <dd className="text-mamire-ink/85">{program.host}</dd>
+                <dt className="tracking-[0.2em] text-mamire-silt">出展</dt>
+                <dd className="text-mamire-ink/85">{program.by}</dd>
+              </>
+            )}
+            {program.coop && (
+              <>
+                <dt className="tracking-[0.2em] text-mamire-silt">協力</dt>
+                <dd className="text-mamire-ink/85">{program.coop}</dd>
               </>
             )}
           </dl>
 
           <div className="mt-6 flex gap-5">
-            {program.image && (
-              <AiPhoto
-                src={program.image}
-                alt={program.host ?? ""}
-                className="h-24 w-24 shrink-0 sm:h-28 sm:w-28"
-                sizes="112px"
-              />
+            {photos.length > 0 && (
+              <div className="flex shrink-0 flex-col gap-3">
+                {photos.map((ph) => (
+                  <AiPhoto
+                    key={ph.name}
+                    src={ph.src}
+                    alt={ph.name}
+                    className="h-24 w-24 sm:h-28 sm:w-28"
+                    sizes="112px"
+                  />
+                ))}
+              </div>
             )}
             <div className="min-w-0 space-y-3 text-sm leading-[2] text-mamire-ink/80">
               {program.desc ? (
