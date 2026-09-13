@@ -11,9 +11,12 @@ import {
   peopleOf,
   type Program,
 } from "@/content/summit2026";
+import { members } from "@/content/members";
 
 /* 出展者一覧。PROGRAMS の出展者（people）を重複なくまとめ、担当プログラムを添える。
    EXTRA_EXHIBITORS（運営メンバーなど）を末尾に加える。
+   EKKYO.HUB のメンバー（src/content/members.ts）に該当する人は、
+   ホームページの肩書き・紹介文を役割・プロフィールとして使う。
    写真は EXHIBITOR_IMAGES にあれば藍色＋波紋の演出（AiPhoto）で表示。
    カードをクリックすると、その人のポップアップ（写真・プログラム・プロフィール・ひとこと）。 */
 
@@ -21,8 +24,13 @@ type Exhibitor = {
   name: string;
   role?: string;
   image?: string;
+  /** ホームページ（members.ts）の紹介文 */
+  bio?: string;
   programs: Program[];
 };
+
+const memberOf = (name: string) =>
+  members.find((m) => m.name.replace(/\s+/g, "") === name.replace(/\s+/g, ""));
 
 function collect(): Exhibitor[] {
   const map = new Map<string, Exhibitor>();
@@ -50,6 +58,13 @@ function collect(): Exhibitor[] {
       });
     }
   }
+  // EKKYO.HUB メンバーはホームページの肩書き・紹介文を反映
+  for (const ex of Array.from(map.values())) {
+    const m = memberOf(ex.name);
+    if (!m) continue;
+    ex.role = `EKKYO.HUB ${m.role}`;
+    ex.bio = m.bio;
+  }
   return Array.from(map.values());
 }
 
@@ -64,7 +79,7 @@ function ExhibitorDialog({
 }) {
   if (!ex) return null;
   const profiles = Array.from(
-    new Set(ex.programs.flatMap((p) => p.profile ?? []))
+    new Set([...(ex.bio ? [ex.bio] : []), ...ex.programs.flatMap((p) => p.profile ?? [])])
   );
   const messages = Array.from(
     new Set(ex.programs.map((p) => p.message).filter((m): m is string => !!m))
