@@ -281,7 +281,7 @@
   }
 }
 .mamire-veil {
-  animation: mamire-veil-out 3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: mamire-veil-out 2.6s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 /* ロックアップが少し遅れて浮かび上がる */
