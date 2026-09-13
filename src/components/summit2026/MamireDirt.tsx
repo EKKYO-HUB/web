@@ -32,6 +32,8 @@ export default function MamireDirt() {
       const eased = Math.pow(p, 1.6); // 序盤は静かに、後半で一気に
       el.style.setProperty("--mamire-dirt", eased.toFixed(3));
       el.style.setProperty("--mamire-y", `${Math.round(y)}px`);
+      // 申し込みボタン（.mamire-cta）の「濁り」など、ページ全体でも参照できるよう html にも書く
+      document.documentElement.style.setProperty("--mamire-dirt", eased.toFixed(3));
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -44,6 +46,7 @@ export default function MamireDirt() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
+      document.documentElement.style.removeProperty("--mamire-dirt");
     };
   }, [mounted]);
 

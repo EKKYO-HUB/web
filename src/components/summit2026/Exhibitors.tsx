@@ -1,7 +1,13 @@
 import AiPhoto from "./AiPhoto";
-import { DAYS, PROGRAMS, type Program } from "@/content/summit2026";
+import {
+  DAYS,
+  PROGRAMS,
+  EXTRA_EXHIBITORS,
+  type Program,
+} from "@/content/summit2026";
 
 /* 出展者一覧。PROGRAMS の出展者を重複なくまとめ、担当プログラムを添える。
+   EXTRA_EXHIBITORS（運営メンバーなど）を末尾に加える。
    写真 image があれば藍色＋波紋の演出（AiPhoto）で表示する。 */
 
 type Exhibitor = {
@@ -25,54 +31,54 @@ function collect(): Exhibitor[] {
     if (!ex.image && p.image) ex.image = p.image;
     map.set(p.host, ex);
   }
+  for (const e of EXTRA_EXHIBITORS) {
+    const ex = map.get(e.name);
+    if (ex) {
+      if (!ex.image) ex.image = e.image;
+      if (!ex.role) ex.role = e.role;
+    } else {
+      map.set(e.name, { name: e.name, role: e.role, image: e.image, programs: [] });
+    }
+  }
   return Array.from(map.values());
 }
 
 export default function Exhibitors() {
   const list = collect();
   return (
-    <ul className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-12">
+    <ul className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 sm:gap-x-8 lg:gap-y-12">
       {list.map((ex) => (
-        <li key={ex.name} className="border-t border-mamire-mud/50 pt-5">
-          {ex.image && (
+        <li key={ex.name}>
+          {ex.image ? (
             <AiPhoto
               src={ex.image}
               alt={ex.name}
               className="mb-4 aspect-square w-full"
-              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 33vw, 50vw"
             />
+          ) : (
+            <div className="mb-4 border-t border-mamire-mud/50" />
           )}
-          <p className="font-mincho text-lg font-bold tracking-wide text-mamire-ink">
-            {ex.role && (
-              <span className="mr-2 text-[11px] font-normal tracking-[0.15em] text-mamire-silt">
-                {ex.role}
-              </span>
-            )}
+          <p className="font-mincho text-base font-bold tracking-wide text-mamire-ink sm:text-lg">
             {ex.name}
           </p>
-          <ul className="mt-3 space-y-2">
-            {ex.programs.map((p) => (
-              <li key={p.id} className="text-sm leading-[1.8] text-mamire-ink/75">
-                <span className="mr-2 font-montserrat text-[11px] tracking-wide text-mamire-ink/45">
-                  {DAYS[p.day].date}
-                </span>
-                {p.title}
-                {p.desc && (
-                  <details className="group mt-1">
-                    <summary className="cursor-pointer list-none text-[11px] tracking-[0.15em] text-mamire-silt underline decoration-mamire-silt/40 underline-offset-4 [&::-webkit-details-marker]:hidden">
-                      <span className="group-open:hidden">企画内容を読む</span>
-                      <span className="hidden group-open:inline">閉じる</span>
-                    </summary>
-                    <div className="mt-2 space-y-2 text-sm leading-[2] text-mamire-ink/80">
-                      {p.desc.map((t) => (
-                        <p key={t}>{t}</p>
-                      ))}
-                    </div>
-                  </details>
-                )}
-              </li>
-            ))}
-          </ul>
+          {ex.role && (
+            <p className="mt-0.5 text-[11px] tracking-[0.15em] text-mamire-silt">
+              {ex.role}
+            </p>
+          )}
+          {ex.programs.length > 0 && (
+            <ul className="mt-2 space-y-1.5">
+              {ex.programs.map((p) => (
+                <li key={p.id} className="text-[13px] leading-[1.7] text-mamire-ink/70">
+                  <span className="mr-2 font-montserrat text-[11px] tracking-wide text-mamire-ink/45">
+                    {DAYS[p.day].date}
+                  </span>
+                  {p.title}
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>

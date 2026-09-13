@@ -12,7 +12,13 @@ import Faq from "@/components/summit2026/Faq";
 import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
 import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
-import { ORGANIZER_PHOTO, FAQ } from "@/content/summit2026";
+import {
+  ORGANIZER_PHOTO,
+  FAQ,
+  TIMETABLE_OVERVIEW,
+  FLYER_URL,
+  FLYER_PREVIEW,
+} from "@/content/summit2026";
 import { shipporiMincho } from "./fonts";
 
 /* ──────────────────────────────────────────────────────────
@@ -271,6 +277,44 @@ export default function Summit2026Page() {
                 </div>
               ))}
             </dl>
+
+            {/* チラシ */}
+            <figure className="mt-14">
+              {FLYER_URL ? (
+                <a href={FLYER_URL} target="_blank" rel="noopener noreferrer" className="block">
+                  <Image
+                    src={FLYER_PREVIEW.src}
+                    alt={FLYER_PREVIEW.alt}
+                    width={FLYER_PREVIEW.width}
+                    height={FLYER_PREVIEW.height}
+                    sizes="(min-width: 1024px) 768px, 100vw"
+                    className="h-auto w-full"
+                  />
+                </a>
+              ) : (
+                <Image
+                  src={FLYER_PREVIEW.src}
+                  alt={FLYER_PREVIEW.alt}
+                  width={FLYER_PREVIEW.width}
+                  height={FLYER_PREVIEW.height}
+                  sizes="(min-width: 1024px) 768px, 100vw"
+                  className="h-auto w-full"
+                />
+              )}
+              <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-[11px] tracking-[0.15em] text-mamire-silt">
+                <span>チラシ</span>
+                {FLYER_URL && (
+                  <a
+                    href={FLYER_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-mamire-mud underline decoration-mamire-mud/40 underline-offset-4 transition-opacity hover:opacity-70"
+                  >
+                    PDFを開く ↗
+                  </a>
+                )}
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -346,11 +390,6 @@ export default function Summit2026Page() {
                   >
                     {h.theme}
                   </span>
-                  {h.current && (
-                    <span className="w-full pt-1 text-[11px] tracking-[0.15em] text-mamire-mud/80 sm:w-auto sm:pl-4 sm:pt-0">
-                      ── 今年、琵琶湖にて
-                    </span>
-                  )}
                 </li>
               ))}
             </ol>
@@ -364,10 +403,24 @@ export default function Summit2026Page() {
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>タイムテーブル</SectionTitle>
-            <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
+            <p className="mb-10 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
               横に並んでいるものは、同じ時間に開いているプログラムです。
               好きな場所へ、まみれに行ってください。
             </p>
+            {/* 概略図（白地は multiply で地に溶かす） */}
+            <figure className="mb-14">
+              <Image
+                src={TIMETABLE_OVERVIEW.src}
+                alt={TIMETABLE_OVERVIEW.alt}
+                width={TIMETABLE_OVERVIEW.width}
+                height={TIMETABLE_OVERVIEW.height}
+                sizes="(min-width: 1024px) 768px, 100vw"
+                className="h-auto w-full mix-blend-multiply"
+              />
+              <figcaption className="mt-3 text-[11px] tracking-[0.12em] text-mamire-silt">
+                3日間の全体像。各枠をクリックすると詳細が開きます（下の日別タイムテーブル）。
+              </figcaption>
+            </figure>
             <Timetable />
             <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
               ※ 内容・時間は変更となる場合があります。
@@ -489,7 +542,7 @@ export default function Summit2026Page() {
               href={REGISTRATION_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 bg-ekkyo-orange px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white transition-colors hover:bg-ekkyo-orange-dark"
+              className="mamire-cta group inline-flex items-center gap-2 px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white"
             >
               参加申し込み
               <span className="transition-transform group-hover:translate-x-1">

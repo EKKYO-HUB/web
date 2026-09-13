@@ -23,6 +23,8 @@ export type Program = {
   desc?: string[];
   /** 出展者写真（public/ 配下・正方形にトリミング）。あれば藍色演出で表示 */
   image?: string;
+  /** タイムテーブルで常に一番右のレーンに置く（展示など終日もの） */
+  pinRight?: boolean;
 };
 
 export const PROGRAMS: Program[] = [
@@ -34,6 +36,7 @@ export const PROGRAMS: Program[] = [
     title: "流域 / 境の起源 ～コモンへ～",
     place: "山門水源の森",
     host: "木津裕人",
+    image: "/images/summit2026/exhibitors/kizu-hiroto.jpg",
   },
   {
     id: "tsu",
@@ -99,9 +102,11 @@ export const PROGRAMS: Program[] = [
   {
     id: "quick",
     day: 2,
-    time: "10:00–17:00",
+    time: "9:45–17:00",
     title: "quick-｜剥き出しの、",
     host: "武田萌花",
+    image: "/images/summit2026/exhibitors/takeda-moka.jpg",
+    pinRight: true,
   },
   {
     id: "guerrilla",
@@ -267,4 +272,30 @@ export const FAQ: FaqItem[] = [
 export const ORGANIZER_PHOTO = {
   src: "/images/summit2026/organizer.jpg",
   alt: "一般社団法人EKKYO.HUBのメンバー集合写真",
+};
+
+/* PROGRAMS の出展者に含まれないが出展者一覧に載せる人（EKKYO.HUB 運営メンバーなど）
+   ※ 担当プログラムが決まったら PROGRAMS 側の host/image に移す */
+export type ExtraExhibitor = { name: string; role?: string; image: string };
+export const EXTRA_EXHIBITORS: ExtraExhibitor[] = [
+  { name: "田中律羽", role: "EKKYO.HUB", image: "/images/summit2026/exhibitors/tanaka-ritsuha.jpg" },
+  { name: "鈴木智也", role: "EKKYO.HUB", image: "/images/summit2026/exhibitors/suzuki-tomoya.jpg" },
+  { name: "大屋太亮", role: "EKKYO.HUB", image: "/images/summit2026/exhibitors/oya-tasuke.jpg" },
+];
+
+/* タイムテーブルの概略図（timetable.png → JPEG） */
+export const TIMETABLE_OVERVIEW = {
+  src: "/images/summit2026/timetable-overview.jpg",
+  alt: "EKKYO.SUMMIT 2026 タイムテーブル概略（3日間）",
+  width: 1920,
+  height: 1080,
+};
+
+/* チラシ。PDF本体は容量が大きいため外部（Google Drive など）に置き、URLをここに入れる */
+export const FLYER_URL: string | null = null;
+export const FLYER_PREVIEW = {
+  src: "/images/summit2026/flyer-p1.jpg",
+  alt: "EKKYO.SUMMIT 2026 チラシ（表面）",
+  width: 1400,
+  height: 990,
 };

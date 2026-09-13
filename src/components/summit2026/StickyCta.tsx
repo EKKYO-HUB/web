@@ -16,7 +16,7 @@ export default function StickyCta({
   if (!mounted) return null;
 
   const cls =
-    "pointer-events-auto inline-flex w-full max-w-md items-center justify-center gap-2 bg-ekkyo-orange px-8 py-4 text-[12px] font-semibold tracking-[0.2em] text-white shadow-lg shadow-ekkyo-orange/30 transition-colors hover:bg-ekkyo-orange-dark sm:w-auto";
+    "mamire-cta pointer-events-auto inline-flex w-full max-w-md items-center justify-center gap-2 px-8 py-4 text-[12px] font-semibold tracking-[0.2em] text-white shadow-lg shadow-mamire-ink/20 sm:w-auto";
 
   return createPortal(
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-4 sm:bottom-6 sm:pb-0">
