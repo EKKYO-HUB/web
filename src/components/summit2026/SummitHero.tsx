@@ -81,7 +81,7 @@ export default function SummitHero() {
               <animate
                 id="mamire-sway-anim"
                 attributeName="scale"
-                values="64;40;14;0"
+                values="78;48;16;0"
                 keyTimes="0;0.4;0.75;1"
                 calcMode="spline"
                 keySplines="0.3 0 0.4 1;0.3 0 0.4 1;0.3 0 0.4 1"

@@ -110,7 +110,7 @@ function DayGrid({
   const rowOf = (min: number) => (min - dayStart) / UNIT + 1;
 
   return (
-    <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+    <div className="-mx-6 overflow-x-auto px-6 pt-3 sm:mx-0 sm:px-0">
       <div
         className="grid min-w-[720px]"
         style={{
