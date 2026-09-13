@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
 import StickyCta from "@/components/summit2026/StickyCta";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
+import ConceptMovie from "@/components/summit2026/ConceptMovie";
+import Timetable from "@/components/summit2026/Timetable";
+import Exhibitors from "@/components/summit2026/Exhibitors";
+import Faq from "@/components/summit2026/Faq";
+import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
+import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
+import {
+  ORGANIZER_PHOTO,
+  FAQ,
+  TIMETABLE_OVERVIEW,
+  FLYER_URL,
+  FLYER_PREVIEW,
+} from "@/content/summit2026";
 import { shipporiMincho } from "./fonts";
 
 /* ──────────────────────────────────────────────────────────
@@ -24,13 +38,18 @@ const EVENT = {
 const OUTLINE = [
   { label: "名称", value: "EKKYO.SUMMIT 2026「まみれろ」" },
   { label: "日程", value: "2026年10月10日(土)〜12日(月・祝)" },
-  { label: "会場", value: "琵琶湖 湖畔（米原駅集合予定）" },
+  { label: "会場", value: "琵琶湖 湖畔（JR湖西線・永原駅 集合）" },
   { label: "規模", value: "50〜70名程度" },
   {
     label: "対象",
     value: "高校生〜若手社会人を中心に、好奇心や探求心を持つすべての年代の方",
   },
   { label: "主催", value: "一般社団法人EKKYO.HUB" },
+  { label: "共催", value: "ONE SLASH株式会社" },
+  {
+    label: "協力",
+    value: "一般社団法人こくりしが／DEEP BANK（西浅井町の貸切キャンプ場）",
+  },
 ];
 
 /* ─── これまでの歩み ─── */
@@ -48,9 +67,11 @@ const SECTION_NAV = [
   { id: "outline", label: "開催概要" },
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
-  { id: "program", label: "プログラム" },
+  { id: "program", label: "タイムテーブル" },
+  { id: "workshop", label: "出展者" },
   { id: "sponsor", label: "協賛" },
   { id: "access", label: "アクセス" },
+  { id: "faq", label: "よくある質問" },
   { id: "apply", label: "参加する" },
 ];
 
@@ -76,14 +97,26 @@ export const metadata: Metadata = {
   },
 };
 
-/* 見出し（明朝・下に細罫線）。eyebrow は使わない */
+/* 見出し（明朝）。eyebrow・罫線は使わず、下に小さな泥の染みを一滴落とす */
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-10">
       <h2 className="font-mincho text-3xl font-bold tracking-wide text-mamire-ink sm:text-4xl">
         {children}
       </h2>
-      <div className="mt-5 h-px w-14 bg-mamire-mud/70" />
+      <svg
+        aria-hidden
+        width="30"
+        height="14"
+        viewBox="0 0 30 14"
+        className="mt-4 text-mamire-mud/75"
+      >
+        <path
+          d="M4 7.5c1.5-3.8 6-5.5 11-5.2 5 .3 9.5 1.6 11 4.4 1 2-2.2 4.3-7.5 4.8-5.6.5-11.3-.4-13.6-2.1C4 8.9 3.8 8.2 4 7.5z"
+          fill="currentColor"
+          filter="url(#mamire-mud-mark)"
+        />
+      </svg>
     </div>
   );
 }
@@ -101,7 +134,7 @@ export default function Summit2026Page() {
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
       "@type": "Place",
-      name: "琵琶湖 湖畔（米原駅集合予定）",
+      name: "琵琶湖 湖畔（JR湖西線・永原駅 集合）",
       address: {
         "@type": "PostalAddress",
         addressRegion: "滋賀県",
@@ -119,14 +152,22 @@ export default function Summit2026Page() {
 
   return (
     <div
-      className={`${shipporiMincho.variable} mamire-noise -mt-[69px] bg-mamire-water-pale text-mamire-ink`}
+      className={`${shipporiMincho.variable} mamire-noise -mt-[69px] bg-transparent text-mamire-ink`}
     >
+      {/* 地の色は body に持たせ、その上に MamireDirt（汚れ）→ コンテンツの順で重なる */}
+      <style
+        dangerouslySetInnerHTML={{ __html: "body{background:#E6EDEA}" }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <SummitHeader registrationUrl={REGISTRATION_URL} />
+      {/* 藍色写真用の SVG フィルタ定義（ページに1回） */}
+      <AiPhotoDefs />
+      {/* スクロールで画面がまみれていく（body直下へポータル） */}
+      <MamireDirt />
 
       {/* ════════ HERO: KVの上でまみれろが溶けては戻る ════════ */}
       <SummitHero />
@@ -211,6 +252,9 @@ export default function Summit2026Page() {
           </div>
         </section>
 
+        {/* ════════ コンセプトムービー（詩のあとに沈む） ════════ */}
+        <ConceptMovie />
+
         {/* ════════ 開催概要（大型スペック表） ════════ */}
         <section
           id="outline"
@@ -233,6 +277,46 @@ export default function Summit2026Page() {
                 </div>
               ))}
             </dl>
+
+            {/* チラシ（水に浮かべた紙のように、縁を揺らして地に馴染ませる） */}
+            <figure className="mt-16">
+              <div className="mamire-paper">
+                {FLYER_URL ? (
+                  <a href={FLYER_URL} target="_blank" rel="noopener noreferrer" className="block">
+                    <Image
+                      src={FLYER_PREVIEW.src}
+                      alt={FLYER_PREVIEW.alt}
+                      width={FLYER_PREVIEW.width}
+                      height={FLYER_PREVIEW.height}
+                      sizes="(min-width: 1024px) 768px, 100vw"
+                      className="h-auto w-full"
+                    />
+                  </a>
+                ) : (
+                  <Image
+                    src={FLYER_PREVIEW.src}
+                    alt={FLYER_PREVIEW.alt}
+                    width={FLYER_PREVIEW.width}
+                    height={FLYER_PREVIEW.height}
+                    sizes="(min-width: 1024px) 768px, 100vw"
+                    className="h-auto w-full"
+                  />
+                )}
+              </div>
+              <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-2 text-[11px] tracking-[0.15em] text-mamire-silt">
+                <span>チラシ</span>
+                {FLYER_URL && (
+                  <a
+                    href={FLYER_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-mamire-mud underline decoration-mamire-mud/40 underline-offset-4 transition-opacity hover:opacity-70"
+                  >
+                    PDFを開く ↗
+                  </a>
+                )}
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -259,6 +343,22 @@ export default function Summit2026Page() {
                 水と、そこに息づくあらゆるものにまみれる3日間です。
               </p>
             </div>
+
+            {/* 主催: EKKYO.HUB（原色のまま） */}
+            <figure className="mt-14">
+              <div className="relative aspect-video w-full overflow-hidden bg-mamire-water">
+                <Image
+                  src={ORGANIZER_PHOTO.src}
+                  alt={ORGANIZER_PHOTO.alt}
+                  fill
+                  sizes="(min-width: 1024px) 768px, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="mt-4 text-[11px] tracking-[0.15em] text-mamire-silt">
+                一般社団法人EKKYO.HUB
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -292,54 +392,58 @@ export default function Summit2026Page() {
                   >
                     {h.theme}
                   </span>
-                  {h.current && (
-                    <span className="w-full pt-1 text-[11px] tracking-[0.15em] text-mamire-mud/80 sm:w-auto sm:pl-4 sm:pt-0">
-                      ── 今年、琵琶湖にて
-                    </span>
-                  )}
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        {/* ════════ プログラム（近日公開） ════════ */}
+        {/* ════════ タイムテーブル ════════ */}
         <section
           id="program"
           className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
-            <SectionTitle>プログラム</SectionTitle>
-            <p className="max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              いま、琵琶湖のほとりでフィールドワークを重ねながら、3日間のプログラムを紡いでいます。
-              タイムテーブル、ワークショップ、フィールドワークの詳細は、決まり次第この場所で公開します。
+            <SectionTitle>タイムテーブル</SectionTitle>
+          </div>
+          {/* 概略図（本文幅より大きく・白地は multiply で地に溶かす） */}
+          <figure className="mx-auto mb-16 max-w-6xl">
+            <Image
+              src={TIMETABLE_OVERVIEW.src}
+              alt={TIMETABLE_OVERVIEW.alt}
+              width={TIMETABLE_OVERVIEW.width}
+              height={TIMETABLE_OVERVIEW.height}
+              sizes="(min-width: 1280px) 1152px, 100vw"
+              className="h-auto w-full mix-blend-multiply"
+            />
+          </figure>
+          <div className="mx-auto max-w-3xl">
+            <Timetable />
+            <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
+              ※ 内容・時間は変更となる場合があります。
             </p>
-            <div className="mt-10 grid gap-px overflow-hidden border border-mamire-silt/40 bg-mamire-silt/40 sm:grid-cols-3">
-              {[
-                { title: "タイムテーブル", desc: "3日間の流れの全体像" },
-                { title: "ワークショップ", desc: "土と水にまみれる体験" },
-                { title: "フィールドワーク", desc: "湖畔をめぐる問いの旅" },
-              ].map((c) => (
-                <div key={c.title} className="bg-mamire-water-pale p-8">
-                  <p className="font-mincho text-lg font-bold text-mamire-ink">
-                    {c.title}
-                  </p>
-                  <p className="mt-2 text-sm leading-[1.9] text-mamire-ink/70">
-                    {c.desc}
-                  </p>
-                  <p className="mt-5 text-[11px] tracking-[0.15em] text-mamire-mud">
-                    近日公開
-                  </p>
-                </div>
-              ))}
-            </div>
+          </div>
+        </section>
+
+        {/* ════════ ワークショップ（担当者） ════════ */}
+        <section
+          id="workshop"
+          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
+        >
+          <div className="mx-auto max-w-3xl">
+            <SectionTitle>出展者</SectionTitle>
+            <p className="mb-12 max-w-2xl text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
+              湖畔の森から街道の宿、寿司、茶道、炊飯、フェスまで。
+              土と水にまみれる場をひらく人たちです。
+            </p>
+            <Exhibitors />
           </div>
         </section>
 
         {/* ════════ 協賛・パートナー ════════ */}
         <section
           id="sponsor"
-          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>協賛・パートナー募集</SectionTitle>
@@ -371,30 +475,43 @@ export default function Summit2026Page() {
         {/* ════════ アクセス ════════ */}
         <section
           id="access"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
+          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
         >
           <div className="mx-auto max-w-3xl">
             <SectionTitle>アクセス</SectionTitle>
             <div className="space-y-4 text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
               <p>
                 会場は滋賀県・琵琶湖の湖畔。集合は
-                <strong className="font-bold text-mamire-ink">米原駅</strong>
-                を予定しています（東海道新幹線・JR各線が乗り入れ、東京・名古屋・京都・大阪からのアクセスも良好です）。
+                <strong className="font-bold text-mamire-ink">
+                  JR湖西線・永原駅
+                </strong>
+                です。京都駅から湖西線で乗り換えなし。東京・名古屋方面からは、米原駅から北陸本線・近江塩津乗り換えでも来られます。
               </p>
               <p>
-                詳細な会場・集合場所・当日のアクセス方法は、決まり次第こちらと参加者へのご案内でお知らせします。
+                集合時間・会場までの移動・当日の流れは、お申し込みいただいた方にご案内します。
               </p>
             </div>
             <div className="mt-8">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=米原駅"
+                href="https://www.google.com/maps/search/?api=1&query=永原駅"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-mamire-mud underline decoration-mamire-mud/40 underline-offset-4 transition-opacity hover:opacity-70"
               >
-                米原駅を地図で見る &rarr;
+                永原駅を地図で見る &rarr;
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* ════════ よくある質問 ════════ */}
+        <section
+          id="faq"
+          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
+        >
+          <div className="mx-auto max-w-3xl">
+            <SectionTitle>よくある質問</SectionTitle>
+            <Faq items={FAQ} />
           </div>
         </section>
 
@@ -411,18 +528,18 @@ export default function Summit2026Page() {
         <p className="mt-5 text-sm tracking-[0.18em] text-mamire-water-pale/70">
           {EVENT.dateFull} ／ {EVENT.placeShort}
         </p>
-        <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-mamire-water-pale/60">
-          {REGISTRATION_URL
-            ? "まだ見ぬ「わたし」に会いに、琵琶湖へ。お申し込みをお待ちしています。"
-            : "参加申し込みは近日公開予定です。最新情報はSNSでお知らせします。"}
-        </p>
+        {!REGISTRATION_URL && (
+          <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-mamire-water-pale/60">
+            参加申し込みは近日公開予定です。最新情報はSNSでお知らせします。
+          </p>
+        )}
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           {REGISTRATION_URL ? (
             <a
               href={REGISTRATION_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 bg-ekkyo-orange px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white transition-colors hover:bg-ekkyo-orange-dark"
+              className="mamire-cta group inline-flex items-center gap-2 px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white"
             >
               参加申し込み
               <span className="transition-transform group-hover:translate-x-1">
@@ -442,15 +559,16 @@ export default function Summit2026Page() {
           >
             INSTAGRAM
           </a>
-          <a
-            href="https://note.com/ekkyo_hub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-mamire-water-pale/30 px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-mamire-water-pale transition-colors hover:bg-mamire-water-pale hover:text-mamire-water-deep"
-          >
-            NOTE
-          </a>
         </div>
+
+        {/* クレジット */}
+        <p className="mx-auto mt-16 max-w-2xl text-[11px] leading-[2.2] tracking-[0.15em] text-mamire-water-pale/55">
+          主催　一般社団法人EKKYO.HUB
+          <br />
+          共催　ONE SLASH株式会社
+          <br />
+          協力　一般社団法人こくりしが／DEEP BANK（西浅井町の貸切キャンプ場）
+        </p>
 
         {/* 専用ミニフッター */}
         <div className="mt-24 border-t border-mamire-water-pale/15 pt-8">

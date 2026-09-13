@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-/* 「まみれろ」ロゴが溶け出し、また元の姿に戻るループ演出。
+/* ※ 入場アニメは SummitHero が読み込み完了後に beginElement() で開始する（begin="indefinite"）。
+   「まみれろ」ロゴが溶け出し、また元の姿に戻るループ演出。
    - ロゴの色は変えない（白いロゴのまま「形」だけが歪む）
    - 入場: 溶けきった状態から約2.6秒で「かたちを取り戻す」(没入導入)
    - 以後60秒ループに5種類の崩れ方：
@@ -91,7 +92,7 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
                 values={FREQ_VALUES}
                 keyTimes={FREQ_KEYTIMES}
                 calcMode="discrete"
-                begin={INTRO_DUR}
+                begin="mamire-intro-scale.end"
                 dur={DUR}
                 repeatCount="indefinite"
               />
@@ -109,12 +110,13 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
               <>
                 {/* 入場: 完全に溶けきった状態 → 2段階で結像する（強めの導入） */}
                 <animate
+                  id="mamire-intro-scale"
                   attributeName="scale"
                   values="210;18;0"
                   keyTimes="0;0.62;1"
                   calcMode="spline"
                   keySplines="0.16 0.7 0.3 1;0.4 0 0.2 1"
-                  begin="0s"
+                  begin="indefinite"
                   dur={INTRO_DUR}
                   fill="freeze"
                 />
@@ -125,7 +127,7 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
                   keyTimes={SCALE_KEYTIMES}
                   calcMode="spline"
                   keySplines={SCALE_SPLINES}
-                  begin={INTRO_DUR}
+                  begin="mamire-intro-scale.end"
                   dur={DUR}
                   repeatCount="indefinite"
                 />
@@ -136,12 +138,13 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
             {animate && (
               <>
                 <animate
+                  id="mamire-intro-blur"
                   attributeName="stdDeviation"
                   values="13;2;0"
                   keyTimes="0;0.62;1"
                   calcMode="spline"
                   keySplines="0.16 0.7 0.3 1;0.4 0 0.2 1"
-                  begin="0s"
+                  begin="indefinite"
                   dur={INTRO_DUR}
                   fill="freeze"
                 />
@@ -150,7 +153,7 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
                   values={BLUR_VALUES}
                   keyTimes={BLUR_KEYTIMES}
                   calcMode="linear"
-                  begin={INTRO_DUR}
+                  begin="mamire-intro-scale.end"
                   dur={DUR}
                   repeatCount="indefinite"
                 />
