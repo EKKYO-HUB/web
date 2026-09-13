@@ -153,7 +153,12 @@ function DayGrid({
               {p.title}
             </span>
             {p.by && (
-              <span className="mt-1.5 text-[11px] text-mamire-mud">{p.by}</span>
+              <span className="mt-1.5 text-[11px] text-mamire-mud">
+                {p.by}
+                {p.speakers && (
+                  <span className="text-mamire-ink/55">　登壇：{p.speakers}</span>
+                )}
+              </span>
             )}
             <span className="mt-auto pt-1.5 text-[10px] tracking-[0.1em] text-mamire-silt">
               {p.place ?? "会場調整中"}

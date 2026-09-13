@@ -52,6 +52,12 @@ export default function ProgramDialog({
             <dd className="text-mamire-ink/85">{program.by}</dd>
           </>
         )}
+        {program.speakers && (
+          <>
+            <dt className="tracking-[0.2em] text-mamire-silt">登壇者</dt>
+            <dd className="text-mamire-ink/85">{program.speakers}</dd>
+          </>
+        )}
         {program.coop && (
           <>
             <dt className="tracking-[0.2em] text-mamire-silt">協力</dt>

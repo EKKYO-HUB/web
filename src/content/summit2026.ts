@@ -20,6 +20,8 @@ export type Program = {
   by?: string;
   /** 協力（表示用） */
   coop?: string;
+  /** 登壇者（表示用。複数は「・」区切り） */
+  speakers?: string;
   /** 出展者一覧・写真に使う個人名。省略時は by（EKKYO.HUB 以外）を1名として扱う */
   people?: string[];
   /** 企画内容（段落の配列） */
@@ -85,14 +87,15 @@ export const PROGRAMS: Program[] = [
     title: "OPENING ～君は琵琶湖だ～",
     place: "西浅井",
     by: "EKKYO.HUB",
-    coop: "上田洋平",
+    speakers: "上田洋平・田中律羽・木津裕人",
+    people: ["上田洋平", "田中律羽", "木津裕人"],
   },
   {
     id: "kome",
     day: 1,
     time: "18:00–",
     title: "米まみれ ～そうだ、寿司握ろう。～",
-    place: "あほうどり",
+    place: "まちづくりセンター調理室",
     by: "琴川夕星",
     desc: [
       "寿司を握るって、実はとても壮大な行為です。",
@@ -253,7 +256,8 @@ export const PROGRAMS: Program[] = [
     title: "CLOSING SESSION ― EKKYO.Conference #31「まみれろ」",
     place: "西浅井",
     by: "EKKYO.HUB",
-    coop: "木村道徳・加藤大生",
+    speakers: "木村道徳・加藤大生・田中律羽・木津裕人",
+    people: ["木村道徳", "加藤大生", "田中律羽", "木津裕人"],
   },
   {
     id: "biwako-taiken",
