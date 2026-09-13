@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils";
        縦垂れ / 横流れ / ぼやっと滲み広がる / 細かく砕ける / 尾を引いて溶け落ちる
      各崩れの間の「元に戻っている時間」は約2.4秒（短め）
    - ノイズ特性(baseFrequency)は復元静止中に discrete 切替（切替は見えない）
-   - reduced-motion: 変形なしの静止ロゴ / 画面外: pauseAnimations() */
+   - reduced-motion: 変形なしの静止ロゴ / 画面外: pauseAnimations()
+   - 開始前は「溶けきった状態」（scale 210 / blur 13）で待機（ベールの奥なので見えない） */
 
-const INTRO_DUR = "3.2s";
+const INTRO_DUR = "3.2s"; // = INTRO_SEC
 
 /* 60s ループ: 5ブロック×12s（静止0.5s → 立ち上がり5.75s → 復元5.75s） */
 const SCALE_KEYTIMES =
@@ -32,6 +33,25 @@ const BLUR_KEYTIMES = "0;0.4083;0.5042;0.6;0.8083;0.9042;1";
 const BLUR_VALUES = "0;0;6.5;0;0;2.5;0";
 
 const DUR = "60s";
+const INTRO_SEC = 3.2;
+
+/* SummitHero から呼ぶ: 入場アニメを今すぐ開始し、ループを入場終了時刻に予約する。
+   （SMIL の同期参照 "id.end" に頼らず、JS で明示的に開始する） */
+export function startMamireroLogo() {
+  type Anim = SVGElement & {
+    beginElement?: () => void;
+    beginElementAt?: (offset: number) => void;
+  };
+  const get = (id: string) => document.getElementById(id) as Anim | null;
+  get("mamire-intro-scale")?.beginElement?.();
+  get("mamire-intro-blur")?.beginElement?.();
+  for (const id of ["mamire-loop-freq", "mamire-loop-scale", "mamire-loop-blur"]) {
+    const el = get(id);
+    if (!el) continue;
+    if (el.beginElementAt) el.beginElementAt(INTRO_SEC);
+    else window.setTimeout(() => el.beginElement?.(), INTRO_SEC * 1000);
+  }
+}
 
 export default function MamireroLogoLoop({ className }: { className?: string }) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -88,11 +108,12 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
           >
             {animate && (
               <animate
+                id="mamire-loop-freq"
                 attributeName="baseFrequency"
                 values={FREQ_VALUES}
                 keyTimes={FREQ_KEYTIMES}
                 calcMode="discrete"
-                begin="mamire-intro-scale.end"
+                begin="indefinite"
                 dur={DUR}
                 repeatCount="indefinite"
               />
@@ -103,7 +124,7 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
             in2="n"
             xChannelSelector="R"
             yChannelSelector="G"
-            scale={0}
+            scale={animate ? 210 : 0}
             result="disp"
           >
             {animate && (
@@ -122,19 +143,20 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
                 />
                 {/* 以後: 60秒×5パターンのループ */}
                 <animate
+                  id="mamire-loop-scale"
                   attributeName="scale"
                   values={SCALE_VALUES}
                   keyTimes={SCALE_KEYTIMES}
                   calcMode="spline"
                   keySplines={SCALE_SPLINES}
-                  begin="mamire-intro-scale.end"
+                  begin="indefinite"
                   dur={DUR}
                   repeatCount="indefinite"
                 />
               </>
             )}
           </feDisplacementMap>
-          <feGaussianBlur in="disp" stdDeviation="0">
+          <feGaussianBlur in="disp" stdDeviation={animate ? 13 : 0}>
             {animate && (
               <>
                 <animate
@@ -149,11 +171,12 @@ export default function MamireroLogoLoop({ className }: { className?: string }) 
                   fill="freeze"
                 />
                 <animate
+                  id="mamire-loop-blur"
                   attributeName="stdDeviation"
                   values={BLUR_VALUES}
                   keyTimes={BLUR_KEYTIMES}
                   calcMode="linear"
-                  begin="mamire-intro-scale.end"
+                  begin="indefinite"
                   dur={DUR}
                   repeatCount="indefinite"
                 />

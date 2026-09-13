@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import MamireroLogoLoop from "./MamireroLogoLoop";
+import MamireroLogoLoop, { startMamireroLogo } from "./MamireroLogoLoop";
 
 /* ヒーロー: KV（琵琶湖）を全面に、白い「まみれろ」が溶けては戻る。
    KV・ロゴとも色には手を加えない（オーバーレイや着色なし）。
@@ -16,7 +16,7 @@ import MamireroLogoLoop from "./MamireroLogoLoop";
    - 揺らぎが収まったら filter 自体を外して描画コストを 0 にする */
 
 const SWAY_MS = 5800;
-const VEIL_MS = 3200;
+const VEIL_MS = 2600;
 
 export default function SummitHero() {
   const [ready, setReady] = useState(false);
@@ -52,10 +52,11 @@ export default function SummitHero() {
   // 開始: SMIL を同時に走らせ、ベール／揺らぎの終了を予約
   useEffect(() => {
     if (!ready) return;
-    for (const id of ["mamire-sway-anim", "mamire-intro-scale", "mamire-intro-blur"]) {
-      const el = document.getElementById(id) as (SVGElement & { beginElement?: () => void }) | null;
-      el?.beginElement?.();
-    }
+    const sway = document.getElementById("mamire-sway-anim") as
+      | (SVGElement & { beginElement?: () => void })
+      | null;
+    sway?.beginElement?.();
+    startMamireroLogo();
     const t1 = window.setTimeout(() => setVeil(false), VEIL_MS);
     const t2 = window.setTimeout(() => setSway(false), SWAY_MS + 200);
     return () => {
