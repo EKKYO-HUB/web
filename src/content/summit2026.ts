@@ -53,6 +53,9 @@ export const EXHIBITOR_IMAGES: Record<string, string> = {
   岩見歩昂: "/images/summit2026/exhibitors/iwami-hotaka.jpg",
   福本和生: "/images/summit2026/exhibitors/fukumoto-kazuki.jpg",
   錦織史哉: "/images/summit2026/exhibitors/nishikori-fumiya.jpg",
+  前川晋也: "/images/summit2026/exhibitors/maekawa-shinya.jpg",
+  加藤大生: "/images/summit2026/exhibitors/kato-taisei.jpg",
+  木村道徳: "/images/summit2026/exhibitors/kimura-michinori.jpg",
 };
 
 /* 出展者プロフィール（名前 → 段落の配列）。出典: 出展者フォーム回答（掲載可と明記） */
