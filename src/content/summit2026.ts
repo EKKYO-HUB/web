@@ -444,12 +444,12 @@ export const EXTRA_EXHIBITORS: ExtraExhibitor[] = [
   { name: "大屋太亮", role: "EKKYO.HUB" },
 ];
 
-/* タイムテーブルの概略図（timetable.png → JPEG） */
+/* タイムテーブルの概略図（/Users/keys/Documents/co_ekkyo/timetable.svg → 2400px JPEG。sharp で変換） */
 export const TIMETABLE_OVERVIEW = {
   src: "/images/summit2026/timetable-overview.jpg",
   alt: "EKKYO.SUMMIT 2026 タイムテーブル概略（3日間）",
-  width: 1920,
-  height: 1080,
+  width: 2400,
+  height: 1190,
 };
 
 /* チラシ。PDF本体は容量が大きいため外部（Google Drive など）に置き、URLをここに入れる */
