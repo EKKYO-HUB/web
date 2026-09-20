@@ -56,6 +56,8 @@ export const EXHIBITOR_IMAGES: Record<string, string> = {
   前川晋也: "/images/summit2026/exhibitors/maekawa-shinya.jpg",
   加藤大生: "/images/summit2026/exhibitors/kato-taisei.jpg",
   木村道徳: "/images/summit2026/exhibitors/kimura-michinori.jpg",
+  "ONE SLASH株式会社": "/images/summit2026/exhibitors/one-slash.jpg",
+  山口裕也: "/images/summit2026/exhibitors/yamaguchi-yuya.jpg",
 };
 
 /* 出展者プロフィール（名前 → 段落の配列）。出典: 出展者フォーム回答（掲載可と明記） */
@@ -120,7 +122,7 @@ export const PROGRAMS: Program[] = [
     id: "kinomoto",
     day: 1,
     time: "11:00–14:30",
-    title: "北国街道 木之本宿 一輪挿しを日々変えることについて",
+    title: "一輪挿しを日々変えることについて",
     place: "木之本",
     by: "前川晋也",
     desc: [
@@ -209,7 +211,7 @@ export const PROGRAMS: Program[] = [
     time: "13:00–14:00",
     title: "ゲリラ炊飯",
     place: "西浅井",
-    by: "ONE SLASH",
+    by: "ONE SLASH株式会社",
   },
   {
     id: "ai-kidotai",
@@ -224,7 +226,7 @@ export const PROGRAMS: Program[] = [
     time: "14:00–15:30",
     title: "水と生活環境 ～fishbowl～",
     place: "西浅井",
-    by: "石川歩",
+    by: "木津裕人",
   },
   {
     id: "sado",
@@ -294,7 +296,7 @@ export const PROGRAMS: Program[] = [
     place: "DEEP BANK",
     by: "鈴木智也",
     acts: "竹本智志（琵琶の語り）",
-    coop: "ONE SLASH・DEEP BANK",
+    coop: "ONE SLASH株式会社・DEEP BANK",
     people: ["鈴木智也", "竹本智志"],
     desc: [
       "SUMMITのテーマ「まみれろ。」を、食・酒・火・表現を通して体感する夜の交流企画です。舞台は西浅井。土地に根を張る「土の人」と、外から文化や価値観を運んでくる「風の人」が、BBQや地元の食、お酒、パフォーマンス、出店を介して同じ空間に混ざり合います。",
@@ -352,6 +354,14 @@ export const PROGRAMS: Program[] = [
       },
     ],
     note: "田舎の集落を練り歩きます。田んぼ道や山道を歩くこともあるので、歩きなれた靴でお越しください。定員10名ほど。",
+  },
+  {
+    id: "iba",
+    day: 3,
+    time: "13:00–17:00",
+    title: "伊庭水郷を巡ろう",
+    place: "東近江市伊庭町",
+    by: "石川歩",
   },
 ];
 
