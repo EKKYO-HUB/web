@@ -8,6 +8,7 @@ import {
   PROGRAMS,
   EXTRA_EXHIBITORS,
   EXHIBITOR_IMAGES,
+  PROFILES,
   peopleOf,
   type Program,
 } from "@/content/summit2026";
@@ -79,10 +80,15 @@ function ExhibitorDialog({
 }) {
   if (!ex) return null;
   const profiles = Array.from(
-    new Set([...(ex.bio ? [ex.bio] : []), ...ex.programs.flatMap((p) => p.profile ?? [])])
+    new Set([...(ex.bio ? [ex.bio] : []), ...(PROFILES[ex.name] ?? [])])
   );
   const messages = Array.from(
-    new Set(ex.programs.map((p) => p.message).filter((m): m is string => !!m))
+    new Set(
+      ex.programs
+        .flatMap((p) => p.messages ?? [])
+        .filter((m) => !m.by || m.by === ex.name)
+        .map((m) => m.text)
+    )
   );
 
   return (
