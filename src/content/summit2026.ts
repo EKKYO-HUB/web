@@ -121,7 +121,7 @@ export const PROGRAMS: Program[] = [
     id: "kinomoto",
     day: 1,
     time: "11:00–14:30",
-    title: "北国街道 木之本宿 一輪挿しを日々変えることについて",
+    title: "一輪挿しを日々変えることについて",
     place: "木之本",
     by: "前川晋也",
     desc: [
