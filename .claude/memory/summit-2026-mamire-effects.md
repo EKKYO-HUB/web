@@ -5,6 +5,8 @@ metadata:
   type: project
 ---
 
+**状況: 2026-09-13 に PR #9（本体）／#10（ロゴループ修正）／#11（メンバー紹介文）／登壇者表記 を本番マージ済み（www.ekkyo.jp/summit/2026 で稼働）。以降の変更は main から新ブランチで。**
+
 `/summit/2026` の演出は次の4つ。いずれも `src/components/summit2026/` にあり、見た目の数値は `src/app/globals.css` の「SUMMIT 2026 専用スタイル」に集約。
 
 - **スクロールで画面がまみれていく** — `MamireDirt.tsx`（body直下へポータルした fixed 層、**z-index −10 ＝ コンテンツの下**。ページ根は `bg-transparent`、地の色は `<style>body{background:#E6EDEA}</style>` とこの層の bg が担う）。文字・ボタン・写真は常に汚れの上に乗るので可読性は落ちない（ユーザー要望 2026-09-11「文字が読みづらくなるのは避けたい」）。進行度 `--mamire-dirt` = ((scrollY − 0.6vh) / (総高 − vh))^1.6 を要素styleに直書き。3層＝粒子 `.mamire-dirt__grain`（0.06→0.36、位置を steps で揺らす）／泥の染み `.mamire-dirt__mud`（0→0.72、scrollY×−0.12 で流れる）／縁 `.mamire-dirt__edge`（0→0.6 の radial）。すべて `mix-blend-mode: multiply`。半透明背景のセクション（`bg-mamire-water/40`）には透けて見え、不透明背景（KV・水底の締め）には出ない。**強さを変えるときは globals.css の係数、進み方を変えるときは MamireDirt の指数**。
@@ -15,9 +17,10 @@ metadata:
 - **到着演出の読み込みゲート** — `SummitHero.tsx`（client）が KV画像 load ＋ `document.fonts.ready`（最長4s）を待ってから `#top.is-ready` を付与。CSS 側は `#top:not(.is-ready)` で KV寄り／ベール／ロックアップを `animation-play-state: paused`、揺らぎ filter を none に。SMIL（`#mamire-sway-anim`、ロゴ結像 `#mamire-intro-scale/#mamire-intro-blur`）は `begin="indefinite"` にして `beginElement()` で同時開始、ループは `begin="mamire-intro-scale.end"`。揺らぎ終了後（5.8s）は `.mamire-water-sway` クラスを外して描画コスト0。旧 ArrivalVeil.tsx は SummitHero に統合。ユーザー要望「ロードしきってから表示」。
 - **ヘッダー** — `SummitHeader.tsx` は client。ロゴは `ekkyo-summit-2026-nodate.svg`（日付なし版、元 `/Users/keys/Documents/co_ekkyo/logo_日付なし.svg`）を brightness-0 で黒く表示。到着時（scrollY < 0.7vh）は `-translate-y-full` で隠し、ヒーローを抜けると滑り込む（ユーザー要望「最初はバナー無し」）。
 - **申し込みボタンの濁り** — `.mamire-cta` ＝ `color-mix(in srgb, #EB5505, #5A4632 calc(var(--mamire-dirt)*72%))`。`--mamire-dirt` は MamireDirt が `html` にも書く。ヘッダー／追従／末尾の3か所すべてこのクラス。
-- **出展者写真** — `/Users/keys/Documents/co_ekkyo/1-1_名前.png`（1080px正方形）→ sips で 900px JPEG → `public/images/summit2026/exhibitors/<slug>.jpg`。`EXHIBITOR_IMAGES`（名前→パス）に登録すれば、出展者一覧・ポップアップの両方に出る。プログラム側は `by`（表示文字列）／`coop`（協力）／`people`（個人名配列、写真キー）。2026-09-13 時点 14名分あり。出展者フォーム回答（掲載可と明記されたシート）から 企画趣旨・プロフィール・ひとこと・参加にあたって を `desc/profile/message/note` に転記（平野・佐藤・琴川さくら・琴川夕星・竹本・駒井）。駒井は本人希望で「フィッシャーアーキテクト 駒井健也」表記。運営メンバー（田中律羽・鈴木智也・大屋太亮）は `EXTRA_EXHIBITORS`。
+- **出展者写真** — `/Users/keys/Documents/co_ekkyo/1-1_名前.png`（1080px正方形）→ sips で 900px JPEG → `public/images/summit2026/exhibitors/<slug>.jpg`。`EXHIBITOR_IMAGES`（名前→パス）に登録すれば、出展者一覧・ポップアップの両方に出る。プログラム側は `by`（表示文字列）／`coop`（協力）／`speakers`（登壇者・OPENING/CLOSING）／`people`（個人名配列、写真キー。登壇者も含めると出展者一覧に載る）。EKKYO.HUB メンバー（members.ts）は肩書き・紹介文を自動で流用（Exhibitors.tsx の memberOf）。2026-09-13 時点 14名分あり。出展者フォーム回答（掲載可と明記されたシート）から 企画趣旨・プロフィール・ひとこと・参加にあたって を `desc/profile/message/note` に転記（平野・佐藤・琴川さくら・琴川夕星・竹本・駒井）。駒井は本人希望で「フィッシャーアーキテクト 駒井健也」表記。運営メンバー（田中律羽・鈴木智也・大屋太亮）は `EXTRA_EXHIBITORS`。
 - **チラシの見せ方** — `.mamire-paper`＝SVG data-URI を `mask-image` に使い、radialGradient（外周が透ける）＋feDisplacementMap（縁の揺れ）を **マスク側だけ** に与える。中身は歪まず・回転もしない（ユーザー指摘「中身が歪んで読めない／傾け不要」）。
 - **チラシ** — `SUMMIT2026_チラシ.pdf` は 25MB・2ページ。PDF圧縮ツールがこのMacに無い（gs/qpdf/mutool/magick なし）ため同梱せず、`FLYER_URL`（Drive などの外部URL）を入れる方式。1ページ目のプレビュー `flyer-p1.jpg` は同梱済み（開催概要の下）。
+- **データの出典は2ファイル** — ①マスタ「SUMMIT2026」(`1ZTHoJPjsch7mnnBzla364ZpvMdQYq9NZIvcv3PuOiW8`) の WS_マスタ タブ＝日時・会場・出展者・題名の正、②出展者フォーム回答「EKYYO.SUMMIT2026 企画」(`13XDspqSAilIdgQtkUKAL_xqqd1NIxhIuudUrIR6EDf8`)＝企画趣旨・プロフィール・ひとこと・参加にあたって の正（手編集あり・最新）。マスタ内のフォーム回答タブは古い静的コピーなので使わない。どちらも Drive コネクタの read_file_content で読める（セル単位の書き込み手段は無い）。「掲載NG」欄・メール・必要備品は掲載しない。2026-09-20 からデータ構造は `PROFILES`（人ごと）／`messages[{text,by}]`／`acts`（出演）。
 - **FAQ** — `Faq.tsx`（`<details>` アコーディオン）、データ `FAQ`。2025 STUDIOサイトのFAQを下敷きに、1日券/通し券・20〜30代・永原駅集合へ更新。
 - **見出しの区切り** — 罫線は「AIっぽい」との指摘で廃止。`SectionTitle` の下に泥の一滴（SVG path＋`#mamire-mud-mark` の feDisplacementMap）を置く。
 - **集合場所** — JR湖西線・永原駅（2026-09-11 決定）。開催概要・アクセス・FAQ・JSON-LD・地図リンクすべて永原駅。

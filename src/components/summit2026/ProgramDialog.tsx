@@ -5,6 +5,7 @@ import MamireDialog, { MudMark } from "./MamireDialog";
 import {
   DAYS,
   EXHIBITOR_IMAGES,
+  PROFILES,
   peopleOf,
   type Program,
 } from "@/content/summit2026";
@@ -22,6 +23,9 @@ export default function ProgramDialog({
   const photos = peopleOf(program)
     .filter((n) => EXHIBITOR_IMAGES[n])
     .map((n) => ({ name: n, src: EXHIBITOR_IMAGES[n] }));
+  const profiles = peopleOf(program)
+    .filter((n) => PROFILES[n])
+    .map((n) => ({ name: n, paras: PROFILES[n] }));
 
   return (
     <MamireDialog open onClose={onClose} labelledBy="program-dialog-title">
@@ -58,6 +62,12 @@ export default function ProgramDialog({
             <dd className="text-mamire-ink/85">{program.speakers}</dd>
           </>
         )}
+        {program.acts && (
+          <>
+            <dt className="tracking-[0.2em] text-mamire-silt">出演</dt>
+            <dd className="text-mamire-ink/85">{program.acts}</dd>
+          </>
+        )}
         {program.coop && (
           <>
             <dt className="tracking-[0.2em] text-mamire-silt">協力</dt>
@@ -89,11 +99,19 @@ export default function ProgramDialog({
         </div>
       </div>
 
-      {program.message && (
-        <p className="mt-6 border-l-2 border-mamire-mud/60 pl-4 font-mincho text-base leading-[1.9] text-mamire-ink">
-          {program.message}
+      {program.messages?.map((m) => (
+        <p
+          key={m.text}
+          className="mt-6 border-l-2 border-mamire-mud/60 pl-4 font-mincho text-base leading-[1.9] text-mamire-ink"
+        >
+          {m.text}
+          {m.by && (
+            <span className="mt-1 block font-sans text-[11px] tracking-[0.15em] text-mamire-silt">
+              {m.by}
+            </span>
+          )}
         </p>
-      )}
+      ))}
 
       {program.note && (
         <div className="mt-6">
@@ -102,12 +120,19 @@ export default function ProgramDialog({
         </div>
       )}
 
-      {program.profile && (
+      {profiles.length > 0 && (
         <div className="mt-6">
           <p className="text-[11px] tracking-[0.2em] text-mamire-silt">出展者プロフィール</p>
-          <div className="mt-1.5 space-y-2 text-[13px] leading-[1.9] text-mamire-ink/70">
-            {program.profile.map((t) => (
-              <p key={t}>{t}</p>
+          <div className="mt-1.5 space-y-4">
+            {profiles.map((pr) => (
+              <div key={pr.name} className="space-y-2 text-[13px] leading-[1.9] text-mamire-ink/70">
+                {profiles.length > 1 && (
+                  <p className="font-mincho text-sm font-bold text-mamire-ink">{pr.name}</p>
+                )}
+                {pr.paras.map((t) => (
+                  <p key={t}>{t}</p>
+                ))}
+              </div>
             ))}
           </div>
         </div>
