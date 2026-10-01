@@ -212,7 +212,7 @@ export const PROGRAMS: Program[] = [
     id: "mame",
     day: 2,
     time: "8:30–9:30",
-    title: "豆まみれ",
+    title: "コーヒーまみれ",
     place: "西浅井",
     by: "田中聡起",
     desc: [
@@ -309,7 +309,7 @@ export const PROGRAMS: Program[] = [
     id: "quick-talk",
     day: 2,
     time: "16:00–17:00",
-    title: "quick-｜剥き出しの、アーティストトーク",
+    title: "企画展示『Quick ｜ 剥き出しの、』アーティストトーク",
     by: "武田萌花・岩見歩昂",
     acts: "石田満理佳（パフォーマンス）",
     people: ["武田萌花", "岩見歩昂"],
@@ -386,6 +386,20 @@ export const PROGRAMS: Program[] = [
 
   /* ── 10.12（月・祝） ── */
   {
+    id: "mame-day3",
+    day: 3,
+    time: "8:30–9:30",
+    title: "コーヒーまみれ ～朝の交流会～",
+    place: "西浅井",
+    by: "田中聡起",
+    desc: [
+      "最終日の朝は、コーヒーを片手にゆるやかに集まる時間。3日間で出会った人とも、まだ話せていない人とも、一杯を分け合いながら言葉を交わします。",
+      "産地やつくり手、一杯が手元に届くまでの小話を交えつつ、クロージングの前に、まみれた3日間をほどいていく朝のひとときです。",
+    ],
+    messages: [{ text: "優雅なモーニングコーヒーを楽しみましょう！" }],
+    note: "出入り自由です。",
+  },
+  {
     id: "closing",
     day: 3,
     time: "10:00–12:00",
@@ -431,7 +445,7 @@ export const PROGRAMS: Program[] = [
     id: "iba",
     day: 3,
     time: "13:00–17:00",
-    title: "伊庭水郷を巡ろう",
+    title: "水めぐりのちいさな旅",
     place: "東近江市伊庭町",
     by: "石川歩",
     desc: [
