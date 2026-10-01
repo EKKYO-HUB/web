@@ -122,11 +122,11 @@ export default function ProgramDialog({
 
       {profiles.length > 0 && (
         <div className="mt-6">
-          <p className="text-[11px] tracking-[0.2em] text-mamire-silt">出展者プロフィール</p>
+          <p className="text-[11px] tracking-[0.2em] text-mamire-silt">プロフィール</p>
           <div className="mt-1.5 space-y-4">
             {profiles.map((pr) => (
               <div key={pr.name} className="space-y-2 text-[13px] leading-[1.9] text-mamire-ink/70">
-                {profiles.length > 1 && (
+                {peopleOf(program).length > 1 && (
                   <p className="font-mincho text-sm font-bold text-mamire-ink">{pr.name}</p>
                 )}
                 {pr.paras.map((t) => (
