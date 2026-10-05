@@ -75,6 +75,7 @@ export const EXHIBITOR_IMAGES: Record<string, string> = {
   齋藤聡: "/images/summit2026/exhibitors/saito-satoshi.jpg",
   鈴木うらら: "/images/summit2026/exhibitors/suzuki-urara.jpg",
   深由依: "/images/summit2026/exhibitors/fuka-yui.jpg",
+  "EKKYO.HUB": "/images/summit2026/exhibitors/ekkyo-hub.jpg",
   石田満理佳: "/images/summit2026/exhibitors/ishida-marika.jpg",
 };
 
@@ -98,6 +99,10 @@ export const PROFILES: Record<string, string[]> = {
   ],
   鈴木うらら: [
     "株式会社ロフトワーク。地域共創ユニット「ゆえん」のプロデューサーとして、地域の文化・歴史・産業・暮らしを未来へつなぐプロジェクトに携わる。人の感覚を通して、数字や言葉だけでは捉えきれない土地の姿を見つける「まち感性指標」の実践に取り組んでいる。今回は、その方法のひとつとして「感性採取」を琵琶湖で実証。",
+  ],
+  "EKKYO.HUB": [
+    "一般社団法人EKKYO.HUB。越境と共創を通じて社会のオルタナティブを探究するクリエイティブユニット。「若者という文化（＝越境）」を創ることを掲げ、年次フラグシップイベントとしてEKKYO.SUMMITを主催している。",
+    "ここでいう「若者」は、年齢のことではない。立場や肩書きを軽やかに越え、「面白そう」へ夢中で挑む——誰の中にもある、その姿勢のこと。それを世代を超えて分かち合える文化として育てていくことを目指している。",
   ],
   深由依: [
     "2000年大阪府生まれ。2024年東京藝術大学美術学部先端芸術表現科卒業。大阪府在住。絵画を中心に、確かにこの時代に生きている・生きていたと認識できる行為の痕跡をテーマに作品を制作。鑑賞者はこの痕跡に出会い、画面から漂う生々しい人間の気配から、今現在ここに自身も生きているという実感を引き出す作品制作を試みる。",
@@ -158,12 +163,46 @@ export const PROFILES: Record<string, string[]> = {
   ],
 };
 
-/** プログラムに紐づく個人名（出展者一覧・写真用） */
+/** プログラムに紐づく個人名（出展者一覧・写真用）。
+    EKKYO.HUB 企画で people（登壇者）が無いものは EKKYO.HUB 自体を出展者として扱う */
 export function peopleOf(p: Program): string[] {
   if (p.people) return p.people;
-  if (p.by && p.by !== "EKKYO.HUB") return [p.by];
+  if (p.by) return [p.by];
   return [];
 }
+
+/* 企画展示『Quick ｜ 剥き出しの、』— 10/11・10/12 の2日間（会期は告知画像の裏面に合わせる） */
+const QUICK: Omit<Program, "id" | "day" | "time"> = {
+  title: "『Quick ｜ 剥き出しの、』",
+  place: "ヤンマー永原工場",
+  by: "Noema Lab・石田満理佳・深由依・琴川さくら・琴川夕星・山口裕也",
+  credits: [
+    { label: "関連プログラム", value: "アーティストトーク（聞き手：Noema Lab）・石田満理佳によるパフォーマンス" },
+    { label: "企画・ディレクション", value: "武田萌花" },
+    { label: "会場設計", value: "岩見歩昂" },
+  ],
+  people: ["武田萌花", "岩見歩昂", "石田満理佳", "深由依", "琴川さくら", "琴川夕星", "山口裕也"],
+  desc: [
+    "Quickとは古語で「生きている」を意味し、同時に爪の下の生きた肉、すなわち覆いを剥がされると痛む部分を指します。EKKYO.SUMMITは、社会が「穢れ」として排除してきたものにもう一度まみれることを主題としています。本展はその問いを、美術の側から引き受けます。",
+    "会場は、長い歴史を持つヤンマー永原工場。現在は稼働を休止しているこの工場を、今回特別にお借りしました。長く人が働き、機械が動いてきたこの建物は、いまは静かに止まったまま、その内側を露わにしています。",
+    "作品を発表することもまた、自分の考えや心の状態を人前に晒すことにほかなりません。剥き出しの場所に、剥き出しの作家が立つ。会場は一日で組み上げられ、一日半だけ立ち上がり、跡形なく解体されます。その場に立ち会うとき、私たちは何を見て、何に触れることができるのでしょうか。",
+  ],
+  note: "会期：10月11日（日）9:30–16:45、12日（月・祝）9:30–12:00。入場無料（事前申込必須）。",
+  /* 元素材 /Users/keys/Documents/co_ekkyo/kv_omote.png・kv_ura.png（1920×1080）→ sips で JPEG */
+  visual: {
+    src: "/images/summit2026/quick-kv-omote.jpg",
+    alt: "Quick 剥き出しの、 キービジュアル",
+    width: 1920,
+    height: 1080,
+  },
+  flyer: {
+    src: "/images/summit2026/quick-kv-ura.jpg",
+    alt: "Quick 剥き出しの、 告知（裏面）",
+    width: 1920,
+    height: 1080,
+  },
+  pinRight: true,
+};
 
 export const PROGRAMS: Program[] = [
   /* ── 3日間を通して（全体企画） ── */
@@ -320,40 +359,7 @@ export const PROGRAMS: Program[] = [
     messages: [{ text: "感覚の海にダイブしましょう！" }],
     note: "集合：9:30 西浅井まちづくりセンター。",
   },
-  {
-    id: "quick",
-    day: 2,
-    time: "9:45–16:30",
-    title: "『Quick ｜ 剥き出しの、』",
-    place: "ヤンマー永原工場",
-    by: "Noema Lab・石田満理佳・深由依・琴川さくら・琴川夕星・山口裕也",
-    credits: [
-      { label: "関連プログラム", value: "アーティストトーク（聞き手：Noema Lab）・石田満理佳によるパフォーマンス" },
-      { label: "企画・ディレクション", value: "武田萌花" },
-      { label: "会場設計", value: "岩見歩昂" },
-    ],
-    people: ["武田萌花", "岩見歩昂", "石田満理佳", "深由依", "琴川さくら", "琴川夕星", "山口裕也"],
-    desc: [
-      "Quickとは古語で「生きている」を意味し、同時に爪の下の生きた肉、すなわち覆いを剥がされると痛む部分を指します。EKKYO.SUMMITは、社会が「穢れ」として排除してきたものにもう一度まみれることを主題としています。本展はその問いを、美術の側から引き受けます。",
-      "会場は、長い歴史を持つヤンマー永原工場。現在は稼働を休止しているこの工場を、今回特別にお借りしました。長く人が働き、機械が動いてきたこの建物は、いまは静かに止まったまま、その内側を露わにしています。",
-      "作品を発表することもまた、自分の考えや心の状態を人前に晒すことにほかなりません。剥き出しの場所に、剥き出しの作家が立つ。会場は一日で組み上げられ、一日半だけ立ち上がり、跡形なく解体されます。その場に立ち会うとき、私たちは何を見て、何に触れることができるのでしょうか。",
-    ],
-    note: "会期：10月11日（日）9:30–16:45、12日（月・祝）9:30–12:00。入場無料（事前申込必須）。",
-    /* 元素材 /Users/keys/Documents/co_ekkyo/kv_omote.png・kv_ura.png（1920×1080）→ sips で JPEG */
-    visual: {
-      src: "/images/summit2026/quick-kv-omote.jpg",
-      alt: "Quick 剥き出しの、 キービジュアル",
-      width: 1920,
-      height: 1080,
-    },
-    flyer: {
-      src: "/images/summit2026/quick-kv-ura.jpg",
-      alt: "Quick 剥き出しの、 告知（裏面）",
-      width: 1920,
-      height: 1080,
-    },
-    pinRight: true,
-  },
+  { ...QUICK, id: "quick", day: 2, time: "9:30–16:45" },
   {
     id: "guerrilla",
     day: 2,
@@ -527,6 +533,7 @@ export const PROGRAMS: Program[] = [
       "最終日の朝は、コーヒーを片手に交流会。3日間、会場のQRから集まった言葉（びわびわ琵琶湖 ～土地の感性採取～）を並べて、参加者みんなの感覚から琵琶湖がどんな場所として見えてきたかを振り返ります。",
     ],
   },
+  { ...QUICK, id: "quick-day3", day: 3, time: "9:30–12:00" },
   {
     id: "closing",
     day: 3,
