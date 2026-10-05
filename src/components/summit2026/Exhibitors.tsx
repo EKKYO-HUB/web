@@ -15,7 +15,7 @@ import {
 import { members } from "@/content/members";
 
 /* 出展者一覧。PROGRAMS の出展者（people）を重複なくまとめ、担当プログラムを添える。
-   EXTRA_EXHIBITORS（運営メンバーなど）を末尾に加える。
+   EXTRA_EXHIBITORS（運営メンバーなど）を末尾に加え、主催の EKKYO.HUB（by が EKKYO.HUB の企画）を最後に置く。
    EKKYO.HUB のメンバー（src/content/members.ts）に該当する人は、
    ホームページの肩書き・紹介文を役割・プロフィールとして使う。
    写真は EXHIBITOR_IMAGES にあれば藍色＋波紋の演出（AiPhoto）で表示。
@@ -30,13 +30,23 @@ type Exhibitor = {
   programs: Program[];
 };
 
+const HUB = "EKKYO.HUB";
+
 const memberOf = (name: string) =>
   members.find((m) => m.name.replace(/\s+/g, "") === name.replace(/\s+/g, ""));
 
 function collect(): Exhibitor[] {
   const map = new Map<string, Exhibitor>();
+  const hub: Exhibitor = {
+    name: HUB,
+    role: "主催",
+    image: EXHIBITOR_IMAGES[HUB],
+    programs: [],
+  };
   for (const p of PROGRAMS) {
+    if (p.by === HUB) hub.programs.push(p);
     for (const name of peopleOf(p)) {
+      if (name === HUB) continue;
       const ex = map.get(name) ?? {
         name,
         image: EXHIBITOR_IMAGES[name],
@@ -66,7 +76,7 @@ function collect(): Exhibitor[] {
     ex.role = `EKKYO.HUB ${m.role}`;
     ex.bio = m.bio;
   }
-  return Array.from(map.values());
+  return [...Array.from(map.values()), ...(hub.programs.length > 0 ? [hub] : [])];
 }
 
 const LIST = collect();
