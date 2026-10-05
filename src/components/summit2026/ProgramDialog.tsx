@@ -3,7 +3,7 @@
 import AiPhoto from "./AiPhoto";
 import MamireDialog, { MudMark } from "./MamireDialog";
 import {
-  DAYS,
+  dateOf,
   EXHIBITOR_IMAGES,
   PROFILES,
   peopleOf,
@@ -19,7 +19,7 @@ export default function ProgramDialog({
   onClose: () => void;
 }) {
   if (!program) return null;
-  const day = DAYS[program.day];
+  const day = dateOf(program);
   const photos = peopleOf(program)
     .filter((n) => EXHIBITOR_IMAGES[n])
     .map((n) => ({ name: n, src: EXHIBITOR_IMAGES[n] }));

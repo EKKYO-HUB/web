@@ -4,8 +4,8 @@ import { useCallback, useState } from "react";
 import AiPhoto from "./AiPhoto";
 import MamireDialog, { MudMark } from "./MamireDialog";
 import {
-  DAYS,
   PROGRAMS,
+  dateOf,
   EXTRA_EXHIBITORS,
   EXHIBITOR_IMAGES,
   PROFILES,
@@ -123,8 +123,8 @@ function ExhibitorDialog({
             {ex.programs.map((p) => (
               <li key={p.id} className="py-3">
                 <p className="font-montserrat text-[11px] tracking-wide text-mamire-ink/55">
-                  {DAYS[p.day].date}
-                  <span className="ml-1 font-mincho">{DAYS[p.day].weekday}</span>
+                  {dateOf(p).date}
+                  <span className="ml-1 font-mincho">{dateOf(p).weekday}</span>
                   <span className="ml-3">{p.time}</span>
                   <span className="ml-3 font-sans tracking-[0.1em]">
                     {p.place ?? "会場調整中"}
@@ -201,7 +201,7 @@ export default function Exhibitors() {
                   {ex.programs.map((p) => (
                     <li key={p.id} className="text-[13px] leading-[1.7] text-mamire-ink/70">
                       <span className="mr-2 font-montserrat text-[11px] tracking-wide text-mamire-ink/45">
-                        {DAYS[p.day].date}
+                        {dateOf(p).date}
                       </span>
                       {p.title}
                     </li>

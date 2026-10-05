@@ -34,6 +34,8 @@ export type Program = {
   note?: string;
   /** タイムテーブルで常に一番右のレーンに置く（展示など終日もの） */
   pinRight?: boolean;
+  /** 3日間を通した全体企画（日別グリッドには入れず、タイムテーブル上部の帯に出す） */
+  allDays?: boolean;
 };
 
 /* 出展者写真（名前 → public 配下のパス）。
@@ -63,6 +65,7 @@ export const EXHIBITOR_IMAGES: Record<string, string> = {
   石川歩: "/images/summit2026/exhibitors/ishikawa-ayumu.jpg",
   須藤隼人: "/images/summit2026/exhibitors/sudo-hayato.jpg",
   齋藤聡: "/images/summit2026/exhibitors/saito-satoshi.jpg",
+  鈴木うらら: "/images/summit2026/exhibitors/suzuki-urara.jpg",
 };
 
 /* 出展者プロフィール（名前 → 段落の配列）。出典: 出展者フォーム回答（掲載可と明記） */
@@ -82,6 +85,9 @@ export const PROFILES: Record<string, string[]> = {
     "元半導体の技術者。日本の産業が衰退する中で会社の倒産危機に直面し、台湾企業への買収や下請け化といった苦境を経験。",
     "いわゆる「負け組」として逃げ切れなかった世代だからこそ、「日本の技術者を復権させたい」「日本発のイノベーションを起こしたい」という強い想いで転職。国の研究ファンディング機関（JST）で最先端研究の社会実装に挑むも、組織の壁や国家事業ならではのジレンマにぶつかり、限界を知る。",
     "現在は、次世代のCSV経営者を育てる人文系社会人大学院のコーディネーター、触覚技術の用途展開をする大学研究員、製造業コンサルタントを兼任。まだ誰も手をつけていない分野から大きな変革（パラダイムシフト）を目指す。",
+  ],
+  鈴木うらら: [
+    "株式会社ロフトワーク。地域共創ユニット「ゆえん」のプロデューサーとして、地域の文化・歴史・産業・暮らしを未来へつなぐプロジェクトに携わる。人の感覚を通して、数字や言葉だけでは捉えきれない土地の姿を見つける「まち感性指標」の実践に取り組んでいる。今回は、その方法のひとつとして「感性採取」を琵琶湖で実証。",
   ],
   上田洋平: [
     "1976年京都府生まれ、滋賀県在住。滋賀県立大学地域共生センター講師。専門は地域文化学・地域学。風土に根ざした暮らしと文化に関する研究と実践に取り組む一方、地域づくりを担う人材の育成や、「まちづくりのホームドクター（かかりつけ医）」として地域に関わるあらゆる分野の相談に乗る。",
@@ -143,6 +149,23 @@ export function peopleOf(p: Program): string[] {
 }
 
 export const PROGRAMS: Program[] = [
+  /* ── 3日間を通して（全体企画） ── */
+  {
+    id: "biwabiwa",
+    day: 1,
+    allDays: true,
+    time: "3日間を通して",
+    title: "びわびわ琵琶湖 ～土地の感性採取～",
+    place: "会場のあちこち（QRコード）",
+    by: "鈴木うらら",
+    desc: [
+      "会場のあちこちに潜むQRから、小さな問いが届きます。見つけたら、その場所で感じたことを、感じたままに一言。",
+      "風が気持ちいい。水の音が近い。なんとなく落ち着く。少しぬまっとする。そんな一人ひとりの小さな感覚を、3日間を通して採取していきます。",
+      "たくさんの感覚が重なったとき、琵琶湖はどんな場所として立ち上がるのか。みんなで、この土地の姿を探してみます。",
+    ],
+    note: "決まった時間に集まるワークショップではなく、3日間を通して好きなタイミングで参加できます。会場のあちこち（仮設トイレのまわりなど）に貼られたQRコードをスマホで読み取り、表示される問いに感じたままを一言で答えます（1回10秒ほど・写真の添付は任意）。投稿は匿名で、時刻と場所もあわせて記録されます。投稿すると、ほかの誰かが残した言葉がひとつ返ってきます。最終日の朝、集まった言葉を並べて振り返ります。",
+  },
+
   /* ── 10.10（土） ── */
   {
     id: "ryuiki",
@@ -458,6 +481,9 @@ export const PROGRAMS: Program[] = [
     place: "ヤンマー永原工場前",
     by: "鈴木うらら・田中聡起",
     people: ["鈴木うらら", "田中聡起"],
+    desc: [
+      "最終日の朝は、コーヒーを片手に交流会。3日間、会場のQRから集まった言葉（びわびわ琵琶湖 ～土地の感性採取～）を並べて、参加者みんなの感覚から琵琶湖がどんな場所として見えてきたかを振り返ります。",
+    ],
   },
   {
     id: "closing",
@@ -539,9 +565,18 @@ const startMinutes = (time: string) => {
 };
 
 export function programsOfDay(day: 1 | 2 | 3): Program[] {
-  return PROGRAMS.filter((p) => p.day === day).sort(
+  return PROGRAMS.filter((p) => p.day === day && !p.allDays).sort(
     (a, b) => startMinutes(a.time) - startMinutes(b.time)
   );
+}
+
+/** 3日間を通した全体企画 */
+export const ALL_DAYS_PROGRAMS = PROGRAMS.filter((p) => p.allDays);
+
+/** 日付の表示（全体企画は 10.10–10.12） */
+export function dateOf(p: Program): { date: string; weekday: string } {
+  if (p.allDays) return { date: `${DAYS[1].date}–${DAYS[3].date.slice(3)}`, weekday: "" };
+  return { date: DAYS[p.day].date, weekday: DAYS[p.day].weekday };
 }
 
 /* よくある質問 */

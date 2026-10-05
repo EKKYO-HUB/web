@@ -2,7 +2,12 @@
 
 import { useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
-import { DAYS, programsOfDay, type Program } from "@/content/summit2026";
+import {
+  ALL_DAYS_PROGRAMS,
+  DAYS,
+  programsOfDay,
+  type Program,
+} from "@/content/summit2026";
 import ProgramDialog from "./ProgramDialog";
 
 /* 3日間のタイムテーブル（カレンダー型）。
@@ -11,6 +16,7 @@ import ProgramDialog from "./ProgramDialog";
    - pinRight のもの（終日展示など）は常に一番右のレーン
    - 空いているレーンがあれば右へ広がる（例: 全体企画は3レーン分の幅）
    - 枠をクリックすると詳細ポップアップ
+   - 3日間を通した全体企画（allDays）は日付タブの下に帯で出す（どの日を開いても見える）
    狭い画面では横スクロール（min-width）で同じレイアウトを保つ。 */
 
 const UNIT = 15; // 1行 = 15分
@@ -212,6 +218,31 @@ export default function Timetable() {
           );
         })}
       </div>
+
+      {/* 3日間を通した全体企画 */}
+      {ALL_DAYS_PROGRAMS.length > 0 && (
+        <div className="mt-6 space-y-2">
+          {ALL_DAYS_PROGRAMS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => setSelected(p)}
+              className="flex w-full flex-wrap items-baseline gap-x-5 gap-y-1 bg-mamire-water/45 px-4 py-3 text-left transition-colors hover:bg-mamire-water/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-mamire-mud"
+            >
+              <span className="text-[11px] tracking-[0.15em] text-mamire-ink/55">
+                {p.time}
+              </span>
+              <span className="font-mincho text-[15px] font-bold leading-snug text-mamire-ink">
+                {p.title}
+              </span>
+              {p.by && <span className="text-[11px] text-mamire-mud">{p.by}</span>}
+              <span className="text-[10px] tracking-[0.1em] text-mamire-silt sm:ml-auto">
+                {p.place}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* その日のグリッド（切替時にふわっと） */}
       <div
