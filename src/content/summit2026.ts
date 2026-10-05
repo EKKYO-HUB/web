@@ -156,7 +156,7 @@ export const PROGRAMS: Program[] = [
     allDays: true,
     time: "3日間を通して",
     title: "びわびわ琵琶湖 ～土地の感性採取～",
-    place: "会場のあちこち（QRコード）",
+    place: "会場のあちこち",
     by: "鈴木うらら",
     desc: [
       "会場のあちこちに潜むQRから、小さな問いが届きます。見つけたら、その場所で感じたことを、感じたままに一言。",

@@ -229,9 +229,6 @@ export default function Timetable() {
               onClick={() => setSelected(p)}
               className="flex w-full flex-wrap items-baseline gap-x-5 gap-y-1 bg-mamire-water/45 px-4 py-3 text-left transition-colors hover:bg-mamire-water/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-mamire-mud"
             >
-              <span className="text-[11px] tracking-[0.15em] text-mamire-ink/55">
-                {p.time}
-              </span>
               <span className="font-mincho text-[15px] font-bold leading-snug text-mamire-ink">
                 {p.title}
               </span>
