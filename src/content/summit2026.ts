@@ -8,6 +8,8 @@
    変更があればこのファイルだけを更新すれば、タイムテーブル／プログラム欄に反映される。
    ────────────────────────────────────────────────────────── */
 
+export type Visual = { src: string; alt: string; width: number; height: number };
+
 export type Program = {
   id: string;
   day: 1 | 2 | 3;
@@ -24,6 +26,10 @@ export type Program = {
   coop?: string;
   /** その他のクレジット（企画・ディレクション、会場設計など。ポップアップの一覧に出る） */
   credits?: { label: string; value: string }[];
+  /** キービジュアル（ポップアップ上部に使う） */
+  visual?: Visual;
+  /** 告知画像の裏面など（ポップアップ下部。クリックで原寸） */
+  flyer?: Visual;
   /** 登壇者（表示用。複数は「・」区切り） */
   speakers?: string;
   /** 出展者一覧・写真に使う個人名。省略時は by（EKKYO.HUB 以外）を1名として扱う */
@@ -322,7 +328,7 @@ export const PROGRAMS: Program[] = [
     place: "ヤンマー永原工場",
     by: "Noema Lab・石田満理佳・深由依・琴川さくら・琴川夕星・山口裕也",
     credits: [
-      { label: "関連プログラム", value: "アーティストトーク・石田満理佳によるパフォーマンス" },
+      { label: "関連プログラム", value: "アーティストトーク（聞き手：Noema Lab）・石田満理佳によるパフォーマンス" },
       { label: "企画・ディレクション", value: "武田萌花" },
       { label: "会場設計", value: "岩見歩昂" },
     ],
@@ -332,6 +338,20 @@ export const PROGRAMS: Program[] = [
       "会場は、長い歴史を持つヤンマー永原工場。現在は稼働を休止しているこの工場を、今回特別にお借りしました。長く人が働き、機械が動いてきたこの建物は、いまは静かに止まったまま、その内側を露わにしています。",
       "作品を発表することもまた、自分の考えや心の状態を人前に晒すことにほかなりません。剥き出しの場所に、剥き出しの作家が立つ。会場は一日で組み上げられ、一日半だけ立ち上がり、跡形なく解体されます。その場に立ち会うとき、私たちは何を見て、何に触れることができるのでしょうか。",
     ],
+    note: "会期：10月11日（日）9:30–16:45、12日（月・祝）9:30–12:00。入場無料（事前申込必須）。",
+    /* 元素材 /Users/keys/Documents/co_ekkyo/kv_omote.png・kv_ura.png（1920×1080）→ sips で JPEG */
+    visual: {
+      src: "/images/summit2026/quick-kv-omote.jpg",
+      alt: "Quick 剥き出しの、 キービジュアル",
+      width: 1920,
+      height: 1080,
+    },
+    flyer: {
+      src: "/images/summit2026/quick-kv-ura.jpg",
+      alt: "Quick 剥き出しの、 告知（裏面）",
+      width: 1920,
+      height: 1080,
+    },
     pinRight: true,
   },
   {

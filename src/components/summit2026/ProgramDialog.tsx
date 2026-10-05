@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import Image from "next/image";
 import AiPhoto from "./AiPhoto";
 import MamireDialog, { MudMark } from "./MamireDialog";
 import {
@@ -30,6 +31,16 @@ export default function ProgramDialog({
 
   return (
     <MamireDialog open onClose={onClose} labelledBy="program-dialog-title">
+      {program.visual && (
+        <Image
+          src={program.visual.src}
+          alt={program.visual.alt}
+          width={program.visual.width}
+          height={program.visual.height}
+          sizes="(min-width: 640px) 576px, 100vw"
+          className="-mx-6 -mt-8 mb-8 block w-[calc(100%+3rem)] max-w-none sm:-mx-10 sm:-mt-10 sm:w-[calc(100%+5rem)]"
+        />
+      )}
       <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="font-montserrat text-xl font-semibold tracking-wide">
           {day.date}
@@ -125,6 +136,24 @@ export default function ProgramDialog({
           <p className="text-[11px] tracking-[0.2em] text-mamire-silt">参加にあたって</p>
           <p className="mt-1.5 text-sm leading-[1.9] text-mamire-ink/80">{program.note}</p>
         </div>
+      )}
+
+      {program.flyer && (
+        <a
+          href={program.flyer.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 block border border-mamire-silt/40 transition-opacity hover:opacity-85"
+        >
+          <Image
+            src={program.flyer.src}
+            alt={program.flyer.alt}
+            width={program.flyer.width}
+            height={program.flyer.height}
+            sizes="(min-width: 640px) 496px, 100vw"
+            className="block h-auto w-full"
+          />
+        </a>
       )}
 
       {profiles.length > 0 && (
