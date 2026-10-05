@@ -23,9 +23,12 @@ type Placed = Item & { col: number; span: number };
 function parseTime(time: string) {
   const m = time.match(/^(\d{1,2}):(\d{2})\s*[–-]\s*(?:(\d{1,2}):(\d{2}))?/);
   if (!m) return { start: 0, end: 60, open: true };
-  const start = Number(m[1]) * 60 + Number(m[2]);
+  // グリッドは15分刻みなので、15:10 や 15:20 のような時刻は外側の枠に丸める
+  const start = Math.floor((Number(m[1]) * 60 + Number(m[2])) / UNIT) * UNIT;
   const open = m[3] === undefined;
-  const end = open ? start + OPEN_END : Number(m[3]) * 60 + Number(m[4]);
+  const end = open
+    ? start + OPEN_END
+    : Math.ceil((Number(m[3]) * 60 + Number(m[4])) / UNIT) * UNIT;
   return { start, end: Math.max(end, start + UNIT), open };
 }
 
