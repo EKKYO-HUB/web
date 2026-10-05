@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import AiPhoto from "./AiPhoto";
 import MamireDialog, { MudMark } from "./MamireDialog";
 import {
@@ -47,7 +48,7 @@ export default function ProgramDialog({
       </h2>
       <MudMark />
 
-      <dl className="mt-6 grid grid-cols-[4.5rem_1fr] gap-y-2 text-sm">
+      <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-sm">
         <dt className="tracking-[0.2em] text-mamire-silt">会場</dt>
         <dd className="text-mamire-ink/85">{program.place ?? "調整中"}</dd>
         {program.by && (
@@ -74,6 +75,12 @@ export default function ProgramDialog({
             <dd className="text-mamire-ink/85">{program.coop}</dd>
           </>
         )}
+        {program.credits?.map((c) => (
+          <Fragment key={c.label}>
+            <dt className="tracking-[0.2em] text-mamire-silt">{c.label}</dt>
+            <dd className="text-mamire-ink/85">{c.value}</dd>
+          </Fragment>
+        ))}
       </dl>
 
       <div className="mt-6 flex gap-5">
