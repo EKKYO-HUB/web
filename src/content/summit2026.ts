@@ -687,7 +687,7 @@ export const TIMETABLE_OVERVIEW = {
   src: "/images/summit2026/timetable-overview.jpg",
   alt: "EKKYO.SUMMIT 2026 タイムテーブル概略（3日間）",
   width: 2400,
-  height: 1190,
+  height: 1115,
 };
 
 /* チラシ。PDF本体は容量が大きいため外部（Google Drive など）に置き、URLをここに入れる */
