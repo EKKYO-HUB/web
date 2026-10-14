@@ -13,7 +13,7 @@ type Props = {
 };
 
 // Slugs with custom pages in app/portfolio/ are excluded
-const customPages = ["summit-2025-ueda"];
+const customPages = ["summit-2025-ueda", "summit-2026-biwako"];
 
 export async function generateStaticParams() {
   const projects = getPortfolioProjects();
