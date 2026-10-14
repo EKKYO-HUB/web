@@ -3,30 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
-import StickyCta from "@/components/summit2026/StickyCta";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import ConceptMovie from "@/components/summit2026/ConceptMovie";
 import Timetable from "@/components/summit2026/Timetable";
 import Exhibitors from "@/components/summit2026/Exhibitors";
-import Faq from "@/components/summit2026/Faq";
 import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
 import MamireDirt from "@/components/summit2026/MamireDirt";
 import SummitSectionNav from "@/components/ui/SummitSectionNav";
 import {
   ORGANIZER_PHOTO,
-  FAQ,
   TIMETABLE_OVERVIEW,
   FLYER_URL,
   FLYER_PREVIEW,
 } from "@/content/summit2026";
 import { shipporiMincho } from "./fonts";
-
-/* ──────────────────────────────────────────────────────────
-   申し込みURL — 決まり次第ここに入れるだけで、
-   ヘッダー/追従/末尾すべてのCTAが有効化されます。
-   例: const REGISTRATION_URL = "https://ekkyo-hub.peatix.com/...";
-   ────────────────────────────────────────────────────────── */
-const REGISTRATION_URL: string | null = "https://ekkyosummit2026.peatix.com/";
 
 const EVENT = {
   dateLabel: "2026.10.10 – 12",
@@ -69,21 +59,17 @@ const SECTION_NAV = [
   { id: "history", label: "これまで" },
   { id: "program", label: "タイムテーブル" },
   { id: "workshop", label: "出展者" },
-  { id: "sponsor", label: "協賛" },
-  { id: "access", label: "アクセス" },
-  { id: "faq", label: "よくある質問" },
-  { id: "apply", label: "参加する" },
 ];
 
 export const metadata: Metadata = {
   title: "EKKYO.SUMMIT 2026「まみれろ」in 琵琶湖",
   description:
-    "EKKYO.HUBの年次フラグシップイベント「EKKYO.SUMMIT 2026『まみれろ』」。2026年10月10日〜12日、滋賀県・琵琶湖の湖畔で開催。越境と共創を通じて、まだ見ぬ「わたし」と出会う3日間。",
+    "EKKYO.HUBの年次フラグシップイベント「EKKYO.SUMMIT 2026『まみれろ』」（2026年10月10日〜12日）。「まみれろ」をテーマに、滋賀県・琵琶湖の湖畔で3日間開催。水に、土に、人にまみれながら、まみれた生の豊かさを体現する越境の祝祭。",
   alternates: { canonical: "https://www.ekkyo.jp/summit/2026" },
   openGraph: {
     title: "EKKYO.SUMMIT 2026「まみれろ」in 琵琶湖",
     description:
-      "2026年10月10日〜12日、滋賀県・琵琶湖の湖畔で開催。越境と共創を通じて、まだ見ぬ「わたし」と出会う3日間。",
+      "2026年10月10日〜12日。「まみれろ」をテーマに、滋賀県・琵琶湖の湖畔で3日間開催。水に、土に、人にまみれながら、まみれた生の豊かさを体現する越境の祝祭。",
     url: "https://www.ekkyo.jp/summit/2026",
     type: "website",
     images: [{ url: "/images/og/OG.png", width: 1200, height: 630 }],
@@ -92,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EKKYO.SUMMIT 2026「まみれろ」in 琵琶湖",
     description:
-      "2026年10月10日〜12日、滋賀県・琵琶湖の湖畔で開催。越境と共創を通じて、まだ見ぬ「わたし」と出会う3日間。",
+      "2026年10月10日〜12日。「まみれろ」をテーマに、滋賀県・琵琶湖の湖畔で3日間開催。水に、土に、人にまみれながら、まみれた生の豊かさを体現する越境の祝祭。",
     images: ["/images/og/OG.png"],
   },
 };
@@ -163,7 +149,7 @@ export default function Summit2026Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <SummitHeader registrationUrl={REGISTRATION_URL} />
+      <SummitHeader />
       {/* 藍色写真用の SVG フィルタ定義（ページに1回） */}
       <AiPhotoDefs />
       {/* スクロールで画面がまみれていく（body直下へポータル） */}
@@ -419,9 +405,6 @@ export default function Summit2026Page() {
           </figure>
           <div className="mx-auto max-w-3xl">
             <Timetable />
-            <p className="mt-6 text-[11px] tracking-[0.12em] text-mamire-silt">
-              ※ 内容・時間は変更となる場合があります。
-            </p>
           </div>
         </section>
 
@@ -440,117 +423,20 @@ export default function Summit2026Page() {
           </div>
         </section>
 
-        {/* ════════ 協賛・パートナー ════════ */}
-        <section
-          id="sponsor"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
-        >
-          <div className="mx-auto max-w-3xl">
-            <SectionTitle>協賛・パートナー募集</SectionTitle>
-            <div className="space-y-6 text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              <p>
-                EKKYO.SUMMIT 2026「まみれろ」では、コンセプトに共感し、ともに場を創ってくださる協賛・パートナー企業の皆さまを募集しています。
-              </p>
-              <p>
-                イベントページ・SNSでのロゴ掲出、SUMMITでのワークショップ開催や対談・スピーチ、出張越境カンファレンスなど、ご関心や規模に合わせて柔軟にご一緒できればと考えています。
-              </p>
-              <p>
-                協賛プランの詳細・お見積りは個別にご案内いたしますので、まずはお気軽にお問い合わせください。
-              </p>
-            </div>
-            <div className="mt-10">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center gap-2 border border-mamire-ink bg-mamire-ink px-8 py-4 text-[11px] font-medium tracking-[0.2em] text-mamire-water-pale transition-colors hover:bg-transparent hover:text-mamire-ink"
-              >
-                協賛について問い合わせる
-                <span className="transition-transform group-hover:translate-x-1">
-                  &rarr;
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ════════ アクセス ════════ */}
-        <section
-          id="access"
-          className="scroll-mt-[120px] bg-mamire-water/40 px-6 py-24 sm:px-12 lg:py-32"
-        >
-          <div className="mx-auto max-w-3xl">
-            <SectionTitle>アクセス</SectionTitle>
-            <div className="space-y-4 text-sm leading-[2.2] text-mamire-ink/85 sm:text-base">
-              <p>
-                会場は滋賀県・琵琶湖の湖畔。集合は
-                <strong className="font-bold text-mamire-ink">
-                  JR湖西線・永原駅
-                </strong>
-                です。京都駅から湖西線で乗り換えなし。東京・名古屋方面からは、米原駅から北陸本線・近江塩津乗り換えでも来られます。
-              </p>
-              <p>
-                集合時間・会場までの移動・当日の流れは、お申し込みいただいた方にご案内します。
-              </p>
-            </div>
-            <div className="mt-8">
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=永原駅"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-mamire-mud underline decoration-mamire-mud/40 underline-offset-4 transition-opacity hover:opacity-70"
-              >
-                永原駅を地図で見る &rarr;
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ════════ よくある質問 ════════ */}
-        <section
-          id="faq"
-          className="scroll-mt-[120px] px-6 py-24 sm:px-12 lg:py-32"
-        >
-          <div className="mx-auto max-w-3xl">
-            <SectionTitle>よくある質問</SectionTitle>
-            <Faq items={FAQ} />
-          </div>
-        </section>
-
       </ConceptPoem>
 
-      {/* ════════ 参加する（水底） ════════ */}
+      {/* ════════ 結び（水底） ════════ */}
       <section
-        id="apply"
+        id="thanks"
         className="scroll-mt-[120px] bg-mamire-water-deep px-6 pb-14 pt-24 text-center sm:px-12 lg:pt-32"
       >
         <h2 className="font-mincho text-3xl font-bold tracking-wide text-mamire-water-pale sm:text-4xl">
-          ご参加をお待ちしています。
+          ご参加ありがとうございました。
         </h2>
         <p className="mt-5 text-sm tracking-[0.18em] text-mamire-water-pale/70">
           {EVENT.dateFull} ／ {EVENT.placeShort}
         </p>
-        {!REGISTRATION_URL && (
-          <p className="mx-auto mt-8 max-w-md text-sm leading-relaxed text-mamire-water-pale/60">
-            参加申し込みは近日公開予定です。最新情報はSNSでお知らせします。
-          </p>
-        )}
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          {REGISTRATION_URL ? (
-            <a
-              href={REGISTRATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mamire-cta group inline-flex items-center gap-2 px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white"
-            >
-              参加申し込み
-              <span className="transition-transform group-hover:translate-x-1">
-                &rarr;
-              </span>
-            </a>
-          ) : (
-            <span className="inline-flex items-center gap-2 bg-ekkyo-orange/90 px-10 py-4 text-[12px] font-semibold tracking-[0.2em] text-white">
-              参加申し込み — 近日公開
-            </span>
-          )}
           <a
             href="https://www.instagram.com/ekkyo.hub/"
             target="_blank"
@@ -586,8 +472,6 @@ export default function Summit2026Page() {
         </div>
       </section>
 
-      {/* 追従CTA（body直下へポータル） */}
-      <StickyCta registrationUrl={REGISTRATION_URL} />
     </div>
   );
 }

@@ -155,20 +155,6 @@
   }
 }
 
-/* ── 参加申し込みボタン: 到着時はオレンジ、スクロールするほど泥に濁る ── */
-.mamire-cta {
-  background-color: #eb5505;
-  background-color: color-mix(
-    in srgb,
-    #eb5505,
-    #5a4632 calc(var(--mamire-dirt, 0) * 72%)
-  );
-  transition: background-color 0.25s linear, filter 0.2s;
-}
-.mamire-cta:hover {
-  filter: brightness(0.88);
-}
-
 /* ── 水に浮かべた紙（チラシ）: 中身は歪めず、縁だけを揺らす
    （SVG を mask-image に使い、feDisplacementMap の揺れを縁にだけ与える。四隅の透けは無し） ── */
 .mamire-paper {

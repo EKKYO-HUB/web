@@ -6,12 +6,8 @@ import { cn } from "@/lib/utils";
 
 /* SUMMIT 2026 専用ミニマルヘッダー（没入型）
    到着時（ヒーロー表示中）は出さず、ヒーローを抜けたあたりで上から滑り込む。
-   左: 大会ロゴ / 右: EKKYO.HUBへの帰り道 + 参加申し込み（.mamire-cta＝スクロールで濁る） */
-export default function SummitHeader({
-  registrationUrl,
-}: {
-  registrationUrl: string | null;
-}) {
+   左: 大会ロゴ / 右: EKKYO.HUBへの帰り道（開催後のため参加申し込みボタンは外した） */
+export default function SummitHeader() {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -33,9 +29,6 @@ export default function SummitHeader({
     };
   }, []);
 
-  const cta =
-    "mamire-cta px-4 py-2 text-[11px] font-semibold tracking-[0.12em] text-white sm:px-5";
-
   return (
     <header
       className={cn(
@@ -53,28 +46,12 @@ export default function SummitHeader({
             className="h-5 w-auto brightness-0 opacity-85 sm:h-6"
           />
         </a>
-        <div className="flex items-center gap-4 sm:gap-6">
-          <Link
-            href="/"
-            className="hidden text-[11px] tracking-[0.12em] text-mamire-ink/60 transition-colors hover:text-mamire-ink sm:inline"
-          >
-            EKKYO.HUB &rarr;
-          </Link>
-          {registrationUrl ? (
-            <a
-              href={registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cta}
-            >
-              参加申し込み
-            </a>
-          ) : (
-            <a href="#apply" className={cta}>
-              参加申し込み
-            </a>
-          )}
-        </div>
+        <Link
+          href="/"
+          className="text-[11px] tracking-[0.12em] text-mamire-ink/60 transition-colors hover:text-mamire-ink"
+        >
+          EKKYO.HUB &rarr;
+        </Link>
       </div>
     </header>
   );
