@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "HOME" },
-  { href: "/summit/2026", label: "SUMMIT", highlight: true },
   { href: "/portfolio", label: "PORTFOLIO" },
   { href: "/media", label: "MEDIA" },
   { href: "/members", label: "MEMBERS" },
@@ -38,7 +37,7 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-10 md:flex">
-          {navLinks.map(({ href, label, highlight }) => {
+          {navLinks.map(({ href, label }) => {
             const active = pathname === href;
             return (
               <Link
@@ -48,19 +47,12 @@ export default function Header() {
                   "relative font-chunk text-[11px] font-medium tracking-[0.2em] transition-colors",
                   active
                     ? "text-ekkyo-accent"
-                    : highlight
-                      ? "animate-blink text-ekkyo-orange motion-reduce:animate-none hover:text-ekkyo-orange-dark"
-                      : "text-ekkyo-black/50 hover:text-ekkyo-black"
+                    : "text-ekkyo-black/50 hover:text-ekkyo-black"
                 )}
               >
                 {label}
-                {(active || highlight) && (
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] w-full",
-                      active ? "bg-ekkyo-accent" : "bg-ekkyo-orange"
-                    )}
-                  />
+                {active && (
+                  <span className="absolute -bottom-1 left-0 h-[2px] w-full bg-ekkyo-accent" />
                 )}
               </Link>
             );
@@ -98,18 +90,14 @@ export default function Header() {
       {menuOpen && (
         <div className="border-t border-black/5 bg-white/95 px-6 pb-8 pt-6 backdrop-blur-md md:hidden">
           <nav className="flex flex-col gap-6">
-            {navLinks.map(({ href, label, highlight }) => (
+            {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "font-chunk text-sm font-medium tracking-[0.15em]",
-                  pathname === href
-                    ? "text-ekkyo-accent"
-                    : highlight
-                      ? "animate-blink text-ekkyo-orange motion-reduce:animate-none"
-                      : "text-ekkyo-black/50"
+                  pathname === href ? "text-ekkyo-accent" : "text-ekkyo-black/50"
                 )}
               >
                 {label}
