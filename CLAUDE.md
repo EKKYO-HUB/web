@@ -16,4 +16,5 @@
 ## ローカル開発（このMac環境）
 - 依存は未コミット。初回は `npm install`（yarn未導入）。
 - プレビュー: `.claude/launch.json` の `preview-mac`（`npm run dev`）。`dev` は元のWindows用設定。
+- 2026-10-09 に macOS 27 へ更新して Rosetta が使えなくなり、`/usr/local`（Intel 版 Homebrew）の gh・timeout などが「bad CPU type」で動かない。gh は Apple シリコン版 `/opt/homebrew/bin/gh` を使う（`~/.zprofile` でパス設定済み、git の認証も `gh auth setup-git` で切替済み）。非ログインのシェルでは `export PATH=/opt/homebrew/bin:$PATH` を先に。
 - 注意: dev サーバー稼働中に `npm run build` を実行すると `.next` が壊れる。型チェックは `npx tsc --noEmit`（`.next` に触れない）を使う。
