@@ -29,7 +29,7 @@ const OUTLINE = [
   { label: "名称", value: "EKKYO.SUMMIT 2026「まみれろ」" },
   { label: "日程", value: "2026年10月10日(土)〜12日(月・祝)" },
   { label: "会場", value: "琵琶湖 湖畔（JR湖西線・永原駅 集合）" },
-  { label: "規模", value: "50〜70名程度" },
+  { label: "規模", value: "約100名" },
   {
     label: "対象",
     value: "高校生〜若手社会人を中心に、好奇心や探求心を持つすべての年代の方",
