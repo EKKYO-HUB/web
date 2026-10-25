@@ -17,3 +17,4 @@ metadata:
 - サイトに載せない資料（チラシPDF、ロゴ一式、メール、他案件）は従来どおり `co_ekkyo/` に置く。
 - コードのコメントやメモリに元素材の場所を書くときは `originals/...` の相対パスで書く。
 - 関連: [[summit-2026-mamire-effects]]
+- **画像を差し替えるときは必ず新しいファイル名にする**（例: `summit-2026-biwako.jpg` → `summit-2026-biwako-group.jpg`）。`next.config` で画像を `max-age=31536000, immutable`（最適化画像も minimumCacheTTL 1年）で配信しているため、同じ名前で上書きすると、一度見たブラウザは古い画像を出し続ける（2026-10-25、ポートフォリオの集合写真で実際に起きた）。元素材も `originals/` で同じ新しい名前にそろえる。
