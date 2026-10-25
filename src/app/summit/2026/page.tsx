@@ -5,6 +5,7 @@ import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import ConceptMovie from "@/components/summit2026/ConceptMovie";
+import EventMovie from "@/components/summit2026/EventMovie";
 import Timetable from "@/components/summit2026/Timetable";
 import Exhibitors from "@/components/summit2026/Exhibitors";
 import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
@@ -436,6 +437,7 @@ export default function Summit2026Page() {
         <p className="mt-5 text-sm tracking-[0.18em] text-mamire-water-pale/70">
           {EVENT.dateFull} ／ {EVENT.placeShort}
         </p>
+        <EventMovie />
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <a
             href="https://www.instagram.com/ekkyo.hub/"
