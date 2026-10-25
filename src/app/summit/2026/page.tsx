@@ -55,7 +55,6 @@ const HISTORY = [
 /* ─── ページ内ナビ ─── */
 const SECTION_NAV = [
   { id: "concept", label: "コンセプト" },
-  { id: "event-movie", label: "当日のムービー" },
   { id: "outline", label: "開催概要" },
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
@@ -242,7 +241,6 @@ export default function Summit2026Page() {
 
         {/* ════════ コンセプトムービー（詩のあとに沈む） ════════ */}
         <ConceptMovie />
-        <EventMovie />
 
         {/* ════════ 開催概要（大型スペック表） ════════ */}
         <section
@@ -439,6 +437,7 @@ export default function Summit2026Page() {
         <p className="mt-5 text-sm tracking-[0.18em] text-mamire-water-pale/70">
           {EVENT.dateFull} ／ {EVENT.placeShort}
         </p>
+        <EventMovie />
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <a
             href="https://www.instagram.com/ekkyo.hub/"
