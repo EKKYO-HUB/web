@@ -11,6 +11,7 @@
 - **カラートークン**: `ekkyo-accent #0071B3`（ブランド青）、`ekkyo-orange #EB5505`（申し込み追従ボタン）。`tailwind.config.ts` で定義。
 - **EKKYO.SUMMIT 2025 アーカイブ**: `/summit/2025` は「土を耕すと記録が芽吹く」体験型アーカイブ（没入型マイクロサイト）。データは [src/content/summit2025.ts](src/content/summit2025.ts)、詳細は [.claude/memory/summit-2025-archive-site.md](.claude/memory/summit-2025-archive-site.md)。
 - **EKKYO.SUMMIT 2026**: フラグシップイベント用ページ `/summit/2026`（[src/app/summit/2026/page.tsx](src/app/summit/2026/page.tsx)）。テーマ「まみれろ」、2026/10/10–12、琵琶湖。**2026-10-14 に開催後の記録ページへ切替済み**（申し込みボタン・追従CTA・協賛募集・アクセス・よくある質問を削除し、末尾は「ご参加ありがとうございました。」。トップの告知と上部メニューの SUMMIT も削除し、ポートフォリオ `summit-2026-biwako` から /summit/2026 へ遷移）。タイムテーブル／出展者／主催者写真のデータは [src/content/summit2026.ts](src/content/summit2026.ts)。演出の詳細は [.claude/memory/summit-2026-mamire-effects.md](.claude/memory/summit-2026-mamire-effects.md)。
+- **元素材の置き場所**: サイト画像・動画の元素材（大きいままのファイル）は `originals/` に `public/` と同じパス・同じ名前で置く（`.gitignore` 済み）。例: `public/images/summit2026/exhibitors/tanaka-satoki.jpg` の元は `originals/images/summit2026/exhibitors/tanaka-satoki.png`。イベントごとの素材フォルダは作らない。詳細は [.claude/memory/web-originals-structure.md](.claude/memory/web-originals-structure.md)。
 - **デプロイ作業の鉄則**: 本体ディレクトリでは `git reset/checkout/clean` を絶対に走らせない。scratchpad クローンで作業する際は `cd` 失敗時に即終了する（`cd "$DEST" || exit 1`）。2026-09-11 に `cd` 失敗→本体で `reset --hard` が走り未コミット編集を失った事故あり。
 
 ## ローカル開発（このMac環境）
