@@ -2,7 +2,7 @@ const VIDEO_ID = "6JRiI8_Wj9s";
 const YOUTUBE_URL = `https://youtu.be/${VIDEO_ID}`;
 const THUMB = `https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
 
-/* 当日のムービー。ページ末尾の結び（水底）に置くカード。
+/* 当日の様子（ムービー）。ページ末尾の結び（水底）に置くカード。
    ページ内では再生せず、押すと YouTube を別タブで開く。 */
 export default function EventMovie() {
   return (
@@ -10,7 +10,7 @@ export default function EventMovie() {
       href={YOUTUBE_URL}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="当日のムービーを YouTube で観る"
+      aria-label="当日の様子を YouTube で観る"
       className="group mx-auto mt-12 block max-w-2xl text-left"
     >
       <span className="relative block aspect-video overflow-hidden border border-mamire-water-pale/20">
@@ -29,7 +29,7 @@ export default function EventMovie() {
       </span>
       <span className="mt-3 flex items-baseline justify-between gap-4">
         <span className="font-mincho text-sm tracking-[0.2em] text-mamire-water-pale/80">
-          当日のムービー
+          当日の様子
         </span>
         <span className="text-[11px] tracking-[0.15em] text-mamire-water-pale/55 transition-colors group-hover:text-mamire-water-pale">
           YouTubeで観る ↗
