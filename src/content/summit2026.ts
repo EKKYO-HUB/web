@@ -47,7 +47,7 @@ export type Program = {
 };
 
 /* 出展者写真（名前 → public 配下のパス）。
-   元素材 /Users/keys/Documents/co_ekkyo/1-1_名前.png（1080px正方形）→ sips で 900px JPEG */
+   元素材 originals/images/summit2026/exhibitors/<slug>.png（1080px正方形）→ sips で 900px JPEG */
 export const EXHIBITOR_IMAGES: Record<string, string> = {
   木津裕人: "/images/summit2026/exhibitors/kizu-hiroto.jpg",
   武田萌花: "/images/summit2026/exhibitors/takeda-moka.jpg",
@@ -188,7 +188,7 @@ const QUICK: Omit<Program, "id" | "day" | "time"> = {
     "作品を発表することもまた、自分の考えや心の状態を人前に晒すことにほかなりません。剥き出しの場所に、剥き出しの作家が立つ。会場は一日で組み上げられ、一日半だけ立ち上がり、跡形なく解体されます。その場に立ち会うとき、私たちは何を見て、何に触れることができるのでしょうか。",
   ],
   note: "会期：10月11日（日）9:30–16:45、12日（月・祝）9:30–12:00。入場無料（事前申込必須）。",
-  /* 元素材 /Users/keys/Documents/co_ekkyo/kv_omote.png・kv_ura.png（1920×1080）→ sips で JPEG */
+  /* 元素材 originals/images/summit2026/quick-kv-omote.png・quick-kv-ura.png（1920×1080）→ sips で JPEG */
   visual: {
     src: "/images/summit2026/quick-kv-omote.jpg",
     alt: "Quick 剥き出しの、 キービジュアル",
@@ -629,7 +629,7 @@ export function dateOf(p: Program): { date: string; weekday: string } {
 }
 
 /* 主催者写真（サミットとは／主催の紹介に使用・16:9）
-   元素材: /Users/keys/Documents/co_ekkyo/集合写真_16-9_summit-logo.png → sips で 2000px JPEG化 */
+   元素材: originals/images/summit2026/organizer.png → sips で 2000px JPEG化 */
 export const ORGANIZER_PHOTO = {
   src: "/images/summit2026/organizer.jpg",
   alt: "一般社団法人EKKYO.HUBのメンバー集合写真",
@@ -644,7 +644,7 @@ export const EXTRA_EXHIBITORS: ExtraExhibitor[] = [
   { name: "大屋太亮", role: "EKKYO.HUB" },
 ];
 
-/* タイムテーブルの概略図（/Users/keys/Documents/co_ekkyo/timetable.svg → 2400px JPEG。sharp で変換） */
+/* タイムテーブルの概略図（originals/images/summit2026/timetable-overview.svg → 2400px JPEG。sharp で変換） */
 export const TIMETABLE_OVERVIEW = {
   src: "/images/summit2026/timetable-overview.jpg",
   alt: "EKKYO.SUMMIT 2026 タイムテーブル概略（3日間）",

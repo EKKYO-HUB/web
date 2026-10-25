@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 元素材（大きいままの画像・動画）。public/ と同じ構造で置く。サイトには送らない
+/originals/

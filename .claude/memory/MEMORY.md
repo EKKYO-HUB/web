@@ -6,3 +6,4 @@
 - [hero-opening-animation](hero-opening-animation.md) — トップのオープニング演出（ロゴ登場→左上ドック）の実装と注意点（fixed×transformのポータル対処）
 - [summit-2025-archive-site](summit-2025-archive-site.md) — /summit/2025「耕せ」体験型アーカイブの構造・データ場所・実コンテンツ待ち事項（ダミー文差し替え注意）
 - [summit-2026-mamire-effects](summit-2026-mamire-effects.md) — /summit/2026 の演出の仕組み（スクロール汚れ・藍色写真・ムービー・タイムテーブル）と調整ポイント
+- [web-originals-structure](web-originals-structure.md) — 元素材は web-main/originals/ に public/ と同じパス・名前で置く（git 管理外、イベントごとのフォルダは作らない）
