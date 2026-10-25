@@ -5,6 +5,7 @@ import SummitHeader from "@/components/summit2026/SummitHeader";
 import SummitHero from "@/components/summit2026/SummitHero";
 import ConceptPoem, { Stanza } from "@/components/summit2026/ConceptPoem";
 import ConceptMovie from "@/components/summit2026/ConceptMovie";
+import EventMovie from "@/components/summit2026/EventMovie";
 import Timetable from "@/components/summit2026/Timetable";
 import Exhibitors from "@/components/summit2026/Exhibitors";
 import { AiPhotoDefs } from "@/components/summit2026/AiPhoto";
@@ -54,6 +55,7 @@ const HISTORY = [
 /* ─── ページ内ナビ ─── */
 const SECTION_NAV = [
   { id: "concept", label: "コンセプト" },
+  { id: "event-movie", label: "当日のムービー" },
   { id: "outline", label: "開催概要" },
   { id: "about", label: "サミットとは" },
   { id: "history", label: "これまで" },
@@ -240,6 +242,7 @@ export default function Summit2026Page() {
 
         {/* ════════ コンセプトムービー（詩のあとに沈む） ════════ */}
         <ConceptMovie />
+        <EventMovie />
 
         {/* ════════ 開催概要（大型スペック表） ════════ */}
         <section
